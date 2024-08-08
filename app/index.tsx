@@ -1,31 +1,21 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import { BORDER_RADIUS, PADDING } from "./constants/styles";
-import CustomButton from "../components/Button";
-import { SIMPLE_PETS_LIST } from "../domain/pets/data";
+import { Link } from "expo-router";
 
 const Index = () => {
-  const handleAddPet = () => {};
-
   return (
     <View>
-      <View style={styles.header}>
-        <Text style={styles.text}>Mis mascotas</Text>
-
-        <CustomButton text="Agregar" type="primary" onPress={handleAddPet} />
+      <View>
+        <Link href="/my-pets" style={styles.text}>
+          Mis mascotas
+        </Link>
+        <Link href="/profile" style={styles.text}>
+          Perfil
+        </Link>
       </View>
-
-      <View style={styles.petsListContainer}>
-        {SIMPLE_PETS_LIST.map((pet, index) => (
-          <View style={styles.petItem} key={index}>
-            <Image style={styles.petPhoto} src={pet.photoURL} />
-            <Text style={{ ...styles.text, ...styles.petName }}>
-              {pet.name}
-            </Text>
-          </View>
-        ))}
-      </View>
+      <Text style={styles.text}></Text>
     </View>
   );
 };
