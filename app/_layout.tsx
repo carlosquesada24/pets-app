@@ -13,13 +13,14 @@ const Layout = () => {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 48,
     paddingLeft: 8,
     paddingRight: 8,
     flex: 1,
     backgroundColor: "#000",
     color: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   link: {
     color: "#48a4fa",
