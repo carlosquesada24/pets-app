@@ -24,6 +24,7 @@ const CustomButton = ({ type = "standard", text }: CustomButtonProps) => {
 const styles = StyleSheet.create({
   standard: {
     padding: PADDING,
+    paddingHorizontal: PADDING * 1.5,
     borderRadius: BORDER_RADIUS,
     color: "#000",
     backgroundColor: "#fff",

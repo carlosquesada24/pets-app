@@ -20,6 +20,6 @@ export const COLORS = {
     SUCCESS: "#A3BF7F"
 }
 
-export const PADDING = 16
+export const PADDING = 10
 
 export const BORDER_RADIUS = 8
