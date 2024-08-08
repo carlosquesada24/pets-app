@@ -1,22 +1,22 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { View, Text, Image } from "react-native";
-import CustomButton from "../../../components/Button";
-import { SIMPLE_PETS_LIST } from "../../../domain/pets/data";
-import PetsGrid from "./components/PetsGrid/PetsGrid";
+import { Image, StyleSheet, Text, View } from "react-native";
+import PetItem from "../PetItem/PetItem";
 
-const Index = () => {
-  const handleAddPet = () => {};
+interface PetsGridProps {
+  petsList: any[];
+}
 
+const PetsGrid = ({ petsList }: PetsGridProps) => {
   return (
-    <View>
-      <View style={styles.header}>
-        <Text style={styles.text}>Mis mascotas</Text>
-
-        <CustomButton text="Agregar" type="primary" onPress={handleAddPet} />
-      </View>
-
-      <PetsGrid petsList={SIMPLE_PETS_LIST} />
+    <View style={styles.petsListContainer}>
+      {petsList.map((pet, index) => (
+        <PetItem
+          id={pet.id}
+          photoURL={pet.photoURL}
+          name={pet.name}
+          key={index}
+        />
+      ))}
     </View>
   );
 };
@@ -55,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Index;
+export default PetsGrid;
