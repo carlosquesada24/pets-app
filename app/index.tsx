@@ -1,11 +1,31 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
+import { BORDER_RADIUS, PADDING } from "./constants/styles";
+import CustomButton from "../components/Button";
+import { SIMPLE_PETS_LIST } from "../domain/pets/data";
 
 const Index = () => {
+  const handleAddPet = () => {};
+
   return (
     <View>
-      <Text style={styles.text}>Mis mascotas</Text>
+      <View style={styles.header}>
+        <Text style={styles.text}>Mis mascotas</Text>
+
+        <CustomButton text="Agregar" type="primary" onPress={handleAddPet} />
+      </View>
+
+      <View style={styles.petsListContainer}>
+        {SIMPLE_PETS_LIST.map((pet, index) => (
+          <View style={styles.petItem} key={index}>
+            <Image style={styles.petPhoto} src={pet.photoURL} />
+            <Text style={{ ...styles.text, ...styles.petName }}>
+              {pet.name}
+            </Text>
+          </View>
+        ))}
+      </View>
     </View>
   );
 };
@@ -13,6 +33,40 @@ const Index = () => {
 const styles = StyleSheet.create({
   text: {
     color: "#fff",
+  },
+  header: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  addButton: {
+    padding: PADDING,
+    borderRadius: BORDER_RADIUS,
+    color: "#000",
+    backgroundColor: "#fff",
+  },
+  petsListContainer: {
+    marginTop: 32,
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    // flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  petItem: {
+    marginTop: 16,
+  },
+  petName: {
+    marginTop: 8,
+    textAlign: "center",
+  },
+  petPhoto: {
+    width: 150,
+    height: 150,
+    borderRadius: 100,
   },
 });
 
