@@ -13,6 +13,8 @@ const Layout = () => {
 
 const styles = StyleSheet.create({
   container: {
+    paddingLeft: 8,
+    paddingRight: 8,
     flex: 1,
     backgroundColor: "#000",
     color: "#fff",
