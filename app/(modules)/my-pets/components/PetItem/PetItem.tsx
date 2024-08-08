@@ -21,11 +21,13 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   petItem: {
-    marginTop: 16,
+    marginTop: 32,
   },
   petName: {
     marginTop: 8,
     textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 16,
   },
   petPhoto: {
     width: 150,
