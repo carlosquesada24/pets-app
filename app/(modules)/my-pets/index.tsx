@@ -11,7 +11,7 @@ const Index = () => {
   return (
     <View>
       <View style={styles.header}>
-        <Text style={styles.text}>Mis mascotas</Text>
+        <Text style={{ ...styles.text, ...styles.title }}>Mis mascotas</Text>
 
         <CustomButton text="Agregar" type="primary" onPress={handleAddPet} />
       </View>
@@ -24,6 +24,11 @@ const Index = () => {
 const styles = StyleSheet.create({
   text: {
     color: "#fff",
+  },
+  title: {
+    color: "#fff",
+    fontSize: 32,
+    fontWeight: "bold",
   },
   header: {
     width: "100%",
