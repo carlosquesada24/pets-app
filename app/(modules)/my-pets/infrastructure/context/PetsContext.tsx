@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import { PET_LIST_DEFAULT_STATE } from "../../domain/data";
 
 interface PetsContextData {
   petsList: any[];
@@ -9,7 +10,7 @@ export const PetsContext = createContext<PetsContextData>({
 });
 
 export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
-  const [petsList, setPetsList] = useState<any[]>(["uno", "dos"]);
+  const [petsList, setPetsList] = useState<any[]>(PET_LIST_DEFAULT_STATE);
 
   const contextValue = {
     petsList,
