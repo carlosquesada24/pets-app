@@ -2,11 +2,14 @@ import React from "react";
 import { Slot } from "expo-router";
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
+import { PetsProvider } from "./(modules)/my-pets/infrastructure/context/PetsContext";
 
 const Layout = () => {
   return (
     <View style={styles.container}>
-      <Slot />
+      <PetsProvider>
+        <Slot />
+      </PetsProvider>
     </View>
   );
 };
