@@ -3,11 +3,14 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { useLocalSearchParams } from "expo-router";
 import { SIMPLE_PETS_LIST } from "../../../../domain/pets/data";
+import { usePets } from "../infrastructure/context/PetsContext";
 
 const PetDetailsView = () => {
   const { id } = useLocalSearchParams();
 
-  const foundPet = SIMPLE_PETS_LIST[Number(id)];
+  const { petsList } = usePets();
+
+  const foundPet = petsList[0];
 
   return (
     <View>
