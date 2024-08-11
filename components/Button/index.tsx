@@ -1,21 +1,27 @@
 import React from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text, StyleProp, Button } from "react-native";
 import { BORDER_RADIUS, COLORS, PADDING } from "../../app/constants/styles";
 
 interface CustomButtonProps {
+  customStyles?: any;
   text: string;
   type: "standard" | "primary" | "secondary" | "info" | "danger" | "success";
   onPress: () => void;
 }
 
-const CustomButton = ({ type = "standard", text }: CustomButtonProps) => {
+const CustomButton = ({
+  customStyles,
+  type = "standard",
+  text,
+}: CustomButtonProps) => {
   const customButtonStyles = {
     ...styles.standard,
     ...BUTTON_STYLES_BY_TYPE[type],
+    ...customStyles,
   };
 
   return (
-    <Pressable style={customButtonStyles}>
+    <Pressable style={{ ...customButtonStyles }}>
       <Text>{text}</Text>
     </Pressable>
   );
@@ -35,7 +41,10 @@ const styles = StyleSheet.create({
   },
   secondary: {},
   info: {},
-  danger: {},
+  danger: {
+    color: "#fff",
+    backgroundColor: COLORS.DANGER,
+  },
   success: {},
 });
 
