@@ -40,5 +40,6 @@ export interface PetDetails {
 export interface Pet {
     id: string;
     name: string;
+    photoURL: string;
     details: PetDetails;
 }
