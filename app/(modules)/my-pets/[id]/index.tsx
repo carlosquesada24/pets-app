@@ -1,10 +1,11 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { useLocalSearchParams } from "expo-router";
 import { usePets } from "../infrastructure/context/PetsContext";
 import CustomButton from "../../../../components/Button";
 import { Pet } from "../domain/interface";
+import DataList from "../../../../components/DataList/DataList";
 
 const PetDetailsView = () => {
   const { id } = useLocalSearchParams();
@@ -14,7 +15,7 @@ const PetDetailsView = () => {
   const foundPet = petsList[0] as Pet;
 
   return (
-    <View>
+    <ScrollView style={{ width: "100%" }}>
       <View style={styles.header}>
         <Text style={{ ...styles.text, ...styles.title }}>{foundPet.name}</Text>
 
@@ -43,61 +44,25 @@ const PetDetailsView = () => {
       <View>
         <Text style={styles.text}>Medical</Text>
         <View>
-          <View style={{ marginTop: 12 }}>
-            <Text style={styles.text}>Diagnoses</Text>
-            {foundPet.details.medical.diagnoses.map((diagnosis) => (
-              <View>
-                <Text style={styles.text}>{diagnosis.date}</Text>
-                <Text style={styles.text}>{diagnosis.text}</Text>
-              </View>
-            ))}
-          </View>
-
-          <View style={{ marginTop: 12 }}>
-            <Text style={styles.text}>Allergies</Text>
-
-            {foundPet.details.medical.allergies.length > 0 ? (
-              foundPet.details.medical.allergies.map((vaccine) => (
-                <View>
-                  <Text style={styles.text}>{vaccine.name}</Text>
-                </View>
-              ))
-            ) : (
-              <Text style={styles.text}>¡No hay alergias aún!</Text>
-            )}
-          </View>
-
-          <View style={{ marginTop: 12 }}>
-            <Text style={styles.text}>Medicines</Text>
-
-            {foundPet.details.medical.medicines.length > 0 ? (
-              foundPet.details.medical.medicines.map((vaccine) => (
-                <View>
-                  <Text style={styles.text}>{vaccine.name}</Text>
-                  <Text style={styles.text}>{vaccine.frequency}</Text>
-                </View>
-              ))
-            ) : (
-              <Text style={styles.text}>¡No hay medicinas aún!</Text>
-            )}
-          </View>
-
-          <View style={{ marginTop: 12 }}>
-            <Text style={styles.text}>Vaccines</Text>
-            {foundPet.details.medical.vaccines.length > 0 ? (
-              foundPet.details.medical.vaccines.map((vaccine) => (
-                <View>
-                  <Text style={styles.text}>{vaccine.name}</Text>
-                  <Text style={styles.text}>{vaccine.date}</Text>
-                </View>
-              ))
-            ) : (
-              <Text style={styles.text}>¡No hay vaccunas aún!</Text>
-            )}
-          </View>
+          <DataList
+            title="Diagnoses"
+            dataList={foundPet.details.medical.diagnoses}
+          />
+          <DataList
+            title="Allergies"
+            dataList={foundPet.details.medical.allergies}
+          />
+          <DataList
+            title="Medicines"
+            dataList={foundPet.details.medical.medicines}
+          />
+          <DataList
+            title="Vaccines"
+            dataList={foundPet.details.medical.vaccines}
+          />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
