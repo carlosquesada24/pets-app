@@ -66,11 +66,13 @@ export const PET_LIST_DEFAULT_STATE = [{
             ],
             allergies: [
                 {
+                    date: "02/01/2024",
                     name: "Pollen Allergy"
                 }
             ],
             medicines: [
                 {
+                    date: "02/01/2024",
                     name: "Medicine A",
                     dosage: "10 mg",
                     frequency: "Once a day"

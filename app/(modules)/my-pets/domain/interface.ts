@@ -4,10 +4,12 @@ export interface Diagnosis {
 }
 
 export interface Allergy {
+    date: string;
     name: string;
 }
 
 export interface Medicine {
+    date: string;
     name: string;
     dosage: string;
     frequency: string;
