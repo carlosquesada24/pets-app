@@ -17,32 +17,96 @@ const PetDetailsView = () => {
   return (
     <ScrollView style={{ width: "100%" }}>
       <View style={styles.header}>
-        <Text style={{ ...styles.text, ...styles.title }}>{foundPet.name}</Text>
+        <Text style={{ ...styles.text, ...styles.pageTitle }}>
+          {foundPet.name}
+        </Text>
 
-        <CustomButton type="danger" text={"Delete"} onPress={() => {}} />
+        <CustomButton
+          type="danger"
+          text={"Delete"}
+          // customStyles={{ position: "absolute" }}
+          onPress={() => {}}
+        />
       </View>
       <Image src={foundPet.photoURL} width={100} height={100} />
 
-      <View>
-        <Text style={styles.text}>Information</Text>
-        <View>
-          <Text style={styles.text}>
-            Height: {foundPet.details.information.height}
-          </Text>
-          <Text style={styles.text}>
-            Weight: {foundPet.details.information.weight}
-          </Text>
-          <Text style={styles.text}>
-            Age: {foundPet.details.information.age}
-          </Text>
-          <Text style={styles.text}>
-            Breed: {foundPet.details.information.breed}
-          </Text>
+      <View style={styles.detailsContainerGroup}>
+        <Text
+          style={{
+            ...styles.text,
+            ...styles.sectionTitle,
+          }}
+        >
+          Information
+        </Text>
+        <View style={styles.informationItemsContainer}>
+          <View>
+            <Text
+              style={{
+                ...styles.text,
+                ...styles.detailsLabel,
+              }}
+            >
+              Height
+            </Text>
+            <Text style={{ ...styles.text, ...styles.detailsInfo }}>
+              {foundPet.details.information.height}
+            </Text>
+          </View>
+
+          <View>
+            <Text
+              style={{
+                ...styles.text,
+                ...styles.detailsLabel,
+              }}
+            >
+              Weight
+            </Text>
+            <Text style={{ ...styles.text, ...styles.detailsInfo }}>
+              {foundPet.details.information.weight}
+            </Text>
+          </View>
+
+          <View>
+            <Text
+              style={{
+                ...styles.text,
+                ...styles.detailsLabel,
+              }}
+            >
+              Age
+            </Text>
+            <Text style={{ ...styles.text, ...styles.detailsInfo }}>
+              {foundPet.details.information.age}
+            </Text>
+          </View>
+
+          <View>
+            <Text
+              style={{
+                ...styles.text,
+                ...styles.detailsLabel,
+              }}
+            >
+              Breed
+            </Text>
+            <Text style={{ ...styles.text, ...styles.detailsInfo }}>
+              {foundPet.details.information.breed}
+            </Text>
+          </View>
         </View>
       </View>
 
       <View>
-        <Text style={styles.text}>Medical</Text>
+        <Text
+          style={{
+            ...styles.text,
+            ...styles.sectionTitle,
+          }}
+        >
+          Medical
+        </Text>
         <View>
           <DataList
             title="Diagnoses"
@@ -70,7 +134,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#fff",
   },
-  title: {
+  pageTitle: {
     fontSize: 30,
     fontWeight: "bold",
     marginBottom: 10,
@@ -80,6 +144,33 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 24,
+    flex: 1,
+    flexWrap: "wrap",
+  },
+  detailsContainerGroup: {
+    marginBottom: 36,
+  },
+  detailsLabel: {
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 14,
+  },
+  detailsInfo: {
+    textAlign: "center",
+    marginTop: 6,
+  },
+  informationItemsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 12,
   },
 });
 
