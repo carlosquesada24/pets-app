@@ -7,12 +7,18 @@ import CustomButton from "../../../../components/Button";
 import { Pet } from "../domain/interface";
 import DataList from "../../../../components/DataList/DataList";
 
+import { capitalizeFirstLetter } from "../../../utils/string";
+
 const PetDetailsView = () => {
   const { id } = useLocalSearchParams();
 
   const { petsList } = usePets();
 
   const foundPet = petsList[0] as Pet;
+
+  const informationDetailsEntries = Object.entries(
+    foundPet.details.information
+  );
 
   return (
     <ScrollView style={{ width: "100%" }}>
@@ -40,61 +46,21 @@ const PetDetailsView = () => {
           Information
         </Text>
         <View style={styles.informationItemsContainer}>
-          <View>
-            <Text
-              style={{
-                ...styles.text,
-                ...styles.detailsLabel,
-              }}
-            >
-              Height
-            </Text>
-            <Text style={{ ...styles.text, ...styles.detailsInfo }}>
-              {foundPet.details.information.height}
-            </Text>
-          </View>
-
-          <View>
-            <Text
-              style={{
-                ...styles.text,
-                ...styles.detailsLabel,
-              }}
-            >
-              Weight
-            </Text>
-            <Text style={{ ...styles.text, ...styles.detailsInfo }}>
-              {foundPet.details.information.weight}
-            </Text>
-          </View>
-
-          <View>
-            <Text
-              style={{
-                ...styles.text,
-                ...styles.detailsLabel,
-              }}
-            >
-              Age
-            </Text>
-            <Text style={{ ...styles.text, ...styles.detailsInfo }}>
-              {foundPet.details.information.age}
-            </Text>
-          </View>
-
-          <View>
-            <Text
-              style={{
-                ...styles.text,
-                ...styles.detailsLabel,
-              }}
-            >
-              Breed
-            </Text>
-            <Text style={{ ...styles.text, ...styles.detailsInfo }}>
-              {foundPet.details.information.breed}
-            </Text>
-          </View>
+          {informationDetailsEntries.map(([key, value]) => (
+            <View key={key}>
+              <Text
+                style={{
+                  ...styles.text,
+                  ...styles.detailsLabel,
+                }}
+              >
+                {capitalizeFirstLetter(key)}
+              </Text>
+              <Text style={{ ...styles.text, ...styles.detailsInfo }}>
+                {capitalizeFirstLetter(value)}
+              </Text>
+            </View>
+          ))}
         </View>
       </View>
 
