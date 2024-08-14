@@ -34,7 +34,12 @@ const PetDetailsView = () => {
           onPress={() => {}}
         />
       </View>
-      <Image src={foundPet.photoURL} width={100} height={100} />
+      <Image
+        source={{ uri: foundPet.photoURL }}
+        style={{ marginBottom: 12 }}
+        width={360}
+        height={360}
+      />
 
       <View style={styles.detailsContainerGroup}>
         <Text
@@ -136,7 +141,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 12,
+    marginBottom: 24,
   },
 });
 
