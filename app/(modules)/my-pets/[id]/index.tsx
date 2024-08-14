@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import { useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { usePets } from "../infrastructure/context/PetsContext";
 import CustomButton from "../../../../components/Button";
 import { Pet } from "../domain/interface";
@@ -23,9 +23,14 @@ const PetDetailsView = () => {
   return (
     <ScrollView style={{ width: "100%" }}>
       <View style={styles.header}>
-        <Text style={{ ...styles.text, ...styles.pageTitle }}>
-          {foundPet.name}
-        </Text>
+        <View>
+          <Link style={{ color: "#fff" }} href={"/my-pets"}>
+            {"<"}
+          </Link>
+          <Text style={{ ...styles.text, ...styles.pageTitle }}>
+            {foundPet.name}
+          </Text>
+        </View>
 
         <CustomButton
           type="danger"
@@ -115,9 +120,8 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    flexDirection: "row",
     marginBottom: 24,
-    flex: 1,
-    flexWrap: "wrap",
   },
   detailsContainerGroup: {
     marginBottom: 36,
