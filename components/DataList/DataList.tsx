@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CustomButton from "../Button";
+import { formatTextPreview } from "../../app/utils/string";
 
 interface DataListProps {
   dataList: any[];
@@ -25,7 +26,9 @@ const DataList = ({ dataList, title }: DataListProps) => {
             <View key={index} style={styles.listItem}>
               <Text style={styles.text}>{item.date}</Text>
               <View style={styles.listItemContent}>
-                <Text style={styles.text}>{item.name ?? item.text}</Text>
+                <Text style={styles.text}>
+                  {formatTextPreview(item.name ?? item.text, 25)}
+                </Text>
               </View>
             </View>
           );
@@ -40,7 +43,6 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   header: {
-    width: "100%",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -58,21 +60,25 @@ const styles = StyleSheet.create({
     marginTop: 16,
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "flex-start",
     flexDirection: "column",
   },
   listItem: {
     display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     flexDirection: "row",
+    paddingTop: 8, // ********************************
+    paddingBottom: 8, // ********************************
+    width: "100%",
   },
   listItemContent: {
-    marginLeft: 12,
+    marginLeft: 24,
   },
   container: {
     width: "100%",
-    padding: 12,
+    // padding: 12,
+    marginBottom: 12,
   },
 });
 

@@ -5,3 +5,11 @@ export const capitalizeFirstLetter = (text: string): string => {
     const capitalizedWord = firstLetterCap + remainingLetters;
     return capitalizedWord;
 };
+
+export function formatTextPreview(text: string, charsLimit = 15): string {
+    if (text.length > charsLimit) {
+        return text.substring(0, charsLimit) + "...";
+    } else {
+        return text;
+    }
+}
