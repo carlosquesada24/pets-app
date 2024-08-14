@@ -23,3 +23,9 @@ export const COLORS = {
 export const PADDING = 10
 
 export const BORDER_RADIUS = 8
+
+export const VIEW_TITLE_STYLES = {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
+}
