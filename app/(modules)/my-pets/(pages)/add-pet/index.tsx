@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import DataList from "../../../../../components/DataList/DataList";
 
 const AddPetView = () => {
   return (
-    <View>
+    <ScrollView style={{ width: "100%" }}>
       <Text style={styles.text}>Formulario de mascota</Text>
 
       <View>
@@ -22,7 +22,7 @@ const AddPetView = () => {
         <DataList title="Medicines" dataList={[]} />
         <DataList title="Vaccines" dataList={[]} />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
