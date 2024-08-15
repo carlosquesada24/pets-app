@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import DataList from "../../../../../components/DataList/DataList";
 import { usePets } from "../../infrastructure/context/PetsContext";
+import CustomButton from "../../../../../components/Button";
 
 const AddPetView = () => {
   const [name, setName] = useState("");
@@ -51,21 +52,41 @@ const AddPetView = () => {
 
   return (
     <ScrollView style={{ width: "100%" }}>
-      <Text style={styles.text}>Formulario de mascota</Text>
+      <Text
+        style={{
+          ...styles.text,
+          fontSize: 24,
+          fontWeight: "bold",
+          marginBottom: 12,
+        }}
+      >
+        Agregar mascota
+      </Text>
 
       <View>
         <TextInput
           style={styles.input}
-          placeholder="Nombre"
+          placeholder="Ejemplo: Max"
+          placeholderTextColor="#a3a2a2"
           onChange={(e) => setName(e.nativeEvent.text)}
         />
 
-        <Text style={{ ...styles.text, marginTop: 12 }}>Detalles</Text>
+        <Text
+          style={{
+            ...styles.text,
+            marginTop: 12,
+            fontSize: 24,
+            fontWeight: "bold",
+          }}
+        >
+          Detalles
+        </Text>
         <View style={styles.formGroup}>
           <Text style={{ ...styles.text, ...styles.label }}>Peso</Text>
           <TextInput
             style={styles.input}
-            placeholder="Peso"
+            placeholder="Ejemplo: 12"
+            placeholderTextColor="#a3a2a2"
             onChange={(e) => setWeight(e.nativeEvent.text)}
           />
         </View>
@@ -75,7 +96,8 @@ const AddPetView = () => {
 
           <TextInput
             style={styles.input}
-            placeholder="Altura"
+            placeholder="Ejemplo: 80"
+            placeholderTextColor="#a3a2a2"
             onChange={(e) => setHeight(e.nativeEvent.text)}
           />
         </View>
@@ -85,7 +107,8 @@ const AddPetView = () => {
 
           <TextInput
             style={styles.input}
-            placeholder="Edad"
+            placeholder="Ejemplo: 5"
+            placeholderTextColor="#a3a2a2"
             onChange={(e) => setAge(e.nativeEvent.text)}
           />
         </View>
@@ -95,18 +118,32 @@ const AddPetView = () => {
 
           <TextInput
             style={styles.input}
-            placeholder="Raza"
+            placeholder="Ejemplo: Pastor Alemán"
+            placeholderTextColor="#a3a2a2"
             onChange={(e) => setBreed(e.nativeEvent.text)}
           />
         </View>
 
-        <Button onPress={handleSubmit} title="Guardar" />
+        <View style={{ marginBottom: 12, marginTop: 12 }}>
+          <Text
+            style={{
+              ...styles.text,
+              marginTop: 12,
+              fontSize: 24,
+              fontWeight: "bold",
+            }}
+          >
+            Médico
+          </Text>
+          <DataList title="Diagnoses" dataList={[]} />
+          <DataList title="Allergies" dataList={[]} />
+          <DataList title="Medicines" dataList={[]} />
+          <DataList title="Vaccines" dataList={[]} />
+        </View>
 
-        <Text style={{ ...styles.text, marginTop: 12 }}>Médico</Text>
-        <DataList title="Diagnoses" dataList={[]} />
-        <DataList title="Allergies" dataList={[]} />
-        <DataList title="Medicines" dataList={[]} />
-        <DataList title="Vaccines" dataList={[]} />
+        {/* <Button onPress={handleSubmit} title="Guardar" /> */}
+
+        <CustomButton text="Guardar" type="primary" onPress={handleSubmit} />
       </View>
     </ScrollView>
   );
@@ -125,9 +162,11 @@ const styles = StyleSheet.create({
   input: {
     padding: 8,
     borderRadius: 8,
-    backgroundColor: "#fff",
-    color: "#000",
+    backgroundColor: "transparent",
+    color: "#fff",
     marginTop: 4,
+    borderWidth: 2,
+    borderColor: "#242424",
   },
 });
 
