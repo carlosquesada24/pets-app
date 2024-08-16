@@ -10,6 +10,7 @@ import {
 import DataList from "../../../../../components/DataList/DataList";
 import { usePets } from "../../infrastructure/context/PetsContext";
 import CustomButton from "../../../../../components/Button";
+import AddPetForm from "../../components/AddPetForm/AddPetForm";
 
 const AddPetView = () => {
   const [name, setName] = useState("");
@@ -63,88 +64,27 @@ const AddPetView = () => {
         Agregar mascota
       </Text>
 
-      <View>
-        <TextInput
-          style={styles.input}
-          placeholder="Ejemplo: Max"
-          placeholderTextColor="#a3a2a2"
-          onChange={(e) => setName(e.nativeEvent.text)}
-        />
-
-        <Text
-          style={{
-            ...styles.text,
-            marginTop: 12,
-            fontSize: 24,
-            fontWeight: "bold",
-          }}
-        >
-          Detalles
-        </Text>
-        <View style={styles.formGroup}>
-          <Text style={{ ...styles.text, ...styles.label }}>Peso</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Ejemplo: 12"
-            placeholderTextColor="#a3a2a2"
-            onChange={(e) => setWeight(e.nativeEvent.text)}
-          />
-        </View>
-
-        <View style={styles.formGroup}>
-          <Text style={{ ...styles.text, ...styles.label }}>Altura</Text>
-
-          <TextInput
-            style={styles.input}
-            placeholder="Ejemplo: 80"
-            placeholderTextColor="#a3a2a2"
-            onChange={(e) => setHeight(e.nativeEvent.text)}
-          />
-        </View>
-
-        <View style={styles.formGroup}>
-          <Text style={{ ...styles.text, ...styles.label }}>Edad</Text>
-
-          <TextInput
-            style={styles.input}
-            placeholder="Ejemplo: 5"
-            placeholderTextColor="#a3a2a2"
-            onChange={(e) => setAge(e.nativeEvent.text)}
-          />
-        </View>
-
-        <View style={styles.formGroup}>
-          <Text style={{ ...styles.text, ...styles.label }}>Raza</Text>
-
-          <TextInput
-            style={styles.input}
-            placeholder="Ejemplo: Pastor Alemán"
-            placeholderTextColor="#a3a2a2"
-            onChange={(e) => setBreed(e.nativeEvent.text)}
-          />
-        </View>
-
-        <View style={{ marginBottom: 12, marginTop: 12 }}>
-          <Text
-            style={{
-              ...styles.text,
-              marginTop: 12,
-              fontSize: 24,
-              fontWeight: "bold",
-            }}
-          >
-            Médico
-          </Text>
-          <DataList title="Diagnoses" dataList={[]} />
-          <DataList title="Allergies" dataList={[]} />
-          <DataList title="Medicines" dataList={[]} />
-          <DataList title="Vaccines" dataList={[]} />
-        </View>
-
-        {/* <Button onPress={handleSubmit} title="Guardar" /> */}
-
-        <CustomButton text="Guardar" type="primary" onPress={handleSubmit} />
-      </View>
+      <AddPetForm
+        name={name}
+        setName={setName}
+        weight={weight}
+        setWeight={setWeight}
+        height={height}
+        setHeight={setHeight}
+        age={age}
+        setAge={setAge}
+        breed={breed}
+        setBreed={setBreed}
+        diagnosesList={diagnosesList}
+        setDiagnosesList={setDiagnosesList}
+        allergiesList={allergiesList}
+        setAllergiesList={setAllergiesList}
+        medicinesList={medicinesList}
+        setMedicinesList={setMedicinesList}
+        vaccinesList={vaccinesList}
+        setVaccinesList={setVaccinesList}
+        handleSubmit={handleSubmit}
+      />
     </ScrollView>
   );
 };
