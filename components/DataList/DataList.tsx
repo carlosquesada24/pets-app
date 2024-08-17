@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CustomButton from "../Button";
+import { randomUUID } from "expo-crypto";
 import { formatTextPreview } from "../../app/utils/string";
+import ListItem from "./components/ListItem/ListItem";
 
 interface DataListProps {
   dataList: any[];
@@ -9,9 +11,17 @@ interface DataListProps {
   handleAddItem: any;
 }
 
+interface ListItem {
+  id: string;
+  date: string;
+  name: string;
+  isEditing: boolean;
+}
+
 const DataList = ({ dataList, title, handleAddItem }: DataListProps) => {
-  const [list, setList] = useState(dataList);
+  const [list, setList] = useState<any[]>(dataList);
   const [isCreating, setIsCreating] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleAddItemPress = () => {
     // setList([
@@ -22,6 +32,35 @@ const DataList = ({ dataList, title, handleAddItem }: DataListProps) => {
     //   },
     // ]);
     setIsCreating(true);
+
+    // Crear nuevo elemento en el list
+    setList([
+      ...list,
+      { id: randomUUID(), name: "", date: "17/08/2024", isCreating: true },
+    ]);
+  };
+
+  const handleEditItem = (item: any) => {
+    setIsEditing(true);
+  };
+
+  const handleOnAcceptCreation = (id: any, text: string) => {
+    setIsCreating(false);
+    setIsEditing(false);
+
+    const foundItem = list.find((item) => item.id === id);
+
+    const updatedItem = {
+      ...foundItem,
+      name: text,
+      isCreating: false,
+    };
+
+    const updatedList = list.map((item) =>
+      item.id === updatedItem.id ? updatedItem : item
+    );
+
+    setList(updatedList);
   };
 
   return (
@@ -32,25 +71,21 @@ const DataList = ({ dataList, title, handleAddItem }: DataListProps) => {
           customStyles={styles.customButton}
           type="primary"
           text="+"
-          onPress={handleAddItem}
+          onPress={handleAddItemPress}
         />
       </View>
       <View style={styles.list}>
         {list.length > 0 ? (
-          list.map((item, index) => {
+          list.map((item) => {
             return (
-              <View key={index} style={styles.listItem}>
-                <Text style={styles.text}>{item.date}</Text>
-                <View style={styles.listItemContent}>
-                  <Text style={styles.text}>
-                    {formatTextPreview(item.name ?? item.text, 25)}
-                  </Text>
-                </View>
-              </View>
+              <ListItem
+                item={item}
+                handleOnAcceptCreation={handleOnAcceptCreation}
+              />
             );
           })
         ) : isCreating ? (
-          <Text style={styles.text}>Creando uno nuevo...</Text>
+          <Text style={styles.text}>Creando uno nuevo...z</Text>
         ) : (
           <Text style={styles.text}>No hay items aún</Text>
         )}
