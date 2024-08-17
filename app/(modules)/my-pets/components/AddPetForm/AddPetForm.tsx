@@ -19,13 +19,13 @@ interface AddPetFormProps {
   setBreed: (breed: string) => void;
 
   diagnosesList: any[];
-  setDiagnosesList: (diagnose: any) => void;
+  addDiagnose: (item: any) => void;
   allergiesList: any[];
-  setAllergiesList: (diagnose: any) => void;
+  addAllergy: (item: any) => void;
   medicinesList: any[];
-  setMedicinesList: (diagnose: any) => void;
+  addMedicine: (item: any) => void;
   vaccinesList: any[];
-  setVaccinesList: (diagnose: any) => void;
+  addVaccine: (item: any) => void;
 
   handleSubmit: () => void;
 }
@@ -43,13 +43,13 @@ const AddPetForm = (props: AddPetFormProps) => {
     breed,
     setBreed,
     diagnosesList,
-    setDiagnosesList,
+    addDiagnose,
     allergiesList,
-    setAllergiesList,
+    addAllergy,
     medicinesList,
-    setMedicinesList,
+    addMedicine,
     vaccinesList,
-    setVaccinesList,
+    addVaccine,
     handleSubmit,
   } = props;
 
@@ -75,17 +75,16 @@ const AddPetForm = (props: AddPetFormProps) => {
 
       <PetMedicalInformation
         diagnosesList={diagnosesList}
-        setDiagnosesList={setDiagnosesList}
+        addDiagnose={addDiagnose}
+        addAllergy={addAllergy}
+        addMedicine={addMedicine}
+        addVaccine={addVaccine}
         allergiesList={allergiesList}
-        setAllergiesList={setAllergiesList}
         medicinesList={medicinesList}
-        setMedicinesList={setMedicinesList}
         vaccinesList={vaccinesList}
-        setVaccinesList={setVaccinesList}
       />
 
-      {/* <CustomButton text="Guardar" type="primary" onPress={handleSubmit} /> */}
-      <Button title="Guardar" onPress={handleSubmit} />
+      <CustomButton text="Guardar" type="primary" onPress={handleSubmit} />
     </View>
   );
 };

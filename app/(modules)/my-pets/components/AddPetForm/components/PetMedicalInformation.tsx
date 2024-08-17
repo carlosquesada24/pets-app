@@ -4,25 +4,25 @@ import DataList from "../../../../../../components/DataList/DataList";
 
 interface PetMedicalInformationProps {
   diagnosesList: any[];
-  setDiagnosesList: (diagnose: any) => void;
+  addDiagnose: (item: any) => void;
   allergiesList: any[];
-  setAllergiesList: (diagnose: any) => void;
+  addAllergy: (item: any) => void;
   medicinesList: any[];
-  setMedicinesList: (diagnose: any) => void;
+  addMedicine: (item: any) => void;
   vaccinesList: any[];
-  setVaccinesList: (diagnose: any) => void;
+  addVaccine: (item: any) => void;
 }
 
 const PetMedicalInformation = (props: PetMedicalInformationProps) => {
   const {
     diagnosesList,
-    setDiagnosesList,
+    addDiagnose,
     allergiesList,
-    setAllergiesList,
+    addAllergy,
     medicinesList,
-    setMedicinesList,
+    addMedicine,
     vaccinesList,
-    setVaccinesList,
+    addVaccine,
   } = props;
 
   return (
@@ -37,10 +37,26 @@ const PetMedicalInformation = (props: PetMedicalInformationProps) => {
       >
         Médico
       </Text>
-      <DataList title="Diagnoses" dataList={diagnosesList} />
-      <DataList title="Allergies" dataList={allergiesList} />
-      <DataList title="Medicines" dataList={medicinesList} />
-      <DataList title="Vaccines" dataList={vaccinesList} />
+      <DataList
+        title="Diagnoses"
+        dataList={diagnosesList}
+        handleAddItem={addDiagnose}
+      />
+      <DataList
+        title="Allergies"
+        dataList={allergiesList}
+        handleAddItem={addAllergy}
+      />
+      <DataList
+        title="Medicines"
+        dataList={medicinesList}
+        handleAddItem={addMedicine}
+      />
+      <DataList
+        title="Vaccines"
+        dataList={vaccinesList}
+        handleAddItem={addVaccine}
+      />
     </View>
   );
 };

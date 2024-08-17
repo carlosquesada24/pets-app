@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CustomButton from "../Button";
 import { formatTextPreview } from "../../app/utils/string";
@@ -6,9 +6,24 @@ import { formatTextPreview } from "../../app/utils/string";
 interface DataListProps {
   dataList: any[];
   title: string;
+  handleAddItem: any;
 }
 
-const DataList = ({ dataList, title }: DataListProps) => {
+const DataList = ({ dataList, title, handleAddItem }: DataListProps) => {
+  const [list, setList] = useState(dataList);
+  const [isCreating, setIsCreating] = useState(false);
+
+  const handleAddItemPress = () => {
+    // setList([
+    //   ...list,
+    //   {
+    //     date: new Date().toLocaleDateString(),
+    //     name: "New item",
+    //   },
+    // ]);
+    setIsCreating(true);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -17,22 +32,28 @@ const DataList = ({ dataList, title }: DataListProps) => {
           customStyles={styles.customButton}
           type="primary"
           text="+"
-          onPress={() => {}}
+          onPress={handleAddItem}
         />
       </View>
       <View style={styles.list}>
-        {dataList.map((item, index) => {
-          return (
-            <View key={index} style={styles.listItem}>
-              <Text style={styles.text}>{item.date}</Text>
-              <View style={styles.listItemContent}>
-                <Text style={styles.text}>
-                  {formatTextPreview(item.name ?? item.text, 25)}
-                </Text>
+        {list.length > 0 ? (
+          list.map((item, index) => {
+            return (
+              <View key={index} style={styles.listItem}>
+                <Text style={styles.text}>{item.date}</Text>
+                <View style={styles.listItemContent}>
+                  <Text style={styles.text}>
+                    {formatTextPreview(item.name ?? item.text, 25)}
+                  </Text>
+                </View>
               </View>
-            </View>
-          );
-        })}
+            );
+          })
+        ) : isCreating ? (
+          <Text style={styles.text}>Creando uno nuevo...</Text>
+        ) : (
+          <Text style={styles.text}>No hay items aún</Text>
+        )}
       </View>
     </View>
   );
