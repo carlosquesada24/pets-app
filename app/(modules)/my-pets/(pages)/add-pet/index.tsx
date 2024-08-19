@@ -1,15 +1,6 @@
-import React, { useState } from "react";
-import {
-  Button,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import DataList from "../../../../../components/DataList/DataList";
+import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Text } from "react-native";
 import { usePets } from "../../infrastructure/context/PetsContext";
-import CustomButton from "../../../../../components/Button";
 import AddPetForm from "../../components/AddPetForm/AddPetForm";
 
 const AddPetView = () => {
@@ -19,37 +10,39 @@ const AddPetView = () => {
   const [height, setHeight] = useState("");
   const [breed, setBreed] = useState("");
 
-  const [diagnosesList, setDiagnosesList] = useState([]);
-  const [allergiesList, setAllergiesList] = useState([]);
-  const [medicinesList, setMedicinesList] = useState([]);
-  const [vaccinesList, setVaccinesList] = useState([]);
+  const {
+    newPet,
+    addPet,
+    createNewDiagnose,
+    editDiagnose,
+    editAllergies,
+    editMedicines,
+    editVaccines,
+  } = usePets();
 
-  const { addPet } = usePets();
+  useEffect(() => {
+    addPet();
+  }, []);
+
+  const addDiagnose = (diagnose: any) => {
+    createNewDiagnose();
+  };
+  const handleEditDiagnose = (id: string, text: string) => {
+    editDiagnose(id, text);
+  };
+
+  const addAllergy = (allergy: any) => {
+    editAllergies();
+  };
+  const addMedicine = (medicine: any) => {
+    editMedicines();
+  };
+  const addVaccine = (vaccine: any) => {
+    editVaccines();
+  };
 
   // Handle form submission
-  const handleSubmit = () => {
-    const petInfo = {
-      id: "random",
-      name: name,
-      photoURL: "",
-      details: {
-        information: {
-          height,
-          weight,
-          age,
-          breed,
-        },
-        medical: {
-          diagnoses: diagnosesList,
-          allergies: allergiesList,
-          medicines: medicinesList,
-          vaccines: vaccinesList,
-        },
-      },
-    };
-
-    addPet(petInfo);
-  };
+  const handleSubmit = () => {};
 
   return (
     <ScrollView style={{ width: "100%" }}>
@@ -75,14 +68,15 @@ const AddPetView = () => {
         setAge={setAge}
         breed={breed}
         setBreed={setBreed}
-        diagnosesList={diagnosesList}
-        setDiagnosesList={setDiagnosesList}
-        allergiesList={allergiesList}
-        setAllergiesList={setAllergiesList}
-        medicinesList={medicinesList}
-        setMedicinesList={setMedicinesList}
-        vaccinesList={vaccinesList}
-        setVaccinesList={setVaccinesList}
+        diagnosesList={newPet.details.medical.diagnoses}
+        addDiagnose={addDiagnose}
+        editDiagnose={handleEditDiagnose}
+        allergiesList={newPet.details.medical.allergies}
+        addAllergy={addAllergy}
+        medicinesList={newPet.details.medical.medicines}
+        addMedicine={addMedicine}
+        vaccinesList={newPet.details.medical.medicines}
+        addVaccine={addVaccine}
         handleSubmit={handleSubmit}
       />
     </ScrollView>
