@@ -24,10 +24,15 @@ interface AddPetFormProps {
 
   allergiesList: any[];
   addAllergy: (item: any) => void;
+  editAllergy: (id: string, text: string) => void;
+
   medicinesList: any[];
   addMedicine: (item: any) => void;
+  editMedicine: (id: string, text: string) => void;
+
   vaccinesList: any[];
   addVaccine: (item: any) => void;
+  editVaccine: (id: string, text: string) => void;
 
   handleSubmit: () => void;
 }
@@ -54,6 +59,9 @@ const AddPetForm = (props: AddPetFormProps) => {
     vaccinesList,
     addVaccine,
     handleSubmit,
+    editAllergy,
+    editMedicine,
+    editVaccine,
   } = props;
 
   return (
@@ -80,12 +88,15 @@ const AddPetForm = (props: AddPetFormProps) => {
         diagnosesList={diagnosesList}
         addDiagnose={addDiagnose}
         editDiagnose={editDiagnose}
-        addAllergy={addAllergy}
-        addMedicine={addMedicine}
-        addVaccine={addVaccine}
         allergiesList={allergiesList}
+        addAllergy={addAllergy}
+        editAllergy={editAllergy}
         medicinesList={medicinesList}
+        addMedicine={addMedicine}
+        editMedicine={editMedicine}
         vaccinesList={vaccinesList}
+        addVaccine={addVaccine}
+        editVaccine={editVaccine}
       />
 
       <CustomButton text="Guardar" type="primary" onPress={handleSubmit} />

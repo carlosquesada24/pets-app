@@ -15,9 +15,12 @@ const AddPetView = () => {
     addPet,
     createNewDiagnose,
     editDiagnose,
-    editAllergies,
-    editMedicines,
-    editVaccines,
+    createNewMedicine,
+    editMedicine,
+    createNewAllergy,
+    editAllergy,
+    createNewVaccine,
+    editVaccine,
   } = usePets();
 
   useEffect(() => {
@@ -29,16 +32,6 @@ const AddPetView = () => {
   };
   const handleEditDiagnose = (id: string, text: string) => {
     editDiagnose(id, text);
-  };
-
-  const addAllergy = (allergy: any) => {
-    editAllergies();
-  };
-  const addMedicine = (medicine: any) => {
-    editMedicines();
-  };
-  const addVaccine = (vaccine: any) => {
-    editVaccines();
   };
 
   // Handle form submission
@@ -72,11 +65,14 @@ const AddPetView = () => {
         addDiagnose={addDiagnose}
         editDiagnose={handleEditDiagnose}
         allergiesList={newPet.details.medical.allergies}
-        addAllergy={addAllergy}
+        addAllergy={createNewAllergy}
+        editAllergy={editAllergy}
         medicinesList={newPet.details.medical.medicines}
-        addMedicine={addMedicine}
-        vaccinesList={newPet.details.medical.medicines}
-        addVaccine={addVaccine}
+        addMedicine={createNewMedicine}
+        editMedicine={editMedicine}
+        vaccinesList={newPet.details.medical.vaccines}
+        addVaccine={createNewVaccine}
+        editVaccine={editVaccine}
         handleSubmit={handleSubmit}
       />
     </ScrollView>

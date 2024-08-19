@@ -1,6 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { PET_EMPTY_STATE, PET_LIST_DEFAULT_STATE } from "../../domain/data";
-import { Diagnosis, Pet } from "../../domain/interface";
+import {
+  Allergy,
+  Diagnosis,
+  Medicine,
+  Pet,
+  Vaccine,
+} from "../../domain/interface";
 import { randomUUID } from "expo-crypto";
 
 interface PetsContextData {
@@ -11,9 +17,14 @@ interface PetsContextData {
   createNewDiagnose: () => void;
   editDiagnose: (id: string, text: string) => void;
 
-  editMedicines: () => void;
-  editVaccines: () => void;
-  editAllergies: () => void;
+  createNewMedicine: () => void;
+  editMedicine: (id: string, text: string) => void;
+
+  createNewVaccine: () => void;
+  editVaccine: (id: string, text: string) => void;
+
+  createNewAllergy: () => void;
+  editAllergy: (id: string, text: string) => void;
 }
 
 export const PetsContext = createContext<PetsContextData>({
@@ -24,9 +35,14 @@ export const PetsContext = createContext<PetsContextData>({
   createNewDiagnose: () => {},
   editDiagnose: (id: string, text: string) => {},
 
-  editMedicines: () => {},
-  editVaccines: () => {},
-  editAllergies: () => {},
+  createNewMedicine: () => {},
+  editMedicine: (id: string, text: string) => {},
+
+  createNewVaccine: () => {},
+  editVaccine: (id: string, text: string) => {},
+
+  createNewAllergy: () => {},
+  editAllergy: (id: string, text: string) => {},
 });
 
 export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
@@ -66,7 +82,6 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
       },
     });
   };
-
   const editDiagnose = (id: string, text: string) => {
     const diagnosesListFound = newPet.details.medical.diagnoses.find(
       (diagnose) => diagnose.id === id
@@ -94,14 +109,147 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
     });
   };
 
-  const editMedicines = () => {
-    console.log("Edit Medicines");
+  const createNewMedicine = () => {
+    setNewPet({
+      ...newPet,
+      details: {
+        ...newPet.details,
+        medical: {
+          ...newPet.details.medical,
+          medicines: [
+            ...newPet.details.medical.medicines,
+            {
+              id: randomUUID(),
+              date: "19/08/2024",
+              name: "New Diagnose",
+              dosage: "",
+              frequency: "",
+              isCreating: true,
+            },
+          ],
+        },
+      },
+    });
   };
-  const editVaccines = () => {
-    console.log("Edit Vaccines");
+  const editMedicine = (id: string, text: string) => {
+    const medicinesListFound = newPet.details.medical.medicines.find(
+      (diagnose) => diagnose.id === id
+    ) as Medicine;
+
+    const updatedMedicine: Medicine = {
+      ...medicinesListFound,
+      name: text,
+      isCreating: false,
+    };
+
+    const newMedicinesList = newPet.details.medical.medicines.map((medicine) =>
+      medicine.id === updatedMedicine.id ? updatedMedicine : medicine
+    );
+
+    setNewPet({
+      ...newPet,
+      details: {
+        ...newPet.details,
+        medical: {
+          ...newPet.details.medical,
+          medicines: newMedicinesList,
+        },
+      },
+    });
   };
-  const editAllergies = () => {
-    console.log("Edit Allergies");
+
+  const createNewVaccine = () => {
+    setNewPet({
+      ...newPet,
+      details: {
+        ...newPet.details,
+        medical: {
+          ...newPet.details.medical,
+          vaccines: [
+            ...newPet.details.medical.vaccines,
+            {
+              id: randomUUID(),
+              date: "19/08/2024",
+              name: "New Diagnose",
+              isCreating: true,
+            },
+          ],
+        },
+      },
+    });
+  };
+  const editVaccine = (id: string, text: string) => {
+    const vaccinesListFound = newPet.details.medical.vaccines.find(
+      (vaccine) => vaccine.id === id
+    ) as Vaccine;
+
+    const updatedVaccine: Vaccine = {
+      ...vaccinesListFound,
+      name: text,
+      isCreating: false,
+    };
+
+    const newVaccinesList = newPet.details.medical.vaccines.map((vaccine) =>
+      vaccine.id === updatedVaccine.id ? updatedVaccine : vaccine
+    );
+
+    setNewPet({
+      ...newPet,
+      details: {
+        ...newPet.details,
+        medical: {
+          ...newPet.details.medical,
+          vaccines: newVaccinesList,
+        },
+      },
+    });
+  };
+
+  const createNewAllergy = () => {
+    setNewPet({
+      ...newPet,
+      details: {
+        ...newPet.details,
+        medical: {
+          ...newPet.details.medical,
+          allergies: [
+            ...newPet.details.medical.allergies,
+            {
+              id: randomUUID(),
+              date: "19/08/2024",
+              name: "New Diagnose",
+              isCreating: true,
+            },
+          ],
+        },
+      },
+    });
+  };
+  const editAllergy = (id: string, text: string) => {
+    const allergiesListFound = newPet.details.medical.allergies.find(
+      (allergy) => allergy.id === id
+    ) as Allergy;
+
+    const updatedAllergy: Allergy = {
+      ...allergiesListFound,
+      name: text,
+      isCreating: false,
+    };
+
+    const newAllergiesList = newPet.details.medical.allergies.map((allergy) =>
+      allergy.id === updatedAllergy.id ? updatedAllergy : allergy
+    );
+
+    setNewPet({
+      ...newPet,
+      details: {
+        ...newPet.details,
+        medical: {
+          ...newPet.details.medical,
+          allergies: newAllergiesList,
+        },
+      },
+    });
   };
 
   const contextValue = {
@@ -112,9 +260,14 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
     createNewDiagnose,
     editDiagnose,
 
-    editMedicines,
-    editVaccines,
-    editAllergies,
+    createNewMedicine,
+    editMedicine,
+
+    createNewVaccine,
+    editVaccine,
+
+    createNewAllergy,
+    editAllergy,
   };
 
   return (

@@ -6,12 +6,18 @@ interface PetMedicalInformationProps {
   diagnosesList: any[];
   addDiagnose: (item: any) => void;
   editDiagnose: (id: string, text: string) => void;
+
   allergiesList: any[];
   addAllergy: (item: any) => void;
+  editAllergy: (id: string, text: string) => void;
+
   medicinesList: any[];
   addMedicine: (item: any) => void;
+  editMedicine: (id: string, text: string) => void;
+
   vaccinesList: any[];
   addVaccine: (item: any) => void;
+  editVaccine: (id: string, text: string) => void;
 }
 
 const PetMedicalInformation = (props: PetMedicalInformationProps) => {
@@ -26,6 +32,9 @@ const PetMedicalInformation = (props: PetMedicalInformationProps) => {
     addMedicine,
     vaccinesList,
     addVaccine,
+    editAllergy,
+    editMedicine,
+    editVaccine,
   } = props;
 
   return (
@@ -50,16 +59,19 @@ const PetMedicalInformation = (props: PetMedicalInformationProps) => {
         title="Allergies"
         dataList={allergiesList}
         handleAddItem={addAllergy}
+        handleEditItem={editAllergy}
       />
       <DataList
         title="Medicines"
         dataList={medicinesList}
         handleAddItem={addMedicine}
+        handleEditItem={editMedicine}
       />
       <DataList
         title="Vaccines"
         dataList={vaccinesList}
         handleAddItem={addVaccine}
+        handleEditItem={editVaccine}
       />
     </View>
   );
