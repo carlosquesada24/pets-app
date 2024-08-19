@@ -20,6 +20,8 @@ interface AddPetFormProps {
 
   diagnosesList: any[];
   addDiagnose: (item: any) => void;
+  editDiagnose: (id: string, text: string) => void;
+
   allergiesList: any[];
   addAllergy: (item: any) => void;
   medicinesList: any[];
@@ -44,6 +46,7 @@ const AddPetForm = (props: AddPetFormProps) => {
     setBreed,
     diagnosesList,
     addDiagnose,
+    editDiagnose,
     allergiesList,
     addAllergy,
     medicinesList,
@@ -76,6 +79,7 @@ const AddPetForm = (props: AddPetFormProps) => {
       <PetMedicalInformation
         diagnosesList={diagnosesList}
         addDiagnose={addDiagnose}
+        editDiagnose={editDiagnose}
         addAllergy={addAllergy}
         addMedicine={addMedicine}
         addVaccine={addVaccine}

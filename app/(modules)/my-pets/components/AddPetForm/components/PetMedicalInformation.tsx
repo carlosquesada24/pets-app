@@ -5,6 +5,7 @@ import DataList from "../../../../../../components/DataList/DataList";
 interface PetMedicalInformationProps {
   diagnosesList: any[];
   addDiagnose: (item: any) => void;
+  editDiagnose: (id: string, text: string) => void;
   allergiesList: any[];
   addAllergy: (item: any) => void;
   medicinesList: any[];
@@ -17,6 +18,8 @@ const PetMedicalInformation = (props: PetMedicalInformationProps) => {
   const {
     diagnosesList,
     addDiagnose,
+    editDiagnose,
+
     allergiesList,
     addAllergy,
     medicinesList,
@@ -41,6 +44,7 @@ const PetMedicalInformation = (props: PetMedicalInformationProps) => {
         title="Diagnoses"
         dataList={diagnosesList}
         handleAddItem={addDiagnose}
+        handleEditItem={editDiagnose}
       />
       <DataList
         title="Allergies"
