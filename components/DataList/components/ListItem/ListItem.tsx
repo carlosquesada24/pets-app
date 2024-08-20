@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import { formatTextPreview } from "../../../../app/utils/string";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ListItemProps {
   item: any;
@@ -19,15 +20,16 @@ const ListItem = ({ item, handleOnAcceptCreation }: ListItemProps) => {
   const [isCreating, IsCreating] = useState<boolean>(item.isCreating);
 
   return (
-    <View key={item.id} style={styles.listItem}>
+    <SafeAreaView key={item.id} style={styles.listItem}>
       <Text style={styles.text}>{item.date}</Text>
       <View style={styles.listItemContent}>
         {isCreating ? (
-          <View style={styles.pene}>
+          <View style={styles.listItemEditLine}>
             <TextInput
               style={styles.input}
               placeholder="Texto..."
               placeholderTextColor="#a3a2a2"
+              multiline={true}
               onChange={(e) => setTextInput(e.nativeEvent.text)}
             />
 
@@ -47,7 +49,7 @@ const ListItem = ({ item, handleOnAcceptCreation }: ListItemProps) => {
           </Text>
         )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -61,8 +63,12 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     color: "#fff",
 
+    width: "50%",
+
     borderWidth: 2,
     borderColor: "#242424",
+    flex: 2,
+    alignSelf: "stretch",
   },
   listItem: {
     display: "flex",
@@ -71,22 +77,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingTop: 8, // ********************************
     paddingBottom: 8, // ********************************
-    width: "100%",
+    width: "50%",
   },
   listItemContent: {
     marginLeft: 24,
+    width: "100%",
   },
   container: {
-    width: "100%",
     // padding: 12,
     marginBottom: 12,
-  },
-  pene: {
     width: "100%",
+  },
+  listItemEditLine: {
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "flex-start",
     flexDirection: "row",
+    width: "100%",
   },
 });
 

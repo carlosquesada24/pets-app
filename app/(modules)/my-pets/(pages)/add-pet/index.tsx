@@ -38,7 +38,7 @@ const AddPetView = () => {
   const handleSubmit = () => {};
 
   return (
-    <ScrollView style={{ width: "100%" }}>
+    <ScrollView style={{ width: "100%", maxWidth: "100%" }}>
       <Text
         style={{
           ...styles.text,

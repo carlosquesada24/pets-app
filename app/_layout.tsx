@@ -24,6 +24,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     alignItems: "center",
     justifyContent: "flex-start",
+    // width: "100%",
+    maxWidth: "100%",
   },
   link: {
     color: "#48a4fa",
