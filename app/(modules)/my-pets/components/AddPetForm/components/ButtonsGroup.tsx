@@ -24,15 +24,20 @@ const ButtonsGroup = (props: ButtonsGroupProps) => {
   return (
     <View style={styles.buttonGroup}>
       {currentFormStep !== firstFormStep && (
-        <CustomButton text="Anterior" type="primary" onPress={prevStep} />
+        <CustomButton text="Anterior" type="dark" onPress={prevStep} />
       )}
 
       {currentFormStep !== lastFormStep && (
-        <CustomButton text="Siguiente" type="primary" onPress={nextStep} />
+        <CustomButton text="Siguiente" type="dark" onPress={nextStep} />
       )}
 
       {currentFormStep === lastFormStep && (
-        <CustomButton text="Guardar" type="primary" onPress={handleSubmit} />
+        <CustomButton
+          customStyles={{ fontWeight: "bold" }}
+          text="Guardar"
+          type="primary"
+          onPress={handleSubmit}
+        />
       )}
     </View>
   );

@@ -17,7 +17,10 @@ export const COLORS = {
     SECONDARY: "#FF7800",
     INFO: "#4E6BD1",
     DANGER: "#B03232",
-    SUCCESS: "#A3BF7F"
+    SUCCESS: "#A3BF7F",
+
+    BUTTON_DARK_BG: "#303030",
+    BUTTON_DARK_TEXT: "#fff"
 }
 
 export const PADDING = 10
