@@ -3,14 +3,18 @@ import { Slot } from "expo-router";
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
 import { PetsProvider } from "./(modules)/my-pets/infrastructure/context/PetsContext";
+import { SQLiteProvider } from "expo-sqlite";
+import { initializeDatabase } from "./(config)/(db)";
 
 const Layout = () => {
   return (
-    <View style={styles.container}>
-      <PetsProvider>
-        <Slot />
-      </PetsProvider>
-    </View>
+    <SQLiteProvider databaseName="pets.db" onInit={initializeDatabase}>
+      <View style={styles.container}>
+        <PetsProvider>
+          <Slot />
+        </PetsProvider>
+      </View>
+    </SQLiteProvider>
   );
 };
 
