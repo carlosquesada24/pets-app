@@ -82,6 +82,32 @@ const AddPetForm = (props: AddPetFormProps) => {
   const firstFormStep = ADD_PET_FORM_STEPS.PET_BASIC_INFO;
   const lastFormStep = ADD_PET_FORM_STEPS.PET_MEDICAL_INFO;
 
+  const isFirstStepValid = name.length >= 3;
+  const isSecondStepValid =
+    weight.length > 0 &&
+    height.length > 0 &&
+    age.length > 0 &&
+    breed.length > 0;
+
+  const handleNextStep = () => {
+    if (
+      currentFormStep === ADD_PET_FORM_STEPS.PET_BASIC_INFO &&
+      isFirstStepValid
+    ) {
+      nextStep();
+    }
+
+    if (
+      currentFormStep === ADD_PET_FORM_STEPS.PET_CHARACTERISTICS_INFO &&
+      isSecondStepValid
+    ) {
+      nextStep();
+    }
+
+    if (currentFormStep === ADD_PET_FORM_STEPS.PET_MEDICAL_INFO) {
+    }
+  };
+
   return (
     <View style={{ height: Dimensions.get("window").height }}>
       {currentFormStep === ADD_PET_FORM_STEPS.PET_BASIC_INFO && (
@@ -134,7 +160,7 @@ const AddPetForm = (props: AddPetFormProps) => {
         firstFormStep={firstFormStep}
         lastFormStep={lastFormStep}
         prevStep={prevStep}
-        nextStep={nextStep}
+        nextStep={handleNextStep}
         handleSubmit={handleSubmit}
       />
     </View>
