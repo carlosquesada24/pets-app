@@ -2,11 +2,13 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { View, Text, Image } from "react-native";
 import CustomButton from "../../../components/Button";
-import { SIMPLE_PETS_LIST } from "../../../domain/pets/data";
 import PetsGrid from "./components/PetsGrid/PetsGrid";
+import { usePets } from "./infrastructure/context/PetsContext";
 
 const Index = () => {
   const handleAddPet = () => {};
+
+  const { petsList } = usePets();
 
   return (
     <View>
@@ -16,7 +18,7 @@ const Index = () => {
         <CustomButton text="Agregar" type="primary" onPress={handleAddPet} />
       </View>
 
-      <PetsGrid petsList={SIMPLE_PETS_LIST} />
+      <PetsGrid petsList={petsList} />
     </View>
   );
 };
