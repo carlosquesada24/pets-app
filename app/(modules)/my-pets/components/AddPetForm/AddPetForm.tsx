@@ -1,13 +1,19 @@
-import React from "react";
-import { Dimensions, StyleSheet, TextInput, View } from "react-native";
+import React, { useEffect } from "react";
+import {
+  Alert,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import PetDetails from "./components/PetDetails";
 import PetMedicalInformation from "./components/PetMedicalInformation";
 import useStepperForm from "../../../../(hooks)/useStepperForm";
 import ButtonsGroup from "./components/ButtonsGroup";
+import { useAddPetForm } from "../../(hooks)/useAddPetFormValidation";
 
 interface AddPetFormProps {
-  name: string;
-
   setName: (name: string) => void;
   weight: string;
   setWeight: (weight: string) => void;
@@ -45,7 +51,6 @@ const ADD_PET_FORM_STEPS = {
 
 const AddPetForm = (props: AddPetFormProps) => {
   const {
-    name,
     setName,
     weight,
     setWeight,
@@ -71,6 +76,21 @@ const AddPetForm = (props: AddPetFormProps) => {
   } = props;
 
   const {
+    values: formValues,
+    errors,
+    handleInputChange,
+    reset,
+    validateField,
+    validateAll,
+  } = useAddPetForm({
+    name: "",
+  });
+
+  // useEffect(() => {
+  //   console.log({ formValues, errors });
+  // }, [formValues]);
+
+  const {
     step: currentFormStep,
     nextStep,
     prevStep,
@@ -82,42 +102,29 @@ const AddPetForm = (props: AddPetFormProps) => {
   const firstFormStep = ADD_PET_FORM_STEPS.PET_BASIC_INFO;
   const lastFormStep = ADD_PET_FORM_STEPS.PET_MEDICAL_INFO;
 
-  const isFirstStepValid = name.length >= 3;
-  const isSecondStepValid =
-    weight.length > 0 &&
-    height.length > 0 &&
-    age.length > 0 &&
-    breed.length > 0;
-
   const handleNextStep = () => {
-    if (
-      currentFormStep === ADD_PET_FORM_STEPS.PET_BASIC_INFO &&
-      isFirstStepValid
-    ) {
-      nextStep();
-    }
-
-    if (
-      currentFormStep === ADD_PET_FORM_STEPS.PET_CHARACTERISTICS_INFO &&
-      isSecondStepValid
-    ) {
-      nextStep();
-    }
-
-    if (currentFormStep === ADD_PET_FORM_STEPS.PET_MEDICAL_INFO) {
-    }
+    nextStep();
   };
 
   return (
     <View style={{ height: Dimensions.get("window").height }}>
       {currentFormStep === ADD_PET_FORM_STEPS.PET_BASIC_INFO && (
         <>
-          <TextInput
-            style={styles.input}
-            placeholder="Ejemplo: Max"
-            placeholderTextColor="#a3a2a2"
-            onChange={(e) => setName(e.nativeEvent.text)}
-          />
+          <View>
+            <TextInput
+              style={styles.input}
+              placeholder="Ejemplo: Max"
+              placeholderTextColor="#a3a2a2"
+              onChangeText={(text) => handleInputChange("name", text)}
+            />
+
+            {errors.name &&
+              errors.name.map((error: string, index: number) => (
+                <Text key={index} style={{ color: "red" }}>
+                  {error}
+                </Text>
+              ))}
+          </View>
         </>
       )}
 
