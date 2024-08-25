@@ -10,11 +10,24 @@ interface PetDetailsProps {
   setAge: (age: string) => void;
   breed: string;
   setBreed: (breed: string) => void;
+
+  handleInputChange: Function;
+  errors: any;
 }
 
 const PetDetails = (props: PetDetailsProps) => {
-  const { weight, setWeight, height, setHeight, age, setAge, breed, setBreed } =
-    props;
+  const {
+    weight,
+    setWeight,
+    height,
+    setHeight,
+    age,
+    setAge,
+    breed,
+    setBreed,
+    handleInputChange,
+    errors,
+  } = props;
 
   return (
     <View>
@@ -34,8 +47,14 @@ const PetDetails = (props: PetDetailsProps) => {
           style={styles.input}
           placeholder="Ejemplo: 12"
           placeholderTextColor="#a3a2a2"
-          onChange={(e) => setWeight(e.nativeEvent.text)}
+          onChangeText={(text) => handleInputChange("weight", text)}
         />
+        {errors.weight &&
+          errors.weight.map((error: string, index: number) => (
+            <Text key={index} style={{ color: "red" }}>
+              {error}
+            </Text>
+          ))}
       </View>
 
       <View style={styles.formGroup}>
@@ -45,8 +64,14 @@ const PetDetails = (props: PetDetailsProps) => {
           style={styles.input}
           placeholder="Ejemplo: 80"
           placeholderTextColor="#a3a2a2"
-          onChange={(e) => setHeight(e.nativeEvent.text)}
+          onChangeText={(text) => handleInputChange("height", text)}
         />
+        {errors.height &&
+          errors.height.map((error: string, index: number) => (
+            <Text key={index} style={{ color: "red" }}>
+              {error}
+            </Text>
+          ))}
       </View>
 
       <View style={styles.formGroup}>
@@ -56,8 +81,15 @@ const PetDetails = (props: PetDetailsProps) => {
           style={styles.input}
           placeholder="Ejemplo: 5"
           placeholderTextColor="#a3a2a2"
-          onChange={(e) => setAge(e.nativeEvent.text)}
+          onChangeText={(text) => handleInputChange("age", text)}
         />
+
+        {errors.age &&
+          errors.age.map((error: string, index: number) => (
+            <Text key={index} style={{ color: "red" }}>
+              {error}
+            </Text>
+          ))}
       </View>
 
       <View style={styles.formGroup}>
@@ -67,8 +99,15 @@ const PetDetails = (props: PetDetailsProps) => {
           style={styles.input}
           placeholder="Ejemplo: Pastor Alemán"
           placeholderTextColor="#a3a2a2"
-          onChange={(e) => setBreed(e.nativeEvent.text)}
+          onChangeText={(text) => handleInputChange("breed", text)}
         />
+
+        {errors.breed &&
+          errors.breed.map((error: string, index: number) => (
+            <Text key={index} style={{ color: "red" }}>
+              {error}
+            </Text>
+          ))}
       </View>
     </View>
   );

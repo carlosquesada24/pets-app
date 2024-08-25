@@ -84,6 +84,10 @@ const AddPetForm = (props: AddPetFormProps) => {
     validateAll,
   } = useAddPetForm({
     name: "",
+    weight: "",
+    height: "",
+    age: "",
+    breed: "",
   });
 
   // useEffect(() => {
@@ -103,6 +107,36 @@ const AddPetForm = (props: AddPetFormProps) => {
   const lastFormStep = ADD_PET_FORM_STEPS.PET_MEDICAL_INFO;
 
   const handleNextStep = () => {
+    if (currentFormStep === firstFormStep) {
+      const nameErrors = validateField("name", formValues.name);
+      const hasNameErrors = nameErrors.length !== 0;
+
+      if (hasNameErrors) {
+        return;
+      }
+    }
+
+    if (currentFormStep === ADD_PET_FORM_STEPS.PET_CHARACTERISTICS_INFO) {
+      console.log({ title: "FROM ASD" });
+
+      console.log({ w: formValues.weight });
+
+      const weightErrors = validateField("weight", formValues.weight);
+      const heightErrors = validateField("height", formValues.height);
+      const ageErrors = validateField("age", formValues.age);
+      const breedErrors = validateField("breed", formValues.breed);
+
+      const hasSectionErrors =
+        weightErrors.length !== 0 ||
+        heightErrors.length !== 0 ||
+        ageErrors.length !== 0 ||
+        breedErrors.length !== 0;
+
+      if (hasSectionErrors) {
+        return;
+      }
+    }
+
     nextStep();
   };
 
@@ -131,14 +165,16 @@ const AddPetForm = (props: AddPetFormProps) => {
       {currentFormStep === ADD_PET_FORM_STEPS.PET_CHARACTERISTICS_INFO && (
         <>
           <PetDetails
-            weight={weight}
+            weight={formValues.weight}
             setWeight={setWeight}
-            height={height}
+            height={formValues.height}
             setHeight={setHeight}
-            age={age}
+            age={formValues.age}
             setAge={setAge}
-            breed={breed}
+            breed={formValues.breed}
             setBreed={setBreed}
+            handleInputChange={handleInputChange}
+            errors={errors}
           />
         </>
       )}
