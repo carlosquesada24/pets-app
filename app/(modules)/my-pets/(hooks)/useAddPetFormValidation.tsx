@@ -1,17 +1,6 @@
 import { useState } from "react";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
-
-// Funciones de validación para cada campo
-const validateName = (name: string) => {
-  const errors = [];
-  if (name.length < 3) {
-    errors.push("Nombre debe tener más de 3 caracteres");
-  }
-  if (!/^[a-zA-Z]+$/.test(name)) {
-    errors.push("Sólo se permiten letras");
-  }
-  return errors;
-};
+import validations from "../domain/validations";
 
 // Hook personalizado con lógica de validación incluida
 export const useAddPetForm = (initialState: any) => {
@@ -40,15 +29,25 @@ export const useAddPetForm = (initialState: any) => {
 
     switch (name) {
       case "name":
-        newErrors = validateName(value);
+        newErrors = validations.validateName(value);
         break;
-      case "email":
+      case "weight":
+        newErrors = validations.validateWeight(value);
+        break;
+      case "height":
+        newErrors = validations.validateHeight(value);
+        break;
+      case "age":
+        newErrors = validations.validateAge(value);
+        break;
+      case "breed":
+        newErrors = validations.validateBreed(value);
         break;
       default:
         break;
     }
 
-    setErrors((prevErrors) => ({
+    setErrors((prevErrors: any) => ({
       ...prevErrors,
       [name]: newErrors,
     }));
@@ -58,7 +57,7 @@ export const useAddPetForm = (initialState: any) => {
 
   // Función para validar todos los campos
   const validateAll = () => {
-    const nameErrors = validateName(values.name);
+    const nameErrors = validations.validateName(values.name);
 
     setErrors({
       name: nameErrors,
