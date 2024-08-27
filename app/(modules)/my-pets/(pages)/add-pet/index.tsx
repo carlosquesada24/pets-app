@@ -51,7 +51,6 @@ const AddPetView = () => {
       </Text>
 
       <AddPetForm
-        name={name}
         setName={setName}
         weight={weight}
         setWeight={setWeight}

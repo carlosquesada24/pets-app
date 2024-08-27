@@ -90,10 +90,6 @@ const AddPetForm = (props: AddPetFormProps) => {
     breed: "",
   });
 
-  // useEffect(() => {
-  //   console.log({ formValues, errors });
-  // }, [formValues]);
-
   const {
     step: currentFormStep,
     nextStep,
@@ -117,10 +113,6 @@ const AddPetForm = (props: AddPetFormProps) => {
     }
 
     if (currentFormStep === ADD_PET_FORM_STEPS.PET_CHARACTERISTICS_INFO) {
-      console.log({ title: "FROM ASD" });
-
-      console.log({ w: formValues.weight });
-
       const weightErrors = validateField("weight", formValues.weight);
       const heightErrors = validateField("height", formValues.height);
       const ageErrors = validateField("age", formValues.age);
