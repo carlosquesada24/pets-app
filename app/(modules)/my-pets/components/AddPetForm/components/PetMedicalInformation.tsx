@@ -3,38 +3,36 @@ import { StyleSheet, Text, View } from "react-native";
 import DataList from "../../../../../../components/DataList/DataList";
 
 interface PetMedicalInformationProps {
-  diagnosesList: any[];
-  addDiagnose: (item: any) => void;
-  editDiagnose: (id: string, text: string) => void;
+  diagnosesList?: any[];
+  addDiagnose?: (item: any) => void;
 
-  allergiesList: any[];
-  addAllergy: (item: any) => void;
-  editAllergy: (id: string, text: string) => void;
+  allergiesList?: any[];
+  addAllergy?: (item: any) => void;
 
-  medicinesList: any[];
-  addMedicine: (item: any) => void;
-  editMedicine: (id: string, text: string) => void;
+  medicinesList?: any[];
+  addMedicine?: (item: any) => void;
 
-  vaccinesList: any[];
-  addVaccine: (item: any) => void;
-  editVaccine: (id: string, text: string) => void;
+  vaccinesList?: any[];
+  addVaccine?: (item: any) => void;
 }
 
 const PetMedicalInformation = (props: PetMedicalInformationProps) => {
   const {
     diagnosesList,
     addDiagnose,
-    editDiagnose,
 
     allergiesList,
     addAllergy,
+
     medicinesList,
     addMedicine,
+
     vaccinesList,
     addVaccine,
-    editAllergy,
-    editMedicine,
-    editVaccine,
+
+    // editAllergy,
+    // editMedicine,
+    // editVaccine,
   } = props;
 
   return (
@@ -51,27 +49,24 @@ const PetMedicalInformation = (props: PetMedicalInformationProps) => {
       </Text>
       <DataList
         title="Diagnoses"
-        dataList={diagnosesList}
+        dataList={diagnosesList ?? []}
         handleAddItem={addDiagnose}
-        handleEditItem={editDiagnose}
       />
       <DataList
         title="Allergies"
-        dataList={allergiesList}
+        dataList={allergiesList ?? []}
         handleAddItem={addAllergy}
-        handleEditItem={editAllergy}
       />
+
       <DataList
         title="Medicines"
-        dataList={medicinesList}
+        dataList={medicinesList ?? []}
         handleAddItem={addMedicine}
-        handleEditItem={editMedicine}
       />
       <DataList
         title="Vaccines"
-        dataList={vaccinesList}
+        dataList={vaccinesList ?? []}
         handleAddItem={addVaccine}
-        handleEditItem={editVaccine}
       />
     </View>
   );

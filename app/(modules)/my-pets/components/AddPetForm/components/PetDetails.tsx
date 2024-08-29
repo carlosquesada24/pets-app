@@ -2,32 +2,13 @@ import React from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
 interface PetDetailsProps {
-  weight: string;
-  setWeight: (weight: string) => void;
-  height: string;
-  setHeight: (height: string) => void;
-  age: string;
-  setAge: (age: string) => void;
-  breed: string;
-  setBreed: (breed: string) => void;
-
+  formValues: any;
   handleInputChange: Function;
   errors: any;
 }
 
 const PetDetails = (props: PetDetailsProps) => {
-  const {
-    weight,
-    setWeight,
-    height,
-    setHeight,
-    age,
-    setAge,
-    breed,
-    setBreed,
-    handleInputChange,
-    errors,
-  } = props;
+  const { handleInputChange, errors } = props;
 
   return (
     <View>
