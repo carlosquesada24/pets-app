@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text } from "react-native";
 import { usePets } from "../../infrastructure/context/PetsContext";
 import AddPetForm from "../../components/AddPetForm/AddPetForm";
+import { router } from "expo-router";
+import { randomUUID } from "expo-crypto";
 
 const AddPetView = () => {
   const [name, setName] = useState("");
@@ -13,6 +15,7 @@ const AddPetView = () => {
   const {
     newPet,
     addPet,
+    updatePet,
     createNewDiagnose,
     editDiagnose,
     createNewMedicine,
@@ -35,7 +38,6 @@ const AddPetView = () => {
   };
 
   // Handle form submission
-  const handleSubmit = () => {};
 
   return (
     <ScrollView style={{ width: "100%", maxWidth: "100%" }}>
@@ -50,30 +52,7 @@ const AddPetView = () => {
         Agregar mascota
       </Text>
 
-      <AddPetForm
-        setName={setName}
-        weight={weight}
-        setWeight={setWeight}
-        height={height}
-        setHeight={setHeight}
-        age={age}
-        setAge={setAge}
-        breed={breed}
-        setBreed={setBreed}
-        diagnosesList={newPet.details.medical.diagnoses}
-        addDiagnose={addDiagnose}
-        editDiagnose={handleEditDiagnose}
-        allergiesList={newPet.details.medical.allergies}
-        addAllergy={createNewAllergy}
-        editAllergy={editAllergy}
-        medicinesList={newPet.details.medical.medicines}
-        addMedicine={createNewMedicine}
-        editMedicine={editMedicine}
-        vaccinesList={newPet.details.medical.vaccines}
-        addVaccine={createNewVaccine}
-        editVaccine={editVaccine}
-        handleSubmit={handleSubmit}
-      />
+      <AddPetForm />
     </ScrollView>
   );
 };
