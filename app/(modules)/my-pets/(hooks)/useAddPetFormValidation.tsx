@@ -76,6 +76,7 @@ export const useAddPetForm = (initialState: any) => {
 
   return {
     values,
+    setValues,
     errors,
     handleInputChange,
     reset,
