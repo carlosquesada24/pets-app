@@ -12,36 +12,10 @@ import PetMedicalInformation from "./components/PetMedicalInformation";
 import useStepperForm from "../../../../(hooks)/useStepperForm";
 import ButtonsGroup from "./components/ButtonsGroup";
 import { useAddPetForm } from "../../(hooks)/useAddPetFormValidation";
+import { usePets } from "../../infrastructure/context/PetsContext";
+import { router } from "expo-router";
 
-interface AddPetFormProps {
-  setName: (name: string) => void;
-  weight: string;
-  setWeight: (weight: string) => void;
-  height: string;
-  setHeight: (height: string) => void;
-  age: string;
-  setAge: (age: string) => void;
-  breed: string;
-  setBreed: (breed: string) => void;
-
-  diagnosesList: any[];
-  addDiagnose: (item: any) => void;
-  editDiagnose: (id: string, text: string) => void;
-
-  allergiesList: any[];
-  addAllergy: (item: any) => void;
-  editAllergy: (id: string, text: string) => void;
-
-  medicinesList: any[];
-  addMedicine: (item: any) => void;
-  editMedicine: (id: string, text: string) => void;
-
-  vaccinesList: any[];
-  addVaccine: (item: any) => void;
-  editVaccine: (id: string, text: string) => void;
-
-  handleSubmit: () => void;
-}
+interface AddPetFormProps {}
 
 const ADD_PET_FORM_STEPS = {
   PET_BASIC_INFO: 0,
@@ -50,33 +24,11 @@ const ADD_PET_FORM_STEPS = {
 };
 
 const AddPetForm = (props: AddPetFormProps) => {
-  const {
-    setName,
-    weight,
-    setWeight,
-    height,
-    setHeight,
-    age,
-    setAge,
-    breed,
-    setBreed,
-    diagnosesList,
-    addDiagnose,
-    editDiagnose,
-    allergiesList,
-    addAllergy,
-    medicinesList,
-    addMedicine,
-    vaccinesList,
-    addVaccine,
-    handleSubmit,
-    editAllergy,
-    editMedicine,
-    editVaccine,
-  } = props;
+  const { newPet, updatePet } = usePets();
 
   const {
     values: formValues,
+    setValues: setFormValues,
     errors,
     handleInputChange,
     reset,
@@ -88,7 +40,53 @@ const AddPetForm = (props: AddPetFormProps) => {
     height: "",
     age: "",
     breed: "",
+
+    diagnoses: [],
+    allergies: [],
+    vaccines: [],
+    medicines: [],
   });
+
+  const handleAddDiagnose = (item: any) => {
+    console.log("HOLA DESDE handleAddDiagnose");
+    setFormValues({
+      ...formValues,
+      diagnoses: [...formValues.diagnoses, item],
+    });
+  };
+
+  const handleAddMedicalItem = (item: any, target: string) => {
+    setFormValues({
+      ...formValues,
+      [target]: [...formValues[target], item],
+    });
+  };
+
+  const handleEditMedicalItem = (id: string, text: string, target: string) => {
+    const updatedItems = formValues[target].map((item: any) => {
+      if (item.id === id) {
+        return { ...item, text };
+      }
+
+      return item;
+    });
+
+    setFormValues({
+      ...formValues,
+      [target]: updatedItems,
+    });
+  };
+
+  const handleDeleteMedicalItem = (id: string, target: string) => {
+    const updatedItems = formValues[target].filter(
+      (item: any) => item.id !== id
+    );
+
+    setFormValues({
+      ...formValues,
+      [target]: updatedItems,
+    });
+  };
 
   const {
     step: currentFormStep,
@@ -157,14 +155,7 @@ const AddPetForm = (props: AddPetFormProps) => {
       {currentFormStep === ADD_PET_FORM_STEPS.PET_CHARACTERISTICS_INFO && (
         <>
           <PetDetails
-            weight={formValues.weight}
-            setWeight={setWeight}
-            height={formValues.height}
-            setHeight={setHeight}
-            age={formValues.age}
-            setAge={setAge}
-            breed={formValues.breed}
-            setBreed={setBreed}
+            formValues={formValues}
             handleInputChange={handleInputChange}
             errors={errors}
           />
@@ -173,20 +164,7 @@ const AddPetForm = (props: AddPetFormProps) => {
 
       {currentFormStep === ADD_PET_FORM_STEPS.PET_MEDICAL_INFO && (
         <>
-          <PetMedicalInformation
-            diagnosesList={diagnosesList}
-            addDiagnose={addDiagnose}
-            editDiagnose={editDiagnose}
-            allergiesList={allergiesList}
-            addAllergy={addAllergy}
-            editAllergy={editAllergy}
-            medicinesList={medicinesList}
-            addMedicine={addMedicine}
-            editMedicine={editMedicine}
-            vaccinesList={vaccinesList}
-            addVaccine={addVaccine}
-            editVaccine={editVaccine}
-          />
+          <PetMedicalInformation addDiagnose={handleAddDiagnose} />
         </>
       )}
 
