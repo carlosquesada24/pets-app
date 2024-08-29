@@ -20,7 +20,7 @@ const ListItem = ({ item, handleOnAcceptCreation }: ListItemProps) => {
   const [isCreating, IsCreating] = useState<boolean>(item.isCreating);
 
   return (
-    <SafeAreaView key={item.id} style={styles.listItem}>
+    <SafeAreaView style={styles.listItem}>
       <Text style={styles.text}>{item.date}</Text>
       <View style={styles.listItemContent}>
         {isCreating ? (
@@ -45,7 +45,7 @@ const ListItem = ({ item, handleOnAcceptCreation }: ListItemProps) => {
           </View>
         ) : (
           <Text style={styles.text}>
-            {formatTextPreview(item.name ?? item.text ?? "", 25)}
+            {formatTextPreview(item?.name ?? item?.text ?? "", 25)}
           </Text>
         )}
       </View>

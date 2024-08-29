@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CustomButton from "../Button";
 import ListItem from "./components/ListItem/ListItem";
+import { formatDate } from "../../app/utils/date";
+import { randomUUID } from "expo-crypto";
 
 interface DataListProps {
   dataList: any[];
@@ -26,16 +28,42 @@ const DataList = ({
 }: DataListProps) => {
   const [list, setList] = useState<any[]>(dataList);
 
-  useEffect(() => {
-    setList(dataList);
-  }, [dataList]);
-
   const handleAddItemPress = () => {
-    handleAddItem();
+    // handleAddItem();
+
+    setList([
+      ...list,
+      {
+        id: randomUUID(),
+        date: formatDate(new Date()),
+        text: "",
+        isCreating: true,
+      },
+    ]);
   };
 
   const handleOnAcceptCreation = (id: any, text: string) => {
-    handleEditItem(id, text);
+    const foundItem = list.find((item) => item.id === id);
+
+    const editedItem = {
+      ...foundItem,
+      text,
+      isCreating: false,
+    };
+
+    const updatedList = list.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          ...editedItem,
+        };
+      }
+      return item;
+    });
+
+    setList(updatedList);
+
+    handleAddItem(editedItem);
   };
 
   return (
@@ -54,6 +82,7 @@ const DataList = ({
           list.map((item) => {
             return (
               <ListItem
+                key={randomUUID()}
                 item={item}
                 handleOnAcceptCreation={handleOnAcceptCreation}
               />
