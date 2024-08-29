@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Dimensions, StyleSheet, Text, TextInput, View } from "react-native";
 import PetDetails from "./components/PetDetails";
 import PetMedicalInformation from "./components/PetMedicalInformation";
@@ -45,6 +45,24 @@ const AddPetForm = (props: AddPetFormProps) => {
     });
   };
 
+  const handleEditDiagnose = (item: any) => {
+    setFormValues({
+      ...formValues,
+      diagnoses: [...formValues.diagnoses, item],
+    });
+  };
+
+  const handleDeleteDiagnose = (id: string) => {
+    const updatedItems = formValues.diagnoses.filter(
+      (item: any) => item.id !== id
+    );
+
+    setFormValues({
+      ...formValues,
+      diagnoses: updatedItems,
+    });
+  };
+
   const handleAddAllergy = (item: any) => {
     setFormValues({
       ...formValues,
@@ -63,24 +81,6 @@ const AddPetForm = (props: AddPetFormProps) => {
     setFormValues({
       ...formValues,
       medicines: [...formValues.medicines, item],
-    });
-  };
-
-  const handleEditDiagnose = (item: any, target: string) => {
-    setFormValues({
-      ...formValues,
-      [target]: [...formValues[target], item],
-    });
-  };
-
-  const handleDeleteDiagnose = (id: string, target: string) => {
-    const updatedItems = formValues[target].filter(
-      (item: any) => item.id !== id
-    );
-
-    setFormValues({
-      ...formValues,
-      [target]: updatedItems,
     });
   };
 
@@ -162,6 +162,8 @@ const AddPetForm = (props: AddPetFormProps) => {
         <>
           <PetMedicalInformation
             addDiagnose={handleAddDiagnose}
+            editDiagnose={handleEditDiagnose}
+            deleteDiagnose={handleDeleteDiagnose}
             addAllergy={handleAddAllergy}
             addVaccine={handleAddVaccine}
             addMedicine={handleAddMedicine}

@@ -10,6 +10,7 @@ interface DataListProps {
   title: string;
   handleAddItem: any;
   handleEditItem?: any;
+  handleDeleteItem?: any;
 }
 
 interface ListItem {
@@ -25,12 +26,11 @@ const DataList = ({
   title,
   handleAddItem,
   handleEditItem,
+  handleDeleteItem,
 }: DataListProps) => {
   const [list, setList] = useState<any[]>(dataList);
 
   const handleAddItemPress = () => {
-    // handleAddItem();
-
     setList([
       ...list,
       {
@@ -66,6 +66,28 @@ const DataList = ({
     handleAddItem(editedItem);
   };
 
+  const handleOnEditListItem = (id: string) => {
+    const updatedList = list.map((listItem) => {
+      if (listItem.id === id) {
+        console.log({ listItem });
+        return {
+          ...listItem,
+          isEditing: true,
+        };
+      }
+      return listItem;
+    });
+
+    setList(updatedList);
+  };
+
+  const handleOnDeleteListItem = (listItemId: string) => {
+    const updatedList = list.filter((listItem) => listItem.id !== listItemId);
+
+    setList(updatedList);
+    handleDeleteItem(listItemId);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -85,6 +107,9 @@ const DataList = ({
                 key={randomUUID()}
                 item={item}
                 handleOnAcceptCreation={handleOnAcceptCreation}
+                handleOnEditListItem={handleOnEditListItem}
+                handleOnAcceptEditListItem={handleEditItem}
+                handleOnDeleteListItem={handleOnDeleteListItem}
               />
             );
           })

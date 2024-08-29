@@ -13,9 +13,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 interface ListItemProps {
   item: any;
   handleOnAcceptCreation: Function;
+  handleOnEditListItem: Function;
+  handleOnAcceptEditListItem: Function;
+  handleOnDeleteListItem: Function;
 }
 
-const ListItem = ({ item, handleOnAcceptCreation }: ListItemProps) => {
+const ListItem = ({
+  item,
+  handleOnAcceptCreation,
+  handleOnEditListItem,
+  handleOnAcceptEditListItem,
+  handleOnDeleteListItem,
+}: ListItemProps) => {
   const [textInput, setTextInput] = useState("");
   const [isCreating, IsCreating] = useState<boolean>(item.isCreating);
 
@@ -30,7 +39,7 @@ const ListItem = ({ item, handleOnAcceptCreation }: ListItemProps) => {
               placeholder="Texto..."
               placeholderTextColor="#a3a2a2"
               multiline={true}
-              onChange={(e) => setTextInput(e.nativeEvent.text)}
+              onChangeText={(text) => setTextInput(text)}
             />
 
             <Pressable
@@ -44,9 +53,29 @@ const ListItem = ({ item, handleOnAcceptCreation }: ListItemProps) => {
             </Pressable>
           </View>
         ) : (
-          <Text style={styles.text}>
-            {formatTextPreview(item?.name ?? item?.text ?? "", 25)}
-          </Text>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.text}>
+              {formatTextPreview(item?.name ?? item?.text ?? "", 25)}
+            </Text>
+
+            <Pressable
+              style={{ backgroundColor: "#666", padding: 8 }}
+              onPress={() => handleOnEditListItem(item.id)}
+            >
+              <Text style={styles.text}>Edit</Text>
+            </Pressable>
+
+            <Pressable
+              style={{ backgroundColor: "#666", padding: 8 }}
+              onPress={() => {
+                handleOnDeleteListItem(item.id);
+              }}
+            >
+              <Text style={styles.text}>Delete</Text>
+            </Pressable>
+          </View>
         )}
       </View>
     </SafeAreaView>
