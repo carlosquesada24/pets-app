@@ -12,18 +12,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ListItemProps {
   item: any;
-  handleOnAcceptCreation: Function;
-  handleOnEditListItem: Function;
-  handleOnAcceptEditListItem: Function;
-  handleOnDeleteListItem: Function;
+  onAcceptEdition: Function;
+  onEditListItem: Function;
+  handleEditListItem: Function;
+  onDeleteListItem: Function;
 }
 
 const ListItem = ({
   item,
-  handleOnAcceptCreation,
-  handleOnEditListItem,
-  handleOnAcceptEditListItem,
-  handleOnDeleteListItem,
+  onAcceptEdition,
+  onEditListItem,
+  handleEditListItem,
+  onDeleteListItem,
 }: ListItemProps) => {
   const [textInput, setTextInput] = useState("");
   const [isCreating, IsCreating] = useState<boolean>(item.isCreating);
@@ -45,7 +45,7 @@ const ListItem = ({
             <Pressable
               style={{ backgroundColor: "#666", padding: 8 }}
               onPress={() => {
-                handleOnAcceptCreation(item.id, textInput);
+                onAcceptEdition(item.id, textInput);
                 IsCreating(false);
               }}
             >
@@ -62,7 +62,7 @@ const ListItem = ({
 
             <Pressable
               style={{ backgroundColor: "#666", padding: 8 }}
-              onPress={() => handleOnEditListItem(item.id)}
+              onPress={() => onEditListItem(item.id)}
             >
               <Text style={styles.text}>Edit</Text>
             </Pressable>
@@ -70,7 +70,7 @@ const ListItem = ({
             <Pressable
               style={{ backgroundColor: "#666", padding: 8 }}
               onPress={() => {
-                handleOnDeleteListItem(item.id);
+                onDeleteListItem(item.id);
               }}
             >
               <Text style={styles.text}>Delete</Text>

@@ -106,10 +106,10 @@ const DataList = ({
               <ListItem
                 key={randomUUID()}
                 item={item}
-                handleOnAcceptCreation={onAcceptEdition}
-                handleOnEditListItem={onEditListItem}
-                handleOnAcceptEditListItem={handleEditItem} // Revisar
-                handleOnDeleteListItem={onDeleteListItem}
+                onAcceptEdition={onAcceptEdition}
+                onEditListItem={onEditListItem}
+                handleEditListItem={handleEditItem} // Revisar
+                onDeleteListItem={onDeleteListItem}
               />
             );
           })
