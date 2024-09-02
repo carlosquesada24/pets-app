@@ -4,39 +4,41 @@ import DataList from "../../../../../../components/DataList/DataList";
 
 interface PetMedicalInformationProps {
   diagnosesList?: any[];
-  addDiagnose?: (item: any) => void;
-  editDiagnose?: (id: string, text: string) => void;
-  deleteDiagnose?: (id: any) => void;
-
   allergiesList?: any[];
-  addAllergy?: (item: any) => void;
-
   medicinesList?: any[];
-  addMedicine?: (item: any) => void;
-
   vaccinesList?: any[];
-  addVaccine?: (item: any) => void;
+
+  medicalHandlers: {
+    diagnoses: {
+      addDiagnose: (item: any) => void;
+      editDiagnose: (id: string, text: string) => void;
+      deleteDiagnose: (id: any) => void;
+    };
+    allergies: {
+      addAllergy: (item: any) => void;
+      editAllergy: (id: string, text: string) => void;
+      deleteAllergy: (id: any) => void;
+    };
+    medicines: {
+      addMedicine: (item: any) => void;
+      editMedicine: (id: string, text: string) => void;
+      deleteMedicine: (id: any) => void;
+    };
+    vaccines: {
+      addVaccine: (item: any) => void;
+      editVaccine: (id: string, text: string) => void;
+      deleteVaccine: (id: any) => void;
+    };
+  };
 }
 
 const PetMedicalInformation = (props: PetMedicalInformationProps) => {
   const {
-    diagnosesList,
-    addDiagnose,
-    editDiagnose,
-    deleteDiagnose,
-
     allergiesList,
-    addAllergy,
-
+    diagnosesList,
     medicinesList,
-    addMedicine,
-
     vaccinesList,
-    addVaccine,
-
-    // editAllergy,
-    // editMedicine,
-    // editVaccine,
+    medicalHandlers,
   } = props;
 
   return (
@@ -54,25 +56,25 @@ const PetMedicalInformation = (props: PetMedicalInformationProps) => {
       <DataList
         title="Diagnoses"
         dataList={diagnosesList ?? []}
-        handleAddItem={addDiagnose}
-        handleEditItem={editDiagnose}
-        handleDeleteItem={deleteDiagnose}
+        handleAddItem={medicalHandlers.diagnoses.addDiagnose}
+        handleEditItem={medicalHandlers.diagnoses.editDiagnose}
+        handleDeleteItem={medicalHandlers.diagnoses.deleteDiagnose}
       />
       <DataList
         title="Allergies"
         dataList={allergiesList ?? []}
-        handleAddItem={addAllergy}
+        handleAddItem={medicalHandlers.allergies.addAllergy}
       />
 
       <DataList
         title="Medicines"
         dataList={medicinesList ?? []}
-        handleAddItem={addMedicine}
+        handleAddItem={medicalHandlers.medicines.addMedicine}
       />
       <DataList
         title="Vaccines"
         dataList={vaccinesList ?? []}
-        handleAddItem={addVaccine}
+        handleAddItem={medicalHandlers.vaccines.addVaccine}
       />
     </View>
   );
