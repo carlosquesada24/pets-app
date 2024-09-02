@@ -25,14 +25,14 @@ const ListItem = ({
   handleEditListItem,
   onDeleteListItem,
 }: ListItemProps) => {
-  const [textInput, setTextInput] = useState("");
-  const [isCreating, IsCreating] = useState<boolean>(item.isCreating);
+  const [textInput, setTextInput] = useState(item?.name ?? item?.text ?? "");
+  const [isEditing, setIsEditing] = useState<boolean>(item.isEditing);
 
   return (
     <SafeAreaView style={styles.listItem}>
       <Text style={styles.text}>{item.date}</Text>
       <View style={styles.listItemContent}>
-        {isCreating ? (
+        {isEditing ? (
           <View style={styles.listItemEditLine}>
             <TextInput
               style={styles.input}
@@ -40,13 +40,14 @@ const ListItem = ({
               placeholderTextColor="#a3a2a2"
               multiline={true}
               onChangeText={(text) => setTextInput(text)}
+              value={textInput}
             />
 
             <Pressable
               style={{ backgroundColor: "#666", padding: 8 }}
               onPress={() => {
                 onAcceptEdition(item.id, textInput);
-                IsCreating(false);
+                setIsEditing(false);
               }}
             >
               <Text style={styles.text}>{"=>"}</Text>

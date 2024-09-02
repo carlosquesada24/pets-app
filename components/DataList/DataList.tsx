@@ -21,6 +21,14 @@ interface ListItem {
   isCreating?: boolean;
 }
 
+type ListItemModes = "CREATING" | "EDITING" | "VIEWING";
+
+const LIST_ITEM_MODES = {
+  CREATING: "CREATING",
+  EDITING: "EDITING",
+  VIEWING: "VIEWING",
+};
+
 const DataList = ({
   dataList,
   title,
@@ -29,15 +37,19 @@ const DataList = ({
   handleDeleteItem,
 }: DataListProps) => {
   const [list, setList] = useState<any[]>(dataList);
+  const [listItemModes, setListItemModes] = useState<ListItemModes>("VIEWING");
+  const isListItemOnEditMode = listItemModes === "EDITING";
 
   const onAddNewListItem = () => {
+    setListItemModes("CREATING");
+
     setList([
       ...list,
       {
         id: randomUUID(),
         date: formatDate(new Date()),
         text: "",
-        isCreating: true,
+        isEditing: true,
       },
     ]);
   };
@@ -48,7 +60,7 @@ const DataList = ({
     const editedItem = {
       ...foundItem,
       text,
-      isCreating: false,
+      isEditing: false,
     };
 
     const updatedList = list.map((item) => {
@@ -61,12 +73,17 @@ const DataList = ({
       return item;
     });
 
+    setListItemModes("VIEWING");
     setList(updatedList);
 
-    handleAddItem(editedItem);
+    isListItemOnEditMode
+      ? handleEditItem(editedItem)
+      : handleAddItem(editedItem);
   };
 
   const onEditListItem = (id: string) => {
+    setListItemModes("EDITING");
+
     const updatedList = list.map((listItem) => {
       if (listItem.id === id) {
         console.log({ listItem });
