@@ -86,7 +86,6 @@ const DataList = ({
 
     const updatedList = list.map((listItem) => {
       if (listItem.id === id) {
-        console.log({ listItem });
         return {
           ...listItem,
           isEditing: true,
