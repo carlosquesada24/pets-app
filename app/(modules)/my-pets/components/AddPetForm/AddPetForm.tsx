@@ -219,12 +219,10 @@ const AddPetForm = (props: AddPetFormProps) => {
       {currentFormStep === ADD_PET_FORM_STEPS.PET_MEDICAL_INFO && (
         <>
           <PetMedicalInformation
-            addDiagnose={handleAddDiagnose}
-            editDiagnose={handleEditDiagnose}
-            deleteDiagnose={handleDeleteDiagnose}
-            addAllergy={handleAddAllergy}
-            addVaccine={handleAddVaccine}
-            addMedicine={handleAddMedicine}
+            diagnosesList={formValues.diagnoses}
+            allergiesList={formValues.allergies}
+            medicinesList={formValues.medicines}
+            vaccinesList={formValues.vaccines}
             medicalHandlers={medicalHandlers}
           />
         </>
