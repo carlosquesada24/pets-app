@@ -70,6 +70,17 @@ const AddPetForm = (props: AddPetFormProps) => {
     });
   };
 
+  const handleDeleteAllergy = (id: string) => {
+    const updatedItems = formValues.allergies.filter(
+      (item: any) => item.id !== id
+    );
+
+    setFormValues({
+      ...formValues,
+      allergies: updatedItems,
+    });
+  };
+
   const handleAddVaccine = (item: any) => {
     setFormValues({
       ...formValues,
@@ -77,10 +88,32 @@ const AddPetForm = (props: AddPetFormProps) => {
     });
   };
 
+  const handleDeleteVaccine = (id: string) => {
+    const updatedItems = formValues.vaccines.filter(
+      (item: any) => item.id !== id
+    );
+
+    setFormValues({
+      ...formValues,
+      vaccines: updatedItems,
+    });
+  };
+
   const handleAddMedicine = (item: any) => {
     setFormValues({
       ...formValues,
       medicines: [...formValues.medicines, item],
+    });
+  };
+
+  const handleDeleteMedicine = (id: string) => {
+    const updatedItems = formValues.medicines.filter(
+      (item: any) => item.id !== id
+    );
+
+    setFormValues({
+      ...formValues,
+      medicines: updatedItems,
     });
   };
 
@@ -126,6 +159,31 @@ const AddPetForm = (props: AddPetFormProps) => {
     nextStep();
   };
 
+  const medicalHandlers = {
+    diagnoses: {
+      addDiagnose: handleAddDiagnose,
+      editDiagnose: handleEditDiagnose,
+      deleteDiagnose: handleDeleteDiagnose,
+    },
+    allergies: {
+      addAllergy: handleAddAllergy,
+      editAllergy: handleAddAllergy,
+      deleteAllergy: handleDeleteAllergy,
+    },
+    medicines: {
+      addMedicine: handleAddMedicine,
+      editMedicine: handleAddMedicine,
+      deleteMedicine: handleDeleteMedicine,
+    },
+    vaccines: {
+      addVaccine: handleAddVaccine,
+      editVaccine: handleAddVaccine,
+      deleteVaccine: handleDeleteVaccine,
+    },
+  };
+
+  const handleSubmit = () => {};
+
   return (
     <View style={{ height: Dimensions.get("window").height }}>
       {currentFormStep === ADD_PET_FORM_STEPS.PET_BASIC_INFO && (
@@ -167,6 +225,7 @@ const AddPetForm = (props: AddPetFormProps) => {
             addAllergy={handleAddAllergy}
             addVaccine={handleAddVaccine}
             addMedicine={handleAddMedicine}
+            medicalHandlers={medicalHandlers}
           />
         </>
       )}
