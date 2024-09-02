@@ -30,7 +30,7 @@ const DataList = ({
 }: DataListProps) => {
   const [list, setList] = useState<any[]>(dataList);
 
-  const handleAddItemPress = () => {
+  const onAddNewListItem = () => {
     setList([
       ...list,
       {
@@ -42,7 +42,7 @@ const DataList = ({
     ]);
   };
 
-  const handleOnAcceptCreation = (id: any, text: string) => {
+  const onAcceptEdition = (id: any, text: string) => {
     const foundItem = list.find((item) => item.id === id);
 
     const editedItem = {
@@ -66,7 +66,7 @@ const DataList = ({
     handleAddItem(editedItem);
   };
 
-  const handleOnEditListItem = (id: string) => {
+  const onEditListItem = (id: string) => {
     const updatedList = list.map((listItem) => {
       if (listItem.id === id) {
         console.log({ listItem });
@@ -81,7 +81,7 @@ const DataList = ({
     setList(updatedList);
   };
 
-  const handleOnDeleteListItem = (listItemId: string) => {
+  const onDeleteListItem = (listItemId: string) => {
     const updatedList = list.filter((listItem) => listItem.id !== listItemId);
 
     setList(updatedList);
@@ -96,7 +96,7 @@ const DataList = ({
           customStyles={styles.customButton}
           type="primary"
           text="+"
-          onPress={handleAddItemPress}
+          onPress={onAddNewListItem}
         />
       </View>
       <View style={styles.list}>
@@ -106,10 +106,10 @@ const DataList = ({
               <ListItem
                 key={randomUUID()}
                 item={item}
-                handleOnAcceptCreation={handleOnAcceptCreation}
-                handleOnEditListItem={handleOnEditListItem}
-                handleOnAcceptEditListItem={handleEditItem}
-                handleOnDeleteListItem={handleOnDeleteListItem}
+                handleOnAcceptCreation={onAcceptEdition}
+                handleOnEditListItem={onEditListItem}
+                handleOnAcceptEditListItem={handleEditItem} // Revisar
+                handleOnDeleteListItem={onDeleteListItem}
               />
             );
           })
