@@ -6,7 +6,7 @@ import useStepperForm from "../../../../(hooks)/useStepperForm";
 import ButtonsGroup from "./components/ButtonsGroup";
 import { useAddPetForm } from "../../(hooks)/useAddPetFormValidation";
 import { usePets } from "../../infrastructure/context/PetsContext";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 
 interface AddPetFormProps {}
 
@@ -17,7 +17,7 @@ const ADD_PET_FORM_STEPS = {
 };
 
 const AddPetForm = (props: AddPetFormProps) => {
-  const { newPet, updatePet } = usePets();
+  const { newPet, updatePet, addPet, getAllPets, getPetById } = usePets();
 
   const {
     values: formValues,
@@ -37,6 +37,8 @@ const AddPetForm = (props: AddPetFormProps) => {
     vaccines: [],
     medicines: [],
   });
+
+  const router = useRouter();
 
   const handleAddDiagnose = (item: any) => {
     setFormValues({
@@ -182,7 +184,13 @@ const AddPetForm = (props: AddPetFormProps) => {
     },
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    addPet(formValues);
+
+    getAllPets();
+
+    router.push("/my-pets");
+  };
 
   return (
     <View style={{ height: Dimensions.get("window").height }}>
