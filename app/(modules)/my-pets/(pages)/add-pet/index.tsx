@@ -26,9 +26,7 @@ const AddPetView = () => {
     editVaccine,
   } = usePets();
 
-  useEffect(() => {
-    addPet();
-  }, []);
+  useEffect(() => {}, []);
 
   const addDiagnose = (diagnose: any) => {
     createNewDiagnose();
