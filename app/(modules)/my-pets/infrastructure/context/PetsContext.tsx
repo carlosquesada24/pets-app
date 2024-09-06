@@ -3,16 +3,26 @@ import { PET_EMPTY_STATE, PET_LIST_DEFAULT_STATE } from "../../domain/data";
 import {
   Allergy,
   Diagnosis,
+  FormPet,
   Medicine,
   Pet,
   Vaccine,
 } from "../../domain/interface";
 import { randomUUID } from "expo-crypto";
+import { useSQLiteContext } from "expo-sqlite";
+import {
+  getAllPetsFromSQLite,
+  savePetIntoSQLite,
+  updatePetIntoSQLite,
+} from "../repositories/petsRepository";
+import { petAdapter } from "../adapters/petAdapter";
 
 interface PetsContextData {
   petsList: any[];
   newPet: Pet;
-  addPet: () => void;
+  getAllPets: () => void;
+  addPet: (formValues: FormPet) => void;
+  updatePet: (updatedPet: any) => void;
 
   createNewDiagnose: () => void;
   editDiagnose: (id: string, text: string) => void;
@@ -30,7 +40,9 @@ interface PetsContextData {
 export const PetsContext = createContext<PetsContextData>({
   petsList: [],
   newPet: PET_EMPTY_STATE,
+  getAllPets: () => {},
   addPet: () => {},
+  updatePet: (updatedPet: any) => {},
 
   createNewDiagnose: () => {},
   editDiagnose: (id: string, text: string) => {},
@@ -49,17 +61,42 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
   const [petsList, setPetsList] = useState<any[]>(PET_LIST_DEFAULT_STATE);
   const [newPet, setNewPet] = useState<Pet>(PET_EMPTY_STATE);
 
-  const addPet = () => {
-    const newPet: Pet = {
-      id: randomUUID(),
-      name: "",
-      creationDate: "17/08/2024",
-      photoURL: "",
-      isCreating: true,
-      details: PET_EMPTY_STATE.details,
+  const db = useSQLiteContext();
+
+  useEffect(() => {}, [newPet]);
+
+  const getAllPets = () => {
+    getAllPetsFromSQLite(db)
+      .then((result: any) => {
+        console.log({ result });
+      })
+      .catch((err: any) => {
+        console.log({ err });
+      });
+  };
+
+  const addPet = async (formValues: any) => {
+    const petToSave = petAdapter(formValues);
+
+    const id = await savePetIntoSQLite(petToSave, db);
+
+    setNewPet({
+      ...petToSave,
+      id: id.toString(),
+    });
+  };
+
+  const updatePet = async (updatedPet: any) => {
+    const petToSave = {
+      ...updatePet,
+      isCreating: false,
+      details: PET_LIST_DEFAULT_STATE[0].details,
     };
 
-    setNewPet(newPet);
+    await updatePetIntoSQLite(petToSave as Pet, newPet.id, db);
+
+    setNewPet(PET_EMPTY_STATE);
+    setPetsList([...petsList, updatedPet]);
   };
 
   const createNewDiagnose = () => {
@@ -75,7 +112,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
               id: randomUUID(),
               date: "19/08/2024",
               text: "New Diagnose",
-              isCreating: true,
+              isEditing: true,
             },
           ],
         },
@@ -90,7 +127,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
     const updatedDiagnose: Diagnosis = {
       ...diagnosesListFound,
       text,
-      isCreating: false,
+      isEditing: false,
     };
 
     const newDiagosesList = newPet.details.medical.diagnoses.map((diagnose) =>
@@ -124,7 +161,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
               name: "New Diagnose",
               dosage: "",
               frequency: "",
-              isCreating: true,
+              isEditing: true,
             },
           ],
         },
@@ -139,7 +176,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
     const updatedMedicine: Medicine = {
       ...medicinesListFound,
       name: text,
-      isCreating: false,
+      isEditing: false,
     };
 
     const newMedicinesList = newPet.details.medical.medicines.map((medicine) =>
@@ -171,7 +208,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
               id: randomUUID(),
               date: "19/08/2024",
               name: "New Diagnose",
-              isCreating: true,
+              isEditing: true,
             },
           ],
         },
@@ -186,7 +223,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
     const updatedVaccine: Vaccine = {
       ...vaccinesListFound,
       name: text,
-      isCreating: false,
+      isEditing: false,
     };
 
     const newVaccinesList = newPet.details.medical.vaccines.map((vaccine) =>
@@ -218,7 +255,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
               id: randomUUID(),
               date: "19/08/2024",
               name: "New Diagnose",
-              isCreating: true,
+              isEditing: true,
             },
           ],
         },
@@ -233,7 +270,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
     const updatedAllergy: Allergy = {
       ...allergiesListFound,
       name: text,
-      isCreating: false,
+      isEditing: false,
     };
 
     const newAllergiesList = newPet.details.medical.allergies.map((allergy) =>
@@ -255,7 +292,9 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
   const contextValue = {
     petsList,
     newPet,
+    getAllPets,
     addPet,
+    updatePet,
 
     createNewDiagnose,
     editDiagnose,
