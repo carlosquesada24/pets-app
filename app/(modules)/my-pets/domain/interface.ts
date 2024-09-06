@@ -2,14 +2,14 @@ export interface Diagnosis {
     id: string;
     date: string;
     text: string;
-    isCreating: boolean;
+    isEditing: boolean;
 }
 
 export interface Allergy {
     id: string
     date: string;
     name: string;
-    isCreating: boolean;
+    isEditing: boolean;
 }
 
 export interface Medicine {
@@ -18,14 +18,14 @@ export interface Medicine {
     name: string;
     dosage: string;
     frequency: string;
-    isCreating: boolean;
+    isEditing: boolean;
 }
 
 export interface Vaccine {
     id: string
     name: string;
     date: string;
-    isCreating: boolean;
+    isEditing: boolean;
 }
 
 export interface Medical {
@@ -54,4 +54,26 @@ export interface Pet {
     isCreating: boolean
     creationDate: string
     details: PetDetails;
+}
+
+export interface FormPet {
+    name: string
+    weight: string
+    height: string
+    age: string
+    breed: string
+
+    photoURL: string
+
+    diagnoses: DataListItem[],
+    allergies: DataListItem[],
+    vaccines: DataListItem[],
+    medicines: DataListItem[],
+}
+
+export interface DataListItem {
+    id: string;
+    date: string;
+    text: string;
+    isEditing: boolean
 }
