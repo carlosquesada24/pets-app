@@ -9,14 +9,23 @@ export const getAllPetsFromSQLite = async (db: SQLiteDatabase) => {
 }
 
 export const getPetByIdFromSQLite = async (id: string, db: SQLiteDatabase) => {
-    const result = await db.getFirstAsync("SELECT * FROM Pets WHERE id = ?", [id]);
+    const result: any = await db.getFirstAsync("SELECT * FROM Pets WHERE id = ?", [id]);
 
-    return result;
+    if (result[0].rows.length > 0) {
+        const pet = result[0].rows.item(0);
+        console.log('Pet found:', pet);
+        return pet;
+    } else {
+        console.log('No pet found with this id');
+        return null;
+    }
+
+    // return result;
 };
 
 export const savePetIntoSQLite = async (pet: Pet, db: SQLiteDatabase) => {
     const result = await db.runAsync(
-        `INSERT INTO Pets (Pets.name, Pets.weight, Pets.height, Pets.breed, Pets.age, Pets.photoURL, Pets.isActive, Pets.createdAt, Pets.updatedAt)
+        `INSERT INTO Pets (name, weight, height, breed, age, photoURL, isActive, createdAt, updatedAt)
         VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))`,
         [
             pet.name,

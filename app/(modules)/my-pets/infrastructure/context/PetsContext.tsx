@@ -12,6 +12,7 @@ import { randomUUID } from "expo-crypto";
 import { useSQLiteContext } from "expo-sqlite";
 import {
   getAllPetsFromSQLite,
+  getPetByIdFromSQLite,
   savePetIntoSQLite,
   updatePetIntoSQLite,
 } from "../repositories/petsRepository";
@@ -21,6 +22,7 @@ interface PetsContextData {
   petsList: any[];
   newPet: Pet;
   getAllPets: () => void;
+  getPetById: (id: string) => void;
   addPet: (formValues: FormPet) => void;
   updatePet: (updatedPet: any) => void;
 
@@ -41,6 +43,7 @@ export const PetsContext = createContext<PetsContextData>({
   petsList: [],
   newPet: PET_EMPTY_STATE,
   getAllPets: () => {},
+  getPetById: (id: string) => {},
   addPet: () => {},
   updatePet: (updatedPet: any) => {},
 
@@ -63,20 +66,30 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
 
   const db = useSQLiteContext();
 
-  useEffect(() => {}, [newPet]);
+  useEffect(() => {
+    getAllPets();
+  }, [newPet]);
 
   const getAllPets = () => {
     getAllPetsFromSQLite(db)
       .then((result: any) => {
-        console.log({ result });
+        setPetsList(result);
       })
       .catch((err: any) => {
         console.log({ err });
       });
   };
 
+  const getPetById = (id: string) => {
+    getPetByIdFromSQLite(id, db);
+  };
+
   const addPet = async (formValues: any) => {
-    const petToSave = petAdapter(formValues);
+    const petToSave = petAdapter({
+      ...formValues,
+      photoURL:
+        "https://ichef.bbci.co.uk/ace/ws/640/cpsprodpb/15665/production/_107435678_perro1.jpg.webp",
+    });
 
     const id = await savePetIntoSQLite(petToSave, db);
 
@@ -293,6 +306,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
     petsList,
     newPet,
     getAllPets,
+    getPetById,
     addPet,
     updatePet,
 
