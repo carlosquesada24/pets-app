@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { View, Text, Image } from "react-native";
 import CustomButton from "../../../components/Button";
 import PetsGrid from "./components/PetsGrid/PetsGrid";
@@ -11,7 +11,7 @@ const Index = () => {
   const { petsList } = usePets();
 
   return (
-    <View>
+    <ScrollView>
       <View style={styles.header}>
         <Text style={{ ...styles.text, ...styles.title }}>Mis mascotas</Text>
 
@@ -19,7 +19,7 @@ const Index = () => {
       </View>
 
       <PetsGrid petsList={petsList} />
-    </View>
+    </ScrollView>
   );
 };
 
