@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { Link, useLocalSearchParams } from "expo-router";
@@ -10,14 +10,26 @@ import DataList from "../../../../components/DataList/DataList";
 import { capitalizeFirstLetter } from "../../../utils/string";
 
 const PetDetailsView = () => {
+  const [foundPet, setFoundPet] = useState<any>();
+
   const { id } = useLocalSearchParams();
 
-  const { petsList } = usePets();
+  const { petsList, getPetById } = usePets();
 
-  const foundPet = petsList[0] as Pet;
+  useEffect(() => {
+    const handleGetPetById = async () => {
+      const pet = await getPetById(
+        typeof id === "string" ? parseInt(id) : parseInt(id[0], 10)
+      );
+
+      setFoundPet(pet);
+    };
+
+    handleGetPetById();
+  }, []);
 
   const informationDetailsEntries = Object.entries(
-    foundPet.details.information
+    foundPet?.details?.information ?? {}
   );
 
   return (
@@ -28,7 +40,7 @@ const PetDetailsView = () => {
             {"<"}
           </Link>
           <Text style={{ ...styles.text, ...styles.pageTitle }}>
-            {foundPet.name}
+            {foundPet?.name ?? "Not found"}
           </Text>
         </View>
 
@@ -40,7 +52,7 @@ const PetDetailsView = () => {
         />
       </View>
       <Image
-        source={{ uri: foundPet.photoURL }}
+        source={{ uri: foundPet?.photoURL }}
         style={{ marginBottom: 12 }}
         width={360}
         height={360}
@@ -67,7 +79,7 @@ const PetDetailsView = () => {
                 {capitalizeFirstLetter(key)}
               </Text>
               <Text style={{ ...styles.text, ...styles.detailsInfo }}>
-                {capitalizeFirstLetter(value)}
+                {capitalizeFirstLetter(value as string)}
               </Text>
             </View>
           ))}
@@ -84,7 +96,7 @@ const PetDetailsView = () => {
           Medical
         </Text>
         <View>
-          <DataList
+          {/* <DataList
             title="Diagnoses"
             dataList={foundPet.details.medical.diagnoses}
           />
@@ -99,7 +111,7 @@ const PetDetailsView = () => {
           <DataList
             title="Vaccines"
             dataList={foundPet.details.medical.vaccines}
-          />
+          /> */}
         </View>
       </View>
     </ScrollView>
