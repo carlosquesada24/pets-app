@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Dimensions, StyleSheet, Text, TextInput, View } from "react-native";
+import React from "react";
+import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import PetDetails from "./components/PetDetails";
 import PetMedicalInformation from "./components/PetMedicalInformation";
 import useStepperForm from "../../../../(hooks)/useStepperForm";
@@ -17,7 +17,7 @@ const ADD_PET_FORM_STEPS = {
 };
 
 const AddPetForm = (props: AddPetFormProps) => {
-  const { newPet, updatePet, addPet, getAllPets, getPetById } = usePets();
+  const { addPet, getAllPets } = usePets();
 
   const {
     values: formValues,
@@ -193,7 +193,7 @@ const AddPetForm = (props: AddPetFormProps) => {
   };
 
   return (
-    <View style={{ height: Dimensions.get("window").height }}>
+    <ScrollView>
       {currentFormStep === ADD_PET_FORM_STEPS.PET_BASIC_INFO && (
         <>
           <View>
@@ -244,7 +244,7 @@ const AddPetForm = (props: AddPetFormProps) => {
         nextStep={handleNextStep}
         handleSubmit={handleSubmit}
       />
-    </View>
+    </ScrollView>
   );
 };
 
