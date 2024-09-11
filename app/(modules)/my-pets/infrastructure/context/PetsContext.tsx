@@ -16,13 +16,13 @@ import {
   savePetIntoSQLite,
   updatePetIntoSQLite,
 } from "../repositories/petsRepository";
-import { petAdapter } from "../adapters/petAdapter";
+import { formPetToPetAdapter } from "../adapters/petAdapter";
 
 interface PetsContextData {
   petsList: any[];
   newPet: Pet;
   getAllPets: () => void;
-  getPetById: (id: string) => void;
+  getPetById: (id: number) => Promise<Pet>;
   addPet: (formValues: FormPet) => void;
   updatePet: (updatedPet: any) => void;
 
@@ -43,7 +43,9 @@ export const PetsContext = createContext<PetsContextData>({
   petsList: [],
   newPet: PET_EMPTY_STATE,
   getAllPets: () => {},
-  getPetById: (id: string) => {},
+  getPetById: (id: number) => {
+    return Promise.resolve(PET_EMPTY_STATE);
+  },
   addPet: () => {},
   updatePet: (updatedPet: any) => {},
 
@@ -61,10 +63,14 @@ export const PetsContext = createContext<PetsContextData>({
 });
 
 export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
-  const [petsList, setPetsList] = useState<any[]>(PET_LIST_DEFAULT_STATE);
+  const [petsList, setPetsList] = useState<any[]>([]);
   const [newPet, setNewPet] = useState<Pet>(PET_EMPTY_STATE);
 
   const db = useSQLiteContext();
+
+  useEffect(() => {
+    getAllPets();
+  }, []);
 
   useEffect(() => {
     getAllPets();
@@ -80,12 +86,12 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
       });
   };
 
-  const getPetById = (id: string) => {
-    getPetByIdFromSQLite(id, db);
+  const getPetById = (id: number): Promise<Pet> => {
+    return getPetByIdFromSQLite(id, db);
   };
 
   const addPet = async (formValues: any) => {
-    const petToSave = petAdapter({
+    const petToSave = formPetToPetAdapter({
       ...formValues,
       photoURL:
         "https://ichef.bbci.co.uk/ace/ws/640/cpsprodpb/15665/production/_107435678_perro1.jpg.webp",
