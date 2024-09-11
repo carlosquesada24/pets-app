@@ -80,8 +80,10 @@ const DataList = ({
     setListItemModes("VIEWING");
     setList(updatedList);
 
+    const isFunctionHandleEditItem = typeof handleEditItem === "function";
+
     isListItemOnEditMode
-      ? handleEditItem(editedItem)
+      ? isFunctionHandleEditItem && handleEditItem(editedItem)
       : handleAddItem(editedItem);
   };
 
@@ -105,7 +107,10 @@ const DataList = ({
     const updatedList = list.filter((listItem) => listItem.id !== listItemId);
 
     setList(updatedList);
-    handleDeleteItem(listItemId);
+
+    const isFunctionHandleDeleteItem = typeof handleDeleteItem === "function";
+
+    isFunctionHandleDeleteItem && handleDeleteItem(listItemId);
   };
 
   return (
