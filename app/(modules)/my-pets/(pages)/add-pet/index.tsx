@@ -4,17 +4,11 @@ import AddPetForm from "../../components/AddPetForm/AddPetForm";
 
 const AddPetView = () => {
   return (
-    <ScrollView
-      style={{
-        width: "100%",
-      }}
-    >
+    <ScrollView style={styles.addPetPage}>
       <Text
         style={{
           ...styles.text,
-          fontSize: 24,
-          fontWeight: "bold",
-          marginBottom: 12,
+          ...styles.title,
         }}
       >
         Agregar mascota
@@ -26,23 +20,16 @@ const AddPetView = () => {
 };
 
 const styles = StyleSheet.create({
+  addPetPage: {
+    width: "100%",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 12,
+  },
   text: {
     color: "#fff",
-  },
-  formGroup: {
-    marginTop: 8,
-  },
-  label: {
-    marginTop: 2,
-  },
-  input: {
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: "transparent",
-    color: "#fff",
-    marginTop: 4,
-    borderWidth: 2,
-    borderColor: "#242424",
   },
 });
 

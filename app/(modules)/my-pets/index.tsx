@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import CustomButton from "../../../components/Button";
 import PetsGrid from "./components/PetsGrid/PetsGrid";
 import { usePets } from "./infrastructure/context/PetsContext";
@@ -38,27 +38,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  petsListContainer: {
-    marginTop: 32,
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    // flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  petItem: {
-    marginTop: 16,
-  },
-  petName: {
-    marginTop: 8,
-    textAlign: "center",
-  },
-  petPhoto: {
-    width: 150,
-    height: 150,
-    borderRadius: 100,
   },
 });
 

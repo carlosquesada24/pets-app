@@ -16,6 +16,19 @@ const ADD_PET_FORM_STEPS = {
   PET_MEDICAL_INFO: 2,
 };
 
+const ADD_PET_FORM_DEFAULT_VALUE = {
+  name: "",
+  weight: "",
+  height: "",
+  age: "",
+  breed: "",
+
+  diagnoses: [],
+  allergies: [],
+  vaccines: [],
+  medicines: [],
+};
+
 const AddPetForm = (props: AddPetFormProps) => {
   const { addPet, getAllPets } = usePets();
 
@@ -25,18 +38,7 @@ const AddPetForm = (props: AddPetFormProps) => {
     errors,
     handleInputChange,
     validateField,
-  } = useAddPetForm({
-    name: "",
-    weight: "",
-    height: "",
-    age: "",
-    breed: "",
-
-    diagnoses: [],
-    allergies: [],
-    vaccines: [],
-    medicines: [],
-  });
+  } = useAddPetForm(ADD_PET_FORM_DEFAULT_VALUE);
 
   const router = useRouter();
 
@@ -206,7 +208,7 @@ const AddPetForm = (props: AddPetFormProps) => {
 
             {errors.name &&
               errors.name.map((error: string, index: number) => (
-                <Text key={index} style={{ color: "red" }}>
+                <Text key={index} style={styles.errorText}>
                   {error}
                 </Text>
               ))}
@@ -252,12 +254,6 @@ const styles = StyleSheet.create({
   text: {
     color: "#fff",
   },
-  formGroup: {
-    marginTop: 8,
-  },
-  label: {
-    marginTop: 2,
-  },
   input: {
     padding: 8,
     borderRadius: 8,
@@ -267,12 +263,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#242424",
   },
-  buttonGroup: {
-    marginTop: 16,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignContent: "center",
+  errorText: {
+    color: "red",
   },
 });
 
