@@ -40,6 +40,10 @@ const DataList = ({
   const [listItemModes, setListItemModes] = useState<ListItemModes>("VIEWING");
   const isListItemOnEditMode = listItemModes === "EDITING";
 
+  useEffect(() => {
+    setList(dataList);
+  }, [dataList]);
+
   const onAddNewListItem = () => {
     setListItemModes("CREATING");
 
