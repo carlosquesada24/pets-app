@@ -7,16 +7,31 @@ interface PetsGridProps {
 }
 
 const PetsGrid = ({ petsList }: PetsGridProps) => {
+  const isPetListEmpty = petsList.length === 0;
+
   return (
     <View style={styles.petsListContainer}>
-      {petsList.map((pet, index) => (
-        <PetItem
-          id={pet.id}
-          photoURL={pet.photoURL}
-          name={pet.name}
-          key={index}
-        />
-      ))}
+      {isPetListEmpty ? (
+        <View
+          style={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text style={styles.text}>¡No hay mascotas registradas!</Text>
+        </View>
+      ) : (
+        petsList.map((pet, index) => (
+          <PetItem
+            id={pet.id}
+            photoURL={pet.photoURL}
+            name={pet.name}
+            key={index}
+          />
+        ))
+      )}
     </View>
   );
 };
