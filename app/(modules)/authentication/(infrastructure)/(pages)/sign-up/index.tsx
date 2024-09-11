@@ -3,13 +3,19 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import { useForm } from "../../../../../(hooks)/useForm";
 import CustomButton from "../../../../../../components/Button";
 
+import { signUpValidations } from "../../../(domain)/validations/sign-up";
+
 const SIGN_UP_FORM_DEFAULT_STATE = {
   email: "",
   password: "",
 };
 
 const SignUpPage = () => {
-  const { values: formValues } = useForm(SIGN_UP_FORM_DEFAULT_STATE);
+  const {
+    values: formValues,
+    errors,
+    handleInputChange,
+  } = useForm(SIGN_UP_FORM_DEFAULT_STATE, signUpValidations);
 
   return (
     <View style={styles.container}>
@@ -20,7 +26,15 @@ const SignUpPage = () => {
           style={styles.input}
           placeholder="admin@example.com"
           placeholderTextColor="#a3a2a2"
+          onChangeText={(text) => handleInputChange("email", text)}
         />
+
+        {errors.email &&
+          errors.email.map((error: string, index: number) => (
+            <Text key={index} style={styles.errorText}>
+              {error}
+            </Text>
+          ))}
       </View>
 
       <View>
@@ -29,7 +43,15 @@ const SignUpPage = () => {
           secureTextEntry={true}
           placeholder="ASKDNNDLKASND2313123"
           placeholderTextColor="#a3a2a2"
+          onChangeText={(text) => handleInputChange("password", text)}
         />
+
+        {errors.password &&
+          errors.password.map((error: string, index: number) => (
+            <Text key={index} style={styles.errorText}>
+              {error}
+            </Text>
+          ))}
       </View>
 
       <CustomButton
@@ -53,6 +75,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
+  },
+  errorText: {
+    color: "#f00",
   },
   input: {
     padding: 8,
