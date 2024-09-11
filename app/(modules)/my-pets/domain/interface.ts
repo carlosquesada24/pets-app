@@ -71,6 +71,19 @@ export interface FormPet {
     medicines: DataListItem[],
 }
 
+export interface PetSQLite {
+    age: number
+    breed: string,
+    createdAt: string,
+    height: number,
+    id: number,
+    isActive: number,
+    name: string,
+    photoURL: string,
+    updatedAt: string,
+    weight: number
+}
+
 export interface DataListItem {
     id: string;
     date: string;

@@ -1,9 +1,8 @@
 import { randomUUID } from "expo-crypto";
-import { FormPet, Pet } from "../../domain/interface";
+import { FormPet, Pet, PetSQLite } from "../../domain/interface";
 import { formatDate } from "../../../../utils/date";
 
-export const petAdapter = (inputPet: FormPet): Pet => {
-
+export const formPetToPetAdapter = (inputPet: FormPet): Pet => {
     return {
         id: randomUUID(),
         name: inputPet?.name ?? "",
@@ -43,6 +42,46 @@ export const petAdapter = (inputPet: FormPet): Pet => {
                     name: vaccine?.text ?? "",
                     isEditing: false
                 }))
+            }
+        }
+    };
+}
+
+export const PetSQLiteToPetAdapter = (inputPet: PetSQLite, medicalInformation: any): Pet => {
+    return {
+        id: inputPet.id.toString(),
+        name: inputPet?.name ?? "",
+        isCreating: false,
+        creationDate: inputPet.createdAt, // I've to format it
+        photoURL: inputPet?.photoURL ?? "",
+        details: {
+            information: {
+                height: inputPet?.height.toString() ?? 0,
+                weight: inputPet?.weight.toString() ?? 0,
+                age: inputPet?.age.toString() ?? 0,
+                breed: inputPet?.breed ?? ""
+            },
+            medical: {
+                diagnoses: medicalInformation?.diagnoses?.map((diagnosis: any) => ({
+                    ...diagnosis,
+                    id: diagnosis.id.toString(),
+                    isEditing: false
+                })),
+                allergies: medicalInformation?.allergies?.map((allergy: any) => ({
+                    ...allergy,
+                    id: allergy.id.toString(),
+                    isEditing: false
+                })),
+                medicines: medicalInformation?.medicines?.map((medicine: any) => ({
+                    ...medicine,
+                    id: medicine.id.toString(),
+                    isEditing: false
+                })),
+                vaccines: medicalInformation?.vaccines?.map((vaccine: any) => ({
+                    ...vaccine,
+                    id: vaccine.id.toString(),
+                    isEditing: false
+                })),
             }
         }
     };
