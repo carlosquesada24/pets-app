@@ -33,7 +33,7 @@ const ButtonsGroup = (props: ButtonsGroupProps) => {
 
       {currentFormStep === lastFormStep && (
         <CustomButton
-          customStyles={{ fontWeight: "bold" }}
+          customStyles={styles.saveButton}
           text="Guardar"
           type="primary"
           onPress={handleSubmit}
@@ -50,6 +50,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignContent: "center",
+  },
+  saveButton: {
+    fontWeight: "bold",
   },
 });
 

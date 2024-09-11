@@ -15,9 +15,7 @@ const PetDetails = (props: PetDetailsProps) => {
       <Text
         style={{
           ...styles.text,
-          marginTop: 12,
-          fontSize: 24,
-          fontWeight: "bold",
+          ...styles.subtitle,
         }}
       >
         Detalles
@@ -32,7 +30,7 @@ const PetDetails = (props: PetDetailsProps) => {
         />
         {errors.weight &&
           errors.weight.map((error: string, index: number) => (
-            <Text key={index} style={{ color: "red" }}>
+            <Text key={index} style={styles.errorText}>
               {error}
             </Text>
           ))}
@@ -49,7 +47,7 @@ const PetDetails = (props: PetDetailsProps) => {
         />
         {errors.height &&
           errors.height.map((error: string, index: number) => (
-            <Text key={index} style={{ color: "red" }}>
+            <Text key={index} style={styles.errorText}>
               {error}
             </Text>
           ))}
@@ -67,7 +65,7 @@ const PetDetails = (props: PetDetailsProps) => {
 
         {errors.age &&
           errors.age.map((error: string, index: number) => (
-            <Text key={index} style={{ color: "red" }}>
+            <Text key={index} style={styles.errorText}>
               {error}
             </Text>
           ))}
@@ -85,7 +83,7 @@ const PetDetails = (props: PetDetailsProps) => {
 
         {errors.breed &&
           errors.breed.map((error: string, index: number) => (
-            <Text key={index} style={{ color: "red" }}>
+            <Text key={index} style={styles.errorText}>
               {error}
             </Text>
           ))}
@@ -95,6 +93,11 @@ const PetDetails = (props: PetDetailsProps) => {
 };
 
 const styles = StyleSheet.create({
+  subtitle: {
+    marginTop: 12,
+    fontSize: 24,
+    fontWeight: "bold",
+  },
   text: {
     color: "#fff",
   },
@@ -113,6 +116,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#242424",
   },
+  errorText: { color: "red" },
 });
 
 export default PetDetails;

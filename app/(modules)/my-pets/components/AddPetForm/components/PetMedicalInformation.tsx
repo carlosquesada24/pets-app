@@ -42,17 +42,8 @@ const PetMedicalInformation = (props: PetMedicalInformationProps) => {
   } = props;
 
   return (
-    <View style={{ marginBottom: 12, marginTop: 12 }}>
-      <Text
-        style={{
-          ...styles.text,
-          marginTop: 12,
-          fontSize: 24,
-          fontWeight: "bold",
-        }}
-      >
-        Médico
-      </Text>
+    <View style={styles.container}>
+      <Text style={{ ...styles.text, ...styles.subtitle }}>Médico</Text>
       <DataList
         title="Diagnoses"
         dataList={diagnosesList ?? []}
@@ -81,23 +72,17 @@ const PetMedicalInformation = (props: PetMedicalInformationProps) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 12,
+    marginTop: 12,
+  },
+  subtitle: {
+    marginTop: 12,
+    fontSize: 24,
+    fontWeight: "bold",
+  },
   text: {
     color: "#fff",
-  },
-  formGroup: {
-    marginTop: 8,
-  },
-  label: {
-    marginTop: 2,
-  },
-  input: {
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: "transparent",
-    color: "#fff",
-    marginTop: 4,
-    borderWidth: 2,
-    borderColor: "#242424",
   },
 });
 
