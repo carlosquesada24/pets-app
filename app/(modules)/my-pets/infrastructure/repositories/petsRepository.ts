@@ -22,13 +22,36 @@ export const getPetByIdFromSQLite = async (petId: number, db: SQLiteDatabase) =>
             WHERE PetsAllergies.petId = ?`
         , [petId]);
 
+
+    const getDiagnosesByPetIdResult: any = await db.getAllAsync(
+        `SELECT Diagnosis.id, Diagnosis.text, Diagnosis.isActive, Diagnosis.createdAt, Diagnosis.updatedAt
+        FROM Diagnosis
+        INNER JOIN PetsDiagnosis ON PetsDiagnosis.diagnosisId = Diagnosis.id
+        WHERE PetsDiagnosis.petId = ?;`
+        , [petId]);
+
+    const getVaccinesByPetIdResult: any = await db.getAllAsync(
+        `SELECT Vaccines.id, Vaccines.name, Vaccines.isActive, Vaccines.createdAt, Vaccines.updatedAt
+        FROM Vaccines
+        INNER JOIN PetsVaccines ON PetsVaccines.vaccineId = Vaccines.id
+        WHERE PetsVaccines.petId = ?;`
+        , [petId]);
+
+    const getMedicinesByPetIdResult: any = await db.getAllAsync(
+        `SELECT Medicines.id, Medicines.name, Medicines.description, Medicines.dosage, Medicines.frequency, Medicines.isActive, Medicines.createdAt, Medicines.updatedAt
+        FROM Medicines
+        INNER JOIN PetsMedicines ON PetsMedicines.medicineId = Medicines.id
+        WHERE PetsMedicines.petId = ?;`
+        , [petId]);
+
+
     const formattedPet = PetSQLiteToPetAdapter(
         getPetResult,
         {
             allergies: getAllergyByPetIdResult,
-            diagnoses: [],
-            vaccines: [],
-            medicines: []
+            diagnoses: getDiagnosesByPetIdResult,
+            vaccines: getVaccinesByPetIdResult,
+            medicines: getMedicinesByPetIdResult
         }
     );
 
@@ -53,23 +76,103 @@ export const savePetIntoSQLite = async (pet: Pet, db: SQLiteDatabase) => {
     const savedPetId = resultPetInsertion?.lastInsertRowId
 
     // Map de allergies
-    const resultAllergyInsertion: any = await db.runAsync(
-        `INSERT INTO Allergies (name, isActive, createdAt, updatedAt)
-        VALUES (?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
-        [
-            "Ejemplo estático 1", // allergy.name
-        ]
-    );
-    const savedAllergyId = resultAllergyInsertion?.lastInsertRowId
+    const allergiesPromises = pet.details.medical.allergies.map(async (allergy) => {
+        return await db.runAsync(
+            `INSERT INTO Allergies (name, isActive, createdAt, updatedAt)
+            VALUES (?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
+            [
+                allergy.name,
+            ]
+        );
+    });
+    const resultsAllergiesPromises = await Promise.all(allergiesPromises);
 
-    const resultsPetAllergyInsertion: any = await db.runAsync(
-        `INSERT INTO PetsAllergies (petId, allergyId, isActive, createdAt, updatedAt)
-        VALUES (?, ?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`,
-        [
-            savedPetId,
-            savedAllergyId
-        ]
-    );
+    const petAllergiesPromises = resultsAllergiesPromises.map(async (result) => {
+        return await db.runAsync(
+            `INSERT INTO PetsAllergies (petId, allergyId, isActive, createdAt, updatedAt)
+            VALUES (?, ?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`,
+            [
+                savedPetId,
+                result?.lastInsertRowId
+            ]
+        );
+    });
+    const resultsPetAllergiesPromises = await Promise.all(petAllergiesPromises);
+
+    // Map de diagnoses
+    const diagnosesPromises = pet.details.medical.diagnoses.map(async (diagnose) => {
+        return await db.runAsync(
+            `INSERT INTO Diagnosis (text, isActive, createdAt, updatedAt)
+            VALUES (?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`,
+            [
+                diagnose.text,
+            ]
+        );
+    });
+    const resultsDiagnosesPromises = await Promise.all(diagnosesPromises);
+
+    const petDiagnosesPromises = resultsDiagnosesPromises.map(async (result) => {
+        return await db.runAsync(
+            `INSERT INTO PetsDiagnosis (petId, diagnosisId, isActive, createdAt, updatedAt)
+            VALUES (?, ?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`,
+            [
+                savedPetId,
+                result?.lastInsertRowId
+            ]
+        );
+    });
+    const resultsPetDiagnosesPromises = await Promise.all(petDiagnosesPromises);
+
+    // Map de medicines
+    const medicinesPromises = pet.details.medical.medicines.map(async (medicine) => {
+        return await db.runAsync(
+            `INSERT INTO Medicines (name, description, dosage, frequency, isActive, createdAt, updatedAt)
+            VALUES (?, ?, ?, ?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`,
+            [
+                medicine.name,
+                "",
+                "",
+                "",
+            ]
+        );
+    });
+    const resultsMedicinePromises = await Promise.all(medicinesPromises);
+
+    const petMedicinesPromises = resultsMedicinePromises.map(async (result) => {
+        return await db.runAsync(
+            `INSERT INTO PetsMedicines (petId, medicineId, isActive, createdAt, updatedAt)
+            VALUES (?, ?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`,
+            [
+                savedPetId,
+                result?.lastInsertRowId
+            ]
+        );
+    });
+    const resultsPetMedicinesPromises = await Promise.all(petMedicinesPromises);
+
+    // Map de vaccines
+    const vaccinesPromises = pet.details.medical.vaccines.map(async (vaccine) => {
+        return await db.runAsync(
+            `INSERT INTO Vaccines (name, isActive, createdAt, updatedAt)
+            VALUES (?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`,
+            [
+                vaccine.name,
+            ]
+        );
+    });
+    const resultsVaccinesPromises = await Promise.all(vaccinesPromises);
+
+    const petVaccinesPromises = resultsVaccinesPromises.map(async (result) => {
+        return await db.runAsync(
+            `INSERT INTO PetsVaccines (petId, vaccineId, isActive, createdAt, updatedAt)
+            VALUES (?, ?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`,
+            [
+                savedPetId,
+                result?.lastInsertRowId
+            ]
+        );
+    });
+    const resultsPetVaccinesPromises = await Promise.all(petVaccinesPromises);
 
     return savedPetId;
 };
