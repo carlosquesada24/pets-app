@@ -1,5 +1,6 @@
 import { SQLiteDatabase } from "expo-sqlite";
 import { Pet } from "../../domain/interface";
+import { PetSQLiteToPetAdapter } from "../adapters/petAdapter";
 
 
 export const getAllPetsFromSQLite = async (db: SQLiteDatabase) => {
@@ -11,19 +12,27 @@ export const getAllPetsFromSQLite = async (db: SQLiteDatabase) => {
     return result;
 }
 
-export const getPetByIdFromSQLite = async (id: string, db: SQLiteDatabase) => {
-    const result: any = await db.getFirstAsync("SELECT * FROM Pets WHERE id = ?", [id]);
+export const getPetByIdFromSQLite = async (petId: number, db: SQLiteDatabase) => {
+    const getPetResult: any = await db.getFirstAsync("SELECT * FROM Pets WHERE id = ?", [petId]);
 
-    if (result[0].rows.length > 0) {
-        const pet = result[0].rows.item(0);
-        console.log('Pet found:', pet);
-        return pet;
-    } else {
-        console.log('No pet found with this id');
-        return null;
-    }
+    const getAllergyByPetIdResult: any = await db.getAllAsync(
+        `SELECT Allergies.id, Allergies.name, Allergies.isActive, Allergies.createdAt, Allergies.updatedAt
+            FROM Allergies
+            INNER JOIN PetsAllergies ON PetsAllergies.allergyId = Allergies.id
+            WHERE PetsAllergies.petId = ?`
+        , [petId]);
 
-    // return result;
+    const formattedPet = PetSQLiteToPetAdapter(
+        getPetResult,
+        {
+            allergies: getAllergyByPetIdResult,
+            diagnoses: [],
+            vaccines: [],
+            medicines: []
+        }
+    );
+
+    return formattedPet;
 };
 
 export const savePetIntoSQLite = async (pet: Pet, db: SQLiteDatabase) => {
