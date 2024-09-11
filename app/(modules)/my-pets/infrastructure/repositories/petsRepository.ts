@@ -5,6 +5,9 @@ import { Pet } from "../../domain/interface";
 export const getAllPetsFromSQLite = async (db: SQLiteDatabase) => {
     const result = await db.getAllAsync("SELECT * FROM Pets");
 
+    const allAllergiesResult = await db.getAllAsync("SELECT * FROM Allergies");
+    const allPetsAllergiesResult = await db.getAllAsync("SELECT * FROM PetsAllergies");
+
     return result;
 }
 
@@ -24,7 +27,7 @@ export const getPetByIdFromSQLite = async (id: string, db: SQLiteDatabase) => {
 };
 
 export const savePetIntoSQLite = async (pet: Pet, db: SQLiteDatabase) => {
-    const result = await db.runAsync(
+    const resultPetInsertion: any = await db.runAsync(
         `INSERT INTO Pets (name, weight, height, breed, age, photoURL, isActive, createdAt, updatedAt)
         VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))`,
         [
@@ -38,9 +41,28 @@ export const savePetIntoSQLite = async (pet: Pet, db: SQLiteDatabase) => {
         ]
     );
 
-    console.log({ petAdded: result, id: result.lastInsertRowId });
+    const savedPetId = resultPetInsertion?.lastInsertRowId
 
-    return result.lastInsertRowId;
+    // Map de allergies
+    const resultAllergyInsertion: any = await db.runAsync(
+        `INSERT INTO Allergies (name, isActive, createdAt, updatedAt)
+        VALUES (?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
+        [
+            "Ejemplo estático 1", // allergy.name
+        ]
+    );
+    const savedAllergyId = resultAllergyInsertion?.lastInsertRowId
+
+    const resultsPetAllergyInsertion: any = await db.runAsync(
+        `INSERT INTO PetsAllergies (petId, allergyId, isActive, createdAt, updatedAt)
+        VALUES (?, ?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`,
+        [
+            savedPetId,
+            savedAllergyId
+        ]
+    );
+
+    return savedPetId;
 };
 
 export const updatePetIntoSQLite = async (updatedPet: Pet, id: string, db: SQLiteDatabase) => {
