@@ -4,7 +4,6 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Link, useLocalSearchParams } from "expo-router";
 import { usePets } from "../infrastructure/context/PetsContext";
 import CustomButton from "../../../../components/Button";
-import { Pet } from "../domain/interface";
 import DataList from "../../../../components/DataList/DataList";
 
 import { capitalizeFirstLetter } from "../../../utils/string";
@@ -14,7 +13,7 @@ const PetDetailsView = () => {
 
   const { id } = useLocalSearchParams();
 
-  const { petsList, getPetById } = usePets();
+  const { getPetById } = usePets();
 
   useEffect(() => {
     const handleGetPetById = async () => {
@@ -44,12 +43,7 @@ const PetDetailsView = () => {
           </Text>
         </View>
 
-        <CustomButton
-          type="danger"
-          text={"Delete"}
-          // customStyles={{ position: "absolute" }}
-          onPress={() => {}}
-        />
+        <CustomButton type="danger" text={"Delete"} onPress={() => {}} />
       </View>
       <Image
         source={{ uri: foundPet?.photoURL }}
@@ -96,22 +90,26 @@ const PetDetailsView = () => {
           Medical
         </Text>
         <View>
-          {/* <DataList
+          <DataList
             title="Diagnoses"
-            dataList={foundPet.details.medical.diagnoses}
+            dataList={foundPet?.details?.medical?.diagnoses ?? []}
+            handleAddItem={() => {}}
           />
           <DataList
             title="Allergies"
-            dataList={foundPet.details.medical.allergies}
+            dataList={foundPet?.details?.medical?.allergies ?? []}
+            handleAddItem={() => {}}
           />
           <DataList
             title="Medicines"
-            dataList={foundPet.details.medical.medicines}
+            dataList={foundPet?.details?.medical?.medicines ?? []}
+            handleAddItem={() => {}}
           />
           <DataList
             title="Vaccines"
-            dataList={foundPet.details.medical.vaccines}
-          /> */}
+            dataList={foundPet?.details?.medical?.vaccines ?? []}
+            handleAddItem={() => {}}
+          />
         </View>
       </View>
     </ScrollView>
