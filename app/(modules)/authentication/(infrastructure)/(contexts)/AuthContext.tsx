@@ -2,15 +2,14 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { User } from "../../(domain)/interfaces";
 import { USER_DEFAULT_STATE, USER_MOCK } from "../../(domain)/data";
-import { Alert } from "react-native";
-import { signUpSQLite } from "../(repositories)/auth";
+import { signInSQLite, signUpSQLite } from "../(repositories)/auth";
 import { useSQLiteContext } from "expo-sqlite";
 
 interface AuthContextData {
   user: User;
   isLogged: boolean;
   signUp: (email: string, password: string) => void;
-  logIn: (email: string) => void;
+  logIn: (email: string, password: string) => void;
   signOut: () => void;
 }
 
@@ -18,7 +17,7 @@ export const AuthContext = createContext<AuthContextData>({
   user: USER_DEFAULT_STATE,
   isLogged: false,
   signUp: (email: string, password: string) => {},
-  logIn: () => {},
+  logIn: (email: string, password: string) => {},
   signOut: () => {},
 });
 
@@ -38,7 +37,15 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
       setIsLogged(true);
     }
   };
-  const logIn = async (email: string) => {};
+  const logIn = async (email: string, password: string) => {
+    const user = await signInSQLite(email, password, db);
+
+    if (user !== null) {
+      alert("Sesión iniciada");
+      setIsLogged(true);
+    }
+  };
+
   const signOut = async () => {};
 
   const authContextValue = {
