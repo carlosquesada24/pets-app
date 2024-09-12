@@ -21,7 +21,7 @@ export const signInSQLite = async (email: string, password: string, db: SQLiteDa
         `SELECT * FROM Users WHERE email = ?`, [email]
     );
 
-    const userExists = resultUser === null
+    const userExists = resultUser !== null
 
     if (!userExists) {
         console.log({ error: "No existe un usuario con ese correo o con esa contraseña" })

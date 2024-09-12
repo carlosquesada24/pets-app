@@ -42,10 +42,14 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
   const logIn = async (email: string, password: string) => {
     const user = await signInSQLite(email, password, db);
 
-    if (user !== null) {
+    const isUserValid = user.email.length > 0 && user.id > 0;
+
+    if (isUserValid) {
       alert("Sesión iniciada");
       setIsLogged(true);
       setUser(userSQLiteToUserAdapter(user));
+    } else {
+      alert("Hubo un error al inicial sesión");
     }
   };
 
