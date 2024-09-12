@@ -30,9 +30,9 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
   const signUp = async (email: string, password: string) => {
     alert("Creando cuenta");
 
-    const userId = await signUpSQLite(email, password, db);
+    const user = await signUpSQLite(email, password, db);
 
-    if (typeof userId === "number") {
+    if (user !== null) {
       alert("Cuenta creada");
       setIsLogged(true);
     }
