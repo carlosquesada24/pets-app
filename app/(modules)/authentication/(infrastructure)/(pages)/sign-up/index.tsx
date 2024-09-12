@@ -4,6 +4,8 @@ import { useForm } from "../../../../../(hooks)/useForm";
 import CustomButton from "../../../../../../components/Button";
 
 import { signUpValidations } from "../../../(domain)/validations/sign-up";
+import { useAuth } from "../../(contexts)/AuthContext";
+import { useRouter } from "expo-router";
 
 const SIGN_UP_FORM_DEFAULT_STATE = {
   email: "",
@@ -16,6 +18,16 @@ const SignUpPage = () => {
     errors,
     handleInputChange,
   } = useForm(SIGN_UP_FORM_DEFAULT_STATE, signUpValidations);
+
+  const { signUp } = useAuth();
+
+  const router = useRouter();
+
+  const handleSignUp = () => {
+    signUp(formValues.email, formValues.password);
+
+    router.push("/my-pets");
+  };
 
   return (
     <View style={styles.container}>
@@ -58,9 +70,7 @@ const SignUpPage = () => {
         customStyles={styles.signUpButton}
         text="Crear cuenta"
         type="primary"
-        onPress={() => {
-          alert("Creando cuenta");
-        }}
+        onPress={() => handleSignUp()}
       />
     </View>
   );
