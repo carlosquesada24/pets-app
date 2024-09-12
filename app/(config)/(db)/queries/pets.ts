@@ -92,6 +92,15 @@ CREATE TABLE IF NOT EXISTS PetsAllergies (
     FOREIGN KEY(petId) REFERENCES Pets(id),
     FOREIGN KEY(allergyId) REFERENCES Allergies(id)
 );
+
+CREATE TABLE IF NOT EXISTS Users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    isActive BOOLEAN NOT NULL DEFAULT 1,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 `
 
 export const CREATE_EXAMPLE_DATA = `
@@ -110,17 +119,21 @@ export const CREATE_EXAMPLE_DATA = `
     INSERT INTO Allergies (name, isActive) VALUES ('Pollen Allergy', 1);
     INSERT INTO Allergies (name, isActive) VALUES ('Food Allergy', 1);
     INSERT INTO Allergies (name, isActive) VALUES ('Flea Allergy', 1);
+
+    INSERT INTO Users (email, password, isActive, createdAt, updatedAt)
+VALUES ('johndoe@example.com', 'password123', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
 `
 
 export const CREATE_EXAMPLE_PETS = `
     INSERT INTO Pets (name, weight, height, breed, age, photoURL, isActive) 
-    VALUES ('Buddy', 30, 60, 'Golden Retriever', 5, 'http://example.com/buddy.jpg', 1);
+    VALUES ('Perro 1', 30, 60, 'Golden Retriever', 5, 'https://static.fundacion-affinity.org/cdn/farfuture/PVbbIC-0M9y4fPbbCsdvAD8bcjjtbFc0NSP3lRwlWcE/mtime:1643275542/sites/default/files/los-10-sonidos-principales-del-perro.jpg', 1);
 
     INSERT INTO Pets (name, weight, height, breed, age, photoURL, isActive) 
-    VALUES ('Whiskers', 4, 25, 'Tabby Cat', 3, 'http://example.com/whiskers.jpg', 1);
+    VALUES ('Perro 2', 4, 25, 'Tabby Cat', 3, 'https://as01.epimg.net/diarioas/imagenes/2022/05/29/actualidad/1653826510_995351_1653826595_noticia_normal.jpg', 1);
 
     INSERT INTO Pets (name, weight, height, breed, age, photoURL, isActive) 
-    VALUES ('Fluffy', 2, 20, 'Pomeranian', 2, 'http://example.com/fluffy.jpg', 1);
+    VALUES ('Perro 3', 2, 20, 'Pomeranian', 2, 'https://www.nunpet.es/blog/wp-content/uploads/2023/08/5-razas-populares-perros-labrador-pastor-aleman.webp', 1);
 
     INSERT INTO PetsDiagnosis (petId, diagnosisId, isActive) VALUES (1, 1, 1); -- Buddy has Hip Dysplasia
     INSERT INTO PetsDiagnosis (petId, diagnosisId, isActive) VALUES (2, 2, 1); -- Whiskers has Allergic Dermatitis
@@ -143,7 +156,7 @@ export const CREATE_EXAMPLE_PETS = `
 export const INITIALIZE_DB = `
     ${CREATE_ALL_TABLES}
     ${CREATE_EXAMPLE_DATA}
-    ${CREATE_EXAMPLE_PETS}
+    
 `
 
 export const DELETE_ALL_TABLES = `
@@ -156,4 +169,5 @@ DROP TABLE IF EXISTS Medicines;
 DROP TABLE IF EXISTS Vaccines;
 DROP TABLE IF EXISTS Allergies;
 DROP TABLE IF EXISTS Pets;
+DROP TABLE IF EXISTS Users;
 `
