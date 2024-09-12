@@ -15,3 +15,26 @@ export const signUpSQLite = async (email: string, password: string, db: SQLiteDa
 
     return savedUser;
 };
+
+export const signInSQLite = async (email: string, password: string, db: SQLiteDatabase) => {
+    const resultUser: any = await db.getFirstAsync(
+        `SELECT * FROM Users WHERE email = ?`, [email]
+    );
+
+    const userExists = resultUser === null
+
+    if (!userExists) {
+        console.log({ error: "No existe un usuario con ese correo o con esa contraseña" })
+        return
+    }
+
+    const userPassword = resultUser?.password
+    const isSamePassword = userPassword === password
+
+    if (!isSamePassword) {
+        console.log({ error: "Las contraseñas no coinciden" })
+        return
+    }
+
+    return resultUser;
+};
