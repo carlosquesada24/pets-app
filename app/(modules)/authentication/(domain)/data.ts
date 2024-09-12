@@ -1,15 +1,15 @@
-import { UserSQLite } from "./interfaces"
+import { User, UserSQLite } from "./interfaces"
 
-export const USER_DEFAULT_STATE = {
+export const USER_DEFAULT_STATE: User = {
     id: "",
     email: "",
-    password: "",
+    createdAt: "",
 }
 
-export const USER_MOCK = {
+export const USER_MOCK: User = {
     id: "1",
     email: "firstexample@example.com",
-    password: "123456789",
+    createdAt: "2024-09-12 19:19:17",
 }
 
 export const USER_MOCK_SQLITE: UserSQLite = {
