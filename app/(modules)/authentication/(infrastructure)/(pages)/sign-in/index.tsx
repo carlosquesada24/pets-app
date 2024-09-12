@@ -31,9 +31,13 @@ const SignInPage = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Iniciar sesión</Text>
+      <Text style={{ ...styles.text, ...styles.title }}>Iniciar sesión</Text>
 
-      <View>
+      <View style={styles.formGroup}>
+        <Text style={{ ...styles.text, ...styles.label }}>
+          Correo electrónico
+        </Text>
+
         <TextInput
           style={styles.input}
           placeholder="admin@example.com"
@@ -49,7 +53,9 @@ const SignInPage = () => {
           ))}
       </View>
 
-      <View>
+      <View style={styles.formGroup}>
+        <Text style={{ ...styles.text, ...styles.label }}>Contraseña</Text>
+
         <TextInput
           style={styles.input}
           secureTextEntry={true}
@@ -77,14 +83,23 @@ const SignInPage = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-  },
   text: {
     color: "#fff",
   },
-  errorText: {
-    color: "#f00",
+  container: {
+    width: "100%",
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: "bold",
+    marginBottom: 24,
+  },
+  formGroup: {
+    marginBottom: 16,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
   input: {
     padding: 8,
@@ -95,8 +110,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#242424",
   },
+  errorText: {
+    color: "#f00",
+  },
   signInButton: {
     fontWeight: "bold",
+    marginTop: 24,
   },
 });
 
