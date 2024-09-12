@@ -1,7 +1,9 @@
 import { SQLiteDatabase } from "expo-sqlite";
+import { UserSQLite } from "../../(domain)/interfaces";
+import { USER_SQLITE_EMPTY_STATE } from "../../(domain)/data";
 
-export const signUpSQLite = async (email: string, password: string, db: SQLiteDatabase) => {
-    const resultUserInsertion: any = await db.runAsync(
+export const signUpSQLite = async (email: string, password: string, db: SQLiteDatabase): Promise<UserSQLite> => {
+    const resultUserInsertion = await db.getFirstAsync<UserSQLite | null>(
         ` INSERT INTO Users (email, password, isActive, createdAt, updatedAt)
         VALUES (?, ?, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`,
         [
@@ -11,13 +13,11 @@ export const signUpSQLite = async (email: string, password: string, db: SQLiteDa
         ]
     );
 
-    const savedUser = resultUserInsertion?.lastInsertRowId
-
-    return savedUser;
+    return resultUserInsertion ?? USER_SQLITE_EMPTY_STATE;
 };
 
-export const signInSQLite = async (email: string, password: string, db: SQLiteDatabase) => {
-    const resultUser: any = await db.getFirstAsync(
+export const signInSQLite = async (email: string, password: string, db: SQLiteDatabase): Promise<UserSQLite> => {
+    const resultUser = await db.getFirstAsync<UserSQLite | null>(
         `SELECT * FROM Users WHERE email = ?`, [email]
     );
 
@@ -25,16 +25,14 @@ export const signInSQLite = async (email: string, password: string, db: SQLiteDa
 
     if (!userExists) {
         console.log({ error: "No existe un usuario con ese correo o con esa contraseña" })
-        return
     }
 
-    const userPassword = resultUser?.password
+    const userPassword = resultUser?.password ?? ""
     const isSamePassword = userPassword === password
 
     if (!isSamePassword) {
         console.log({ error: "Las contraseñas no coinciden" })
-        return
     }
 
-    return resultUser;
+    return resultUser ?? USER_SQLITE_EMPTY_STATE;
 };
