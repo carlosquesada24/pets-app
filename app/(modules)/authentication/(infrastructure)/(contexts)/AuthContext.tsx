@@ -4,6 +4,7 @@ import { User } from "../../(domain)/interfaces";
 import { USER_DEFAULT_STATE, USER_MOCK } from "../../(domain)/data";
 import { signInSQLite, signUpSQLite } from "../(repositories)/auth";
 import { useSQLiteContext } from "expo-sqlite";
+import { userSQLiteToUserAdapter } from "../(adapters)";
 
 interface AuthContextData {
   user: User;
@@ -35,6 +36,7 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
     if (user !== null) {
       alert("Cuenta creada");
       setIsLogged(true);
+      setUser(userSQLiteToUserAdapter(user));
     }
   };
   const logIn = async (email: string, password: string) => {
@@ -43,6 +45,7 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
     if (user !== null) {
       alert("Sesión iniciada");
       setIsLogged(true);
+      setUser(userSQLiteToUserAdapter(user));
     }
   };
 
