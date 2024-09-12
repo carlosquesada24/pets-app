@@ -53,7 +53,7 @@ const SignInPage = () => {
         <TextInput
           style={styles.input}
           secureTextEntry={true}
-          placeholder="ASKDNNDLKASND2313123"
+          placeholder="fM{A!J22|ZHl"
           placeholderTextColor="#a3a2a2"
           onChangeText={(text) => handleInputChange("password", text)}
         />
@@ -78,9 +78,6 @@ const SignInPage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-start",
     width: "100%",
   },
   text: {
