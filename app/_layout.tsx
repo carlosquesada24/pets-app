@@ -5,14 +5,17 @@ import { View } from "react-native";
 import { PetsProvider } from "./(modules)/my-pets/infrastructure/context/PetsContext";
 import { SQLiteProvider } from "expo-sqlite";
 import { initializeDatabase } from "./(config)/(db)";
+import { AuthProvider } from "./(modules)/authentication/(infrastructure)/(contexts)/AuthContext";
 
 const Layout = () => {
   return (
     <SQLiteProvider databaseName="pets.db" onInit={initializeDatabase}>
       <View style={styles.container}>
-        <PetsProvider>
-          <Slot />
-        </PetsProvider>
+        <AuthProvider>
+          <PetsProvider>
+            <Slot />
+          </PetsProvider>
+        </AuthProvider>
       </View>
     </SQLiteProvider>
   );
