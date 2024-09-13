@@ -2,6 +2,7 @@ import { Link } from "expo-router";
 import React from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import CustomButton from "../../../../../../components/Button";
+import ROUTES from "../../../../../constants/routes";
 
 const ProfilePage = () => {
   return (
@@ -33,7 +34,11 @@ const ProfilePage = () => {
           />
         </View>
 
-        <Link style={{ paddingTop: 16, paddingBottom: 16 }} href="/" asChild>
+        <Link
+          style={{ paddingTop: 16, paddingBottom: 16 }}
+          href={ROUTES.AUTHENTICATION.RESET_PASSWORD}
+          asChild
+        >
           <Pressable>
             <View
               style={{
