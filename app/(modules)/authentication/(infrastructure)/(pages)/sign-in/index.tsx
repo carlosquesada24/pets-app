@@ -6,6 +6,7 @@ import CustomButton from "../../../../../../components/Button";
 import { signUpValidations } from "../../../(domain)/validations/sign-up";
 import { useAuth } from "../../(contexts)/AuthContext";
 import { useRouter } from "expo-router";
+import ScreenLayout from "../../../../../(components)/ScreenLayout/ScreenLayout";
 
 const SIGN_IN_FORM_DEFAULT_STATE = {
   email: "",
@@ -30,55 +31,57 @@ const SignInPage = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={{ ...styles.text, ...styles.title }}>Iniciar sesión</Text>
+    <ScreenLayout>
+      <>
+        <Text style={{ ...styles.text, ...styles.title }}>Iniciar sesión</Text>
 
-      <View style={styles.formGroup}>
-        <Text style={{ ...styles.text, ...styles.label }}>
-          Correo electrónico
-        </Text>
+        <View style={styles.formGroup}>
+          <Text style={{ ...styles.text, ...styles.label }}>
+            Correo electrónico
+          </Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder="admin@example.com"
-          placeholderTextColor="#a3a2a2"
-          onChangeText={(text) => handleInputChange("email", text)}
+          <TextInput
+            style={styles.input}
+            placeholder="admin@example.com"
+            placeholderTextColor="#a3a2a2"
+            onChangeText={(text) => handleInputChange("email", text)}
+          />
+
+          {errors.email &&
+            errors.email.map((error: string, index: number) => (
+              <Text key={index} style={styles.errorText}>
+                {error}
+              </Text>
+            ))}
+        </View>
+
+        <View style={styles.formGroup}>
+          <Text style={{ ...styles.text, ...styles.label }}>Contraseña</Text>
+
+          <TextInput
+            style={styles.input}
+            secureTextEntry={true}
+            placeholder="fM{A!J22|ZHl"
+            placeholderTextColor="#a3a2a2"
+            onChangeText={(text) => handleInputChange("password", text)}
+          />
+
+          {errors.password &&
+            errors.password.map((error: string, index: number) => (
+              <Text key={index} style={styles.errorText}>
+                {error}
+              </Text>
+            ))}
+        </View>
+
+        <CustomButton
+          customStyles={styles.signInButton}
+          text="Iniciar sesión"
+          type="primary"
+          onPress={() => handleSignIn()}
         />
-
-        {errors.email &&
-          errors.email.map((error: string, index: number) => (
-            <Text key={index} style={styles.errorText}>
-              {error}
-            </Text>
-          ))}
-      </View>
-
-      <View style={styles.formGroup}>
-        <Text style={{ ...styles.text, ...styles.label }}>Contraseña</Text>
-
-        <TextInput
-          style={styles.input}
-          secureTextEntry={true}
-          placeholder="fM{A!J22|ZHl"
-          placeholderTextColor="#a3a2a2"
-          onChangeText={(text) => handleInputChange("password", text)}
-        />
-
-        {errors.password &&
-          errors.password.map((error: string, index: number) => (
-            <Text key={index} style={styles.errorText}>
-              {error}
-            </Text>
-          ))}
-      </View>
-
-      <CustomButton
-        customStyles={styles.signInButton}
-        text="Iniciar sesión"
-        type="primary"
-        onPress={() => handleSignIn()}
-      />
-    </View>
+      </>
+    </ScreenLayout>
   );
 };
 

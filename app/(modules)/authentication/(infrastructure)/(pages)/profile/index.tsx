@@ -3,82 +3,87 @@ import React from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import CustomButton from "../../../../../../components/Button";
 import ROUTES from "../../../../../constants/routes";
+import ScreenLayout from "../../../../../(components)/ScreenLayout/ScreenLayout";
 
 const ProfilePage = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Perfil</Text>
+    <ScreenLayout>
+      <>
+        <View style={styles.container}>
+          <Text style={styles.title}>Perfil</Text>
 
-      <View style={styles.group}>
-        <Text style={styles.subtitle}>Información de usuario</Text>
+          <View style={styles.group}>
+            <Text style={styles.subtitle}>Información de usuario</Text>
 
-        <View style={styles.formGroup}>
-          <Text style={{ ...styles.text, ...styles.label }}>
-            Correo electrónico
-          </Text>
-          <TextInput
-            editable={false}
-            style={styles.input}
-            value="admin@example.com"
-          />
-        </View>
-
-        <View style={styles.formGroup}>
-          <Text style={{ ...styles.text, ...styles.label }}>
-            Número de teléfono
-          </Text>
-          <TextInput
-            editable={false}
-            style={styles.input}
-            value="+506 8487-8116"
-          />
-        </View>
-
-        <Link
-          style={{ paddingTop: 16, paddingBottom: 16 }}
-          href={ROUTES.AUTHENTICATION.RESET_PASSWORD}
-          asChild
-        >
-          <Pressable>
-            <View
-              style={{
-                ...styles.formGroup,
-                display: "flex",
-                justifyContent: "space-between",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <View>
-                <Text style={{ ...styles.text, ...styles.label }}>
-                  Cambiar contraseña
-                </Text>
-                <Text style={{ fontSize: 14, color: "#a1a1a1" }}>
-                  En cualquier momento
-                </Text>
-              </View>
-
-              <Text style={styles.text}>{"=>"}</Text>
+            <View style={styles.formGroup}>
+              <Text style={{ ...styles.text, ...styles.label }}>
+                Correo electrónico
+              </Text>
+              <TextInput
+                editable={false}
+                style={styles.input}
+                value="admin@example.com"
+              />
             </View>
-          </Pressable>
-        </Link>
 
-        <CustomButton
-          text="Eliminar cuenta"
-          type="danger"
-          customStyles={styles.deleteAccountButton}
-          onPress={() => {}}
-        />
-      </View>
+            <View style={styles.formGroup}>
+              <Text style={{ ...styles.text, ...styles.label }}>
+                Número de teléfono
+              </Text>
+              <TextInput
+                editable={false}
+                style={styles.input}
+                value="+506 8487-8116"
+              />
+            </View>
 
-      <View>
-        <Text style={styles.subtitle}>Preferencias</Text>
-        <View style={styles.formGroup}>
-          <Text style={{ ...styles.text, ...styles.label }}>Tema</Text>
-          <TextInput editable={false} style={styles.input} value="Oscuro" />
+            <Link
+              style={{ paddingTop: 16, paddingBottom: 16 }}
+              href={ROUTES.AUTHENTICATION.RESET_PASSWORD}
+              asChild
+            >
+              <Pressable>
+                <View
+                  style={{
+                    ...styles.formGroup,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <View>
+                    <Text style={{ ...styles.text, ...styles.label }}>
+                      Cambiar contraseña
+                    </Text>
+                    <Text style={{ fontSize: 14, color: "#a1a1a1" }}>
+                      En cualquier momento
+                    </Text>
+                  </View>
+
+                  <Text style={styles.text}>{"=>"}</Text>
+                </View>
+              </Pressable>
+            </Link>
+
+            <CustomButton
+              text="Eliminar cuenta"
+              type="danger"
+              customStyles={styles.deleteAccountButton}
+              onPress={() => {}}
+            />
+          </View>
+
+          <View>
+            <Text style={styles.subtitle}>Preferencias</Text>
+            <View style={styles.formGroup}>
+              <Text style={{ ...styles.text, ...styles.label }}>Tema</Text>
+              <TextInput editable={false} style={styles.input} value="Oscuro" />
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
+      </>
+    </ScreenLayout>
   );
 };
 

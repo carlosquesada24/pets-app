@@ -1,21 +1,24 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text } from "react-native";
 import AddPetForm from "../../components/AddPetForm/AddPetForm";
+import ScreenLayout from "../../../../(components)/ScreenLayout/ScreenLayout";
 
 const AddPetView = () => {
   return (
-    <ScrollView style={styles.addPetPage}>
-      <Text
-        style={{
-          ...styles.text,
-          ...styles.title,
-        }}
-      >
-        Agregar mascota
-      </Text>
+    <ScreenLayout>
+      <>
+        <Text
+          style={{
+            ...styles.text,
+            ...styles.title,
+          }}
+        >
+          Agregar mascota
+        </Text>
 
-      <AddPetForm />
-    </ScrollView>
+        <AddPetForm />
+      </>
+    </ScreenLayout>
   );
 };
 

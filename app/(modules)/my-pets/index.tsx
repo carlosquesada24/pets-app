@@ -4,6 +4,7 @@ import { View, Text } from "react-native";
 import CustomButton from "../../../components/Button";
 import PetsGrid from "./components/PetsGrid/PetsGrid";
 import { usePets } from "./infrastructure/context/PetsContext";
+import ScreenLayout from "../../(components)/ScreenLayout/ScreenLayout";
 
 const Index = () => {
   const handleAddPet = () => {};
@@ -11,15 +12,17 @@ const Index = () => {
   const { petsList } = usePets();
 
   return (
-    <ScrollView>
-      <View style={styles.header}>
-        <Text style={{ ...styles.text, ...styles.title }}>Mis mascotas</Text>
+    <ScreenLayout>
+      <>
+        <View style={styles.header}>
+          <Text style={{ ...styles.text, ...styles.title }}>Mis mascotas</Text>
 
-        <CustomButton text="Agregar" type="primary" onPress={handleAddPet} />
-      </View>
+          <CustomButton text="Agregar" type="primary" onPress={handleAddPet} />
+        </View>
 
-      <PetsGrid petsList={petsList} />
-    </ScrollView>
+        <PetsGrid petsList={petsList} />
+      </>
+    </ScreenLayout>
   );
 };
 

@@ -9,6 +9,7 @@ import { useForm } from "../../../../../(hooks)/useForm";
 import useStepperForm from "../../../../../(hooks)/useStepperForm";
 import { useRouter } from "expo-router";
 import ROUTES from "../../../../../constants/routes";
+import ScreenLayout from "../../../../../(components)/ScreenLayout/ScreenLayout";
 
 const RESET_PASSWORD_FORM_DEFAULT_STATE = {
   phoneNumber: "",
@@ -165,42 +166,45 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={{ ...styles.text, ...styles.title }}>
-        Reestablecer contraseña
-      </Text>
+    <ScreenLayout>
+      <>
+        <Text style={{ ...styles.text, ...styles.title }}>
+          Reestablecer contraseña
+        </Text>
 
-      {currentFormStep === RESET_PASSWORD_FORM_STEPS.TYPE_PHONE_NUMBER && (
-        <TypePhoneNumber
-          handleInputChange={handleInputChange}
-          errors={errors}
-          formValues={formValues}
+        {currentFormStep === RESET_PASSWORD_FORM_STEPS.TYPE_PHONE_NUMBER && (
+          <TypePhoneNumber
+            handleInputChange={handleInputChange}
+            errors={errors}
+            formValues={formValues}
+          />
+        )}
+
+        {currentFormStep ===
+          RESET_PASSWORD_FORM_STEPS.TYPE_VERIFICATION_CODE && (
+          <TypeVerificationCode
+            handleInputChange={handleInputChange}
+            errors={errors}
+            formValues={formValues}
+          />
+        )}
+
+        {currentFormStep === RESET_PASSWORD_FORM_STEPS.TYPE_NEW_PASSWORD && (
+          <TypeNewPassword
+            handleInputChange={handleInputChange}
+            errors={errors}
+            formValues={formValues}
+          />
+        )}
+
+        <CustomButton
+          text={customButtomText}
+          customStyles={styles.signInButton}
+          type="primary"
+          onPress={handleCustomButton}
         />
-      )}
-
-      {currentFormStep === RESET_PASSWORD_FORM_STEPS.TYPE_VERIFICATION_CODE && (
-        <TypeVerificationCode
-          handleInputChange={handleInputChange}
-          errors={errors}
-          formValues={formValues}
-        />
-      )}
-
-      {currentFormStep === RESET_PASSWORD_FORM_STEPS.TYPE_NEW_PASSWORD && (
-        <TypeNewPassword
-          handleInputChange={handleInputChange}
-          errors={errors}
-          formValues={formValues}
-        />
-      )}
-
-      <CustomButton
-        text={customButtomText}
-        customStyles={styles.signInButton}
-        type="primary"
-        onPress={handleCustomButton}
-      />
-    </SafeAreaView>
+      </>
+    </ScreenLayout>
   );
 };
 
