@@ -3,7 +3,11 @@ import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../../../../../../components/Button";
 
-const TypeVerificationCode = () => {
+const TypeVerificationCode = (props: {
+  handleInputChange: Function;
+  errors: any;
+  formValues: any;
+}) => {
   return (
     <SafeAreaView>
       <View style={styles.textGroup}>
@@ -15,13 +19,23 @@ const TypeVerificationCode = () => {
         </Text>
       </View>
 
-      <SafeAreaView style={{ flexDirection: "row", alignItems: "center" }}>
+      <SafeAreaView style={{ flexDirection: "column" }}>
         <TextInput
           style={{ ...styles.input, marginTop: 12, width: "100%" }}
           placeholder=""
           placeholderTextColor="#fff"
           keyboardType="phone-pad"
+          onChangeText={(text) =>
+            props.handleInputChange("verificationCode", text)
+          }
         />
+
+        {props.errors.verificationCode &&
+          props.errors.verificationCode.map((error: string, index: number) => (
+            <Text key={index} style={styles.errorText}>
+              {error}
+            </Text>
+          ))}
       </SafeAreaView>
 
       <View>

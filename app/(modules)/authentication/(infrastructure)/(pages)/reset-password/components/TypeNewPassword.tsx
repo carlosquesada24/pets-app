@@ -3,7 +3,11 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../../../../../../components/Button";
 
-const TypeNewPassword = () => {
+const TypeNewPassword = (props: {
+  handleInputChange: Function;
+  errors: any;
+  formValues: any;
+}) => {
   return (
     <SafeAreaView>
       <View style={styles.formGroup}>
@@ -15,8 +19,15 @@ const TypeNewPassword = () => {
           secureTextEntry={true}
           placeholder="fM{A!J22|ZHl"
           placeholderTextColor="#a3a2a2"
-          // onChangeText={(text) => handleInputChange("password", text)}
+          onChangeText={(text) => props.handleInputChange("newPassword", text)}
         />
+
+        {props.errors.newPassword &&
+          props.errors.newPassword.map((error: string, index: number) => (
+            <Text key={index} style={styles.errorText}>
+              {error}
+            </Text>
+          ))}
       </View>
 
       <View style={styles.formGroup}>
@@ -28,8 +39,16 @@ const TypeNewPassword = () => {
           secureTextEntry={true}
           placeholder="fM{A!J22|ZHl"
           placeholderTextColor="#a3a2a2"
-          // onChangeText={(text) => handleInputChange("password", text)}
+          onChangeText={(text) =>
+            props.handleInputChange("confirmPassword", text)
+          }
         />
+        {props.errors.confirmPassword &&
+          props.errors.confirmPassword.map((error: string, index: number) => (
+            <Text key={index} style={styles.errorText}>
+              {error}
+            </Text>
+          ))}
       </View>
     </SafeAreaView>
   );

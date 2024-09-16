@@ -44,7 +44,7 @@ export const resetPasswordValidations = {
 
     return errors;
   },
-  password: (value: string) => {
+  newPassword: (value: string) => {
     const errors: string[] = [];
     const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
@@ -55,6 +55,11 @@ export const resetPasswordValidations = {
     } else if (!specialCharRegex.test(value)) {
       errors.push("La contraseña debe contener al menos un carácter especial.");
     }
+    return errors;
+  },
+  confirmPassword: (value: string) => {
+    const errors: string[] = [];
+
     return errors;
   },
 };
@@ -76,6 +81,7 @@ const ResetPasswordPage = () => {
   const {
     values: formValues,
     errors,
+    validateField,
     handleInputChange,
   } = useForm(RESET_PASSWORD_FORM_DEFAULT_STATE, resetPasswordValidations);
 
@@ -95,21 +101,51 @@ const ResetPasswordPage = () => {
     BUTTON_TEXT_BY_RESET_PASSWORD_FORM_STEP[currentFormStep];
 
   const handleSendVerificationCode = () => {
-    alert("Sending verification code...");
+    const phoneNumberErrorsList = validateField(
+      "phoneNumber",
+      formValues.phoneNumber
+    );
 
-    nextStep();
+    const areTherePhoneNumberErrors = phoneNumberErrorsList.length > 0;
+
+    if (!areTherePhoneNumberErrors) {
+      alert("Sending verification code...");
+      nextStep();
+    }
   };
 
   const handleVerifyCode = () => {
-    alert("Verifying code...");
+    const verificationCodeErrorsList = validateField(
+      "verificationCode",
+      formValues.verificationCode
+    );
 
-    nextStep();
+    const areThereVerificationCodeErrors =
+      verificationCodeErrorsList.length > 0;
+
+    if (!areThereVerificationCodeErrors) {
+      alert("Verifying code...");
+      nextStep();
+    }
   };
 
   const handleResetPassword = () => {
-    alert("Resetting password...");
+    const newPasswordErrorsList = validateField(
+      "newPassword",
+      formValues.newPassword
+    );
+    const confirmPasswordErrorsList = validateField(
+      "confirmPassword",
+      formValues.confirmPassword
+    );
 
-    router.push(ROUTES.AUTHENTICATION.PROFILE);
+    const areThereErrors =
+      newPasswordErrorsList.length > 0 || confirmPasswordErrorsList.length > 0;
+
+    if (!areThereErrors) {
+      alert("Resetting password...");
+      router.push(ROUTES.AUTHENTICATION.PROFILE);
+    }
   };
 
   const handleCustomButton = () => {
@@ -143,11 +179,19 @@ const ResetPasswordPage = () => {
       )}
 
       {currentFormStep === RESET_PASSWORD_FORM_STEPS.TYPE_VERIFICATION_CODE && (
-        <TypeVerificationCode />
+        <TypeVerificationCode
+          handleInputChange={handleInputChange}
+          errors={errors}
+          formValues={formValues}
+        />
       )}
 
       {currentFormStep === RESET_PASSWORD_FORM_STEPS.TYPE_NEW_PASSWORD && (
-        <TypeNewPassword />
+        <TypeNewPassword
+          handleInputChange={handleInputChange}
+          errors={errors}
+          formValues={formValues}
+        />
       )}
 
       <CustomButton
