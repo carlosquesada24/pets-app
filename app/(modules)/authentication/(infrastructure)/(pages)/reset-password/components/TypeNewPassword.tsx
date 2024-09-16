@@ -31,13 +31,6 @@ const TypeNewPassword = () => {
           // onChangeText={(text) => handleInputChange("password", text)}
         />
       </View>
-
-      <CustomButton
-        text="Reestablecer"
-        customStyles={styles.signInButton}
-        type="primary"
-        onPress={() => {}}
-      />
     </SafeAreaView>
   );
 };

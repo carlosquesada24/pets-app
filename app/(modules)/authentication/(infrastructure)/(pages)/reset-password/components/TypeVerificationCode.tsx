@@ -40,13 +40,6 @@ const TypeVerificationCode = () => {
           </Text>
         </Pressable>
       </View>
-
-      <CustomButton
-        text="Verificar"
-        customStyles={styles.signInButton}
-        type="primary"
-        onPress={() => {}}
-      />
     </SafeAreaView>
   );
 };

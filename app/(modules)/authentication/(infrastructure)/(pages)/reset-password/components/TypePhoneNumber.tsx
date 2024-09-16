@@ -3,7 +3,11 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../../../../../../components/Button";
 
-const TypePhoneNumber = () => {
+const TypePhoneNumber = (props: {
+  handleInputChange: Function;
+  errors: any;
+  formValues: any;
+}) => {
   return (
     <SafeAreaView>
       <View style={styles.textGroup}>
@@ -24,15 +28,15 @@ const TypePhoneNumber = () => {
           placeholder="Ingresa tu número de teléfono"
           placeholderTextColor="#fff"
           keyboardType="phone-pad"
+          onChangeText={(text) => props.handleInputChange("phoneNumber", text)}
         />
+        {props.errors.phoneNumber &&
+          props.errors.phoneNumber.map((error: string, index: number) => (
+            <Text key={index} style={styles.errorText}>
+              {error}
+            </Text>
+          ))}
       </SafeAreaView>
-
-      <CustomButton
-        text="Enviar código de verificación"
-        customStyles={styles.signInButton}
-        type="primary"
-        onPress={() => {}}
-      />
     </SafeAreaView>
   );
 };
