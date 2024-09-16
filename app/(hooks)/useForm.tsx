@@ -63,5 +63,12 @@ export const useForm = <T extends {}>(
     e.preventDefault();
   };
 
-  return { values, errors, handleInputChange, validateAllFields, reset };
+  return {
+    values,
+    errors,
+    handleInputChange,
+    validateField,
+    validateAllFields,
+    reset,
+  };
 };
