@@ -1,6 +1,6 @@
 import React from "react";
-import { Slot } from "expo-router";
-import { StyleSheet } from "react-native";
+import { Link, Slot, Stack } from "expo-router";
+import { StyleSheet, Text } from "react-native";
 import { View } from "react-native";
 import { PetsProvider } from "./(modules)/my-pets/infrastructure/context/PetsContext";
 import { SQLiteProvider } from "expo-sqlite";
@@ -13,7 +13,18 @@ const Layout = () => {
       <View style={styles.container}>
         <AuthProvider>
           <PetsProvider>
-            <Slot />
+            <Stack
+              screenOptions={{
+                headerStyle: { backgroundColor: "yellow" },
+                headerTitle: "",
+                headerLeft: () => (
+                  <Link href={"/"} style={{ color: "#000" }}>
+                    Logo
+                  </Link>
+                ),
+                headerRight: () => <Text style={{ color: "#000" }}>XD</Text>,
+              }}
+            />
           </PetsProvider>
         </AuthProvider>
       </View>
@@ -23,15 +34,8 @@ const Layout = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 48,
-    paddingLeft: 8,
-    paddingRight: 8,
     flex: 1,
     backgroundColor: "#000",
-    color: "#fff",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    // width: "100%",
     maxWidth: "100%",
   },
   link: {
