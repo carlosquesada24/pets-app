@@ -2,8 +2,17 @@ import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { THEMES } from "../../constants/styles";
 
-const ScreenLayout = ({ children }: { children: React.JSX.Element }) => {
-  return <ScrollView style={styles.container}>{children}</ScrollView>;
+interface ScreenLayoutProps {
+  children: React.JSX.Element;
+  onLayout?: () => void;
+}
+
+const ScreenLayout = ({ children, onLayout }: ScreenLayoutProps) => {
+  return (
+    <ScrollView style={styles.container} onLayout={onLayout}>
+      {children}
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
