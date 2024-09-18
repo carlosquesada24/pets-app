@@ -2,7 +2,11 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { User } from "../../(domain)/interfaces";
 import { USER_DEFAULT_STATE, USER_MOCK } from "../../(domain)/data";
-import { signInSQLite, signUpSQLite } from "../(repositories)/auth";
+import {
+  resetPasswordSQLite,
+  signInSQLite,
+  signUpSQLite,
+} from "../(repositories)/auth";
 import { useSQLiteContext } from "expo-sqlite";
 import { userSQLiteToUserAdapter } from "../(adapters)";
 
@@ -11,6 +15,7 @@ interface AuthContextData {
   isLogged: boolean;
   signUp: (email: string, password: string) => void;
   logIn: (email: string, password: string) => void;
+  resetPassword: (email: string, password: string) => void;
   signOut: () => void;
 }
 
@@ -19,6 +24,7 @@ export const AuthContext = createContext<AuthContextData>({
   isLogged: false,
   signUp: (email: string, password: string) => {},
   logIn: (email: string, password: string) => {},
+  resetPassword: (email: string, password: string) => {},
   signOut: () => {},
 });
 
@@ -53,6 +59,16 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
     }
   };
 
+  const resetPassword = async (email: string, password: string) => {
+    const result = await resetPasswordSQLite(email, password, db);
+
+    if (result) {
+      alert("Contraseña actualizada con éxito");
+    } else {
+      alert("Hubo un error al reestablecer la contraseña");
+    }
+  };
+
   const signOut = async () => {};
 
   const authContextValue = {
@@ -60,6 +76,7 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
     isLogged,
     signUp,
     logIn,
+    resetPassword,
     signOut,
   };
 
