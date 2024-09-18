@@ -12,16 +12,7 @@ const PetsGrid = ({ petsList }: PetsGridProps) => {
   return (
     <View style={styles.petsListContainer}>
       {isPetListEmpty ? (
-        <View
-          style={{
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text style={styles.text}>¡No hay mascotas registradas!</Text>
-        </View>
+        <Text style={styles.text}>¡No hay mascotas registradas!</Text>
       ) : (
         petsList.map((pet, index) => (
           <PetItem
@@ -50,7 +41,7 @@ const styles = StyleSheet.create({
   petsListContainer: {
     marginTop: 32,
     display: "flex",
-    flexDirection: "row",
+    // flexDirection: "row",
     flexWrap: "wrap",
     // flexDirection: "column",
     alignItems: "center",
