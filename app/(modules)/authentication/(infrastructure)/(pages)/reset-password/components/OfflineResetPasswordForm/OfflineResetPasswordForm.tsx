@@ -9,6 +9,7 @@ import ScreenLayout from "../../../../../../../(components)/ScreenLayout/ScreenL
 import TypeNewPassword from "../TypeNewPassword";
 import CustomButton from "../../../../../../../../components/Button";
 import TypeEmail from "../TypeEmail";
+import { useAuth } from "../../../../(contexts)/AuthContext";
 
 const OFFLINE_RESET_PASSWORD_FORM_DEFAULT_STATE = {
   email: "",
@@ -72,6 +73,8 @@ const BUTTON_TEXT_BY_RESET_PASSWORD_FORM_STEP = {
 };
 
 const OfflineResetPasswordForm = () => {
+  const { resetPassword } = useAuth();
+
   const {
     values: formValues,
     errors,
@@ -107,7 +110,7 @@ const OfflineResetPasswordForm = () => {
     }
   };
 
-  const handleResetPassword = () => {
+  const handleResetPassword = async () => {
     const newPasswordErrorsList = validateField(
       "newPassword",
       formValues.newPassword
@@ -122,6 +125,7 @@ const OfflineResetPasswordForm = () => {
 
     if (!areThereErrors) {
       alert("Resetting password...");
+      await resetPassword(formValues.email, formValues.newPassword);
       router.push(ROUTES.AUTHENTICATION.PROFILE);
     }
   };
