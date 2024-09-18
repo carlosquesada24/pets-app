@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Slot, Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
 import { StyleSheet, Text } from "react-native";
 import { View } from "react-native";
 import { PetsProvider } from "./(modules)/my-pets/infrastructure/context/PetsContext";
