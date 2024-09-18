@@ -36,3 +36,24 @@ export const signInSQLite = async (email: string, password: string, db: SQLiteDa
 
     return resultUser ?? USER_SQLITE_EMPTY_STATE;
 };
+
+export const resetPasswordSQLite = async (email: string, password: string, db: SQLiteDatabase): Promise<boolean> => {
+
+    const resetPasswordResult = await db.runAsync(
+        `UPDATE Users
+            SET password = ?, updatedAt = CURRENT_TIMESTAMP
+            WHERE email = ?;`, [password, email]
+    );
+
+    const successfulResponse = resetPasswordResult?.changes > 0
+
+    // const updatedUserId = result?.lastInsertRowId
+    // const getUserResult: any = await db.getFirstAsync("SELECT * FROM Users WHERE id = ?", [updatedUserId]);
+
+    // const user: any =
+    //     wasOk
+    //         ? await db.getFirstAsync("SELECT * FROM Users WHERE id = ?", [updatedUserId])
+    //         : defaultUser
+
+    return successfulResponse
+}
