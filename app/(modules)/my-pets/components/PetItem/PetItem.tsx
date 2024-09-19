@@ -13,7 +13,10 @@ const PetItem = ({ id, photoURL, name }: PetItemProps) => {
     <View style={styles.petItem} key={id}>
       <Image style={styles.petPhoto} src={photoURL} />
       <Text style={{ ...styles.text, ...styles.petName }}>{name}</Text>
-      <Link href={`/my-pets/${id}`}> Ver más</Link>
+      <Link style={{ color: "#FFF" }} href={`/my-pets/${id}`}>
+        {" "}
+        Ver más
+      </Link>
     </View>
   );
 };
