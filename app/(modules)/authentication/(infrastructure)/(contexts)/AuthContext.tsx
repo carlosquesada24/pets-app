@@ -10,6 +10,9 @@ import {
 import { useSQLiteContext } from "expo-sqlite";
 import { userSQLiteToUserAdapter } from "../(adapters)";
 
+import * as SecureStore from "expo-secure-store";
+import { randomUUID } from "expo-crypto";
+
 interface AuthContextData {
   user: User;
   isLogged: boolean;
@@ -34,6 +37,39 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
 
   const db = useSQLiteContext();
 
+  useEffect(() => {
+    const handleGetUserSession = async () => {
+      await getUserSession();
+    };
+
+    handleGetUserSession();
+  }, []);
+
+  const getUserSession = async () => {
+    const unformattedUserSession = await SecureStore.getItemAsync(
+      "user-session"
+    );
+    const userSession = JSON.parse(unformattedUserSession ?? "");
+
+    console.log({ userSession });
+  };
+
+  const createUserSession = async (email: string) => {
+    const userSession = {
+      id: randomUUID(),
+      userEmail: "johndoe@example.com",
+      isLoggedIn: true,
+    };
+
+    const userSessionString = JSON.stringify(userSession);
+
+    await SecureStore.setItemAsync("user-session", userSessionString);
+  };
+
+  const deleteUserSession = async () => {
+    await SecureStore.deleteItemAsync("user-session");
+  };
+
   const signUp = async (email: string, password: string) => {
     alert("Creando cuenta");
 
@@ -46,17 +82,15 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
     }
   };
   const logIn = async (email: string, password: string) => {
-    const user = await signInSQLite(email, password, db);
-
-    const isUserValid = user.email.length > 0 && user.id > 0;
-
-    if (isUserValid) {
-      alert("Sesión iniciada");
-      setIsLogged(true);
-      setUser(userSQLiteToUserAdapter(user));
-    } else {
-      alert("Hubo un error al inicial sesión");
-    }
+    // const user = await signInSQLite(email, password, db);
+    // const isUserValid = user.email.length > 0 && user.id > 0;
+    // if (isUserValid) {
+    //   alert("Sesión iniciada");
+    //   setIsLogged(true);
+    //   setUser(userSQLiteToUserAdapter(user));
+    // } else {
+    //   alert("Hubo un error al inicial sesión");
+    // }
   };
 
   const resetPassword = async (email: string, password: string) => {
