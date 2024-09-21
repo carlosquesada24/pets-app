@@ -14,8 +14,6 @@ import {
 import { useSQLiteContext } from "expo-sqlite";
 import { userSQLiteToUserAdapter } from "../(adapters)";
 
-import * as SecureStore from "expo-secure-store";
-import { randomUUID } from "expo-crypto";
 import {
   createUserSession,
   deleteUserSession,
@@ -23,12 +21,13 @@ import {
 } from "../(repositories)/userSession";
 import { useRouter } from "expo-router";
 import ROUTES from "../../../../constants/routes";
+import routes from "../../../../constants/routes";
 
 interface AuthContextData {
   user: User;
   isLogged: boolean;
   signUp: (email: string, password: string) => void;
-  logIn: (email: string, password: string) => Promise<boolean>;
+  logIn: (email: string, password: string) => void;
   resetPassword: (email: string, password: string) => void;
   signOut: () => void;
 }
@@ -37,7 +36,7 @@ export const AuthContext = createContext<AuthContextData>({
   user: USER_DEFAULT_STATE,
   isLogged: false,
   signUp: (email: string, password: string) => {},
-  logIn: (email: string, password: string) => Promise.resolve(false),
+  logIn: (email: string, password: string) => {},
   resetPassword: (email: string, password: string) => {},
   signOut: () => {},
 });
@@ -86,9 +85,10 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
       createUserSession(email);
       setIsLogged(true);
       setUser(userSQLiteToUserAdapter(user));
+      router.push(routes.PETS.MY_PETS);
     }
   };
-  const logIn = async (email: string, password: string): Promise<boolean> => {
+  const logIn = async (email: string, password: string) => {
     const user = await signInSQLite(email, password, db);
     const isUserValid = user.email.length > 0 && user.id > 0;
     if (isUserValid) {
@@ -97,11 +97,9 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
       setIsLogged(true);
       setUser(userSQLiteToUserAdapter(user));
 
-      return true;
+      router.push(routes.PETS.MY_PETS);
     } else {
       alert("Hubo un error al inicial sesión");
-
-      return false;
     }
   };
 
