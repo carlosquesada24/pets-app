@@ -12,3 +12,15 @@ export interface UserSQLite {
     password: string;
     updatedAt: string;
 }
+
+export interface UserSession {
+    id: string
+    userEmail: string
+    isLoggedIn: boolean
+}
+
+export const USER_SESSION_EMPTY_STATE = {
+    id: "0",
+    userEmail: "nothing@example.com",
+    isLoggedIn: false
+}
