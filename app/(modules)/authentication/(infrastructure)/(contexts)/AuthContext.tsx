@@ -1,6 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { User } from "../../(domain)/interfaces";
+import {
+  User,
+  USER_SESSION_EMPTY_STATE,
+  UserSession,
+} from "../../(domain)/interfaces";
 import { USER_DEFAULT_STATE, USER_MOCK } from "../../(domain)/data";
 import {
   resetPasswordSQLite,
@@ -12,6 +16,13 @@ import { userSQLiteToUserAdapter } from "../(adapters)";
 
 import * as SecureStore from "expo-secure-store";
 import { randomUUID } from "expo-crypto";
+import {
+  createUserSession,
+  deleteUserSession,
+  getUserSession,
+} from "../(repositories)/userSession";
+import { useRouter } from "expo-router";
+import ROUTES from "../../../../constants/routes";
 
 interface AuthContextData {
   user: User;
@@ -32,43 +43,38 @@ export const AuthContext = createContext<AuthContextData>({
 });
 
 export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
+  const [userSession, setUserSession] = useState<UserSession>();
   const [user, setUser] = useState<User>(USER_MOCK);
   const [isLogged, setIsLogged] = useState(false);
 
   const db = useSQLiteContext();
 
+  const router = useRouter();
+
   useEffect(() => {
     const handleGetUserSession = async () => {
-      await getUserSession();
+      // await deleteUserSession();
+      await createUserSession("johndoe@example.com");
+      const userSession = await getUserSession();
+
+      const existsUserSession =
+        userSession !== null && userSession.id !== USER_SESSION_EMPTY_STATE.id;
+
+      console.log({ existsUserSession });
+
+      const userSessionToSave = existsUserSession
+        ? userSession
+        : USER_SESSION_EMPTY_STATE;
+
+      setUserSession(userSessionToSave);
+
+      const isLoggedIn = existsUserSession ?? userSession?.isLoggedIn;
+
+      !isLoggedIn && router.push(ROUTES.AUTHENTICATION.SIGN_IN);
     };
 
     handleGetUserSession();
   }, []);
-
-  const getUserSession = async () => {
-    const unformattedUserSession = await SecureStore.getItemAsync(
-      "user-session"
-    );
-    const userSession = JSON.parse(unformattedUserSession ?? "");
-
-    console.log({ userSession });
-  };
-
-  const createUserSession = async (email: string) => {
-    const userSession = {
-      id: randomUUID(),
-      userEmail: "johndoe@example.com",
-      isLoggedIn: true,
-    };
-
-    const userSessionString = JSON.stringify(userSession);
-
-    await SecureStore.setItemAsync("user-session", userSessionString);
-  };
-
-  const deleteUserSession = async () => {
-    await SecureStore.deleteItemAsync("user-session");
-  };
 
   const signUp = async (email: string, password: string) => {
     alert("Creando cuenta");
@@ -77,20 +83,22 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
 
     if (user !== null) {
       alert("Cuenta creada");
+      createUserSession(email);
       setIsLogged(true);
       setUser(userSQLiteToUserAdapter(user));
     }
   };
   const logIn = async (email: string, password: string) => {
-    // const user = await signInSQLite(email, password, db);
-    // const isUserValid = user.email.length > 0 && user.id > 0;
-    // if (isUserValid) {
-    //   alert("Sesión iniciada");
-    //   setIsLogged(true);
-    //   setUser(userSQLiteToUserAdapter(user));
-    // } else {
-    //   alert("Hubo un error al inicial sesión");
-    // }
+    const user = await signInSQLite(email, password, db);
+    const isUserValid = user.email.length > 0 && user.id > 0;
+    if (isUserValid) {
+      alert("Sesión iniciada");
+      createUserSession(email);
+      setIsLogged(true);
+      setUser(userSQLiteToUserAdapter(user));
+    } else {
+      alert("Hubo un error al inicial sesión");
+    }
   };
 
   const resetPassword = async (email: string, password: string) => {
@@ -103,7 +111,10 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
     }
   };
 
-  const signOut = async () => {};
+  const signOut = async () => {
+    deleteUserSession();
+    setIsLogged(false);
+  };
 
   const authContextValue = {
     user,
