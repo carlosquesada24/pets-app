@@ -28,7 +28,7 @@ interface AuthContextData {
   user: User;
   isLogged: boolean;
   signUp: (email: string, password: string) => void;
-  logIn: (email: string, password: string) => void;
+  logIn: (email: string, password: string) => Promise<boolean>;
   resetPassword: (email: string, password: string) => void;
   signOut: () => void;
 }
@@ -37,7 +37,7 @@ export const AuthContext = createContext<AuthContextData>({
   user: USER_DEFAULT_STATE,
   isLogged: false,
   signUp: (email: string, password: string) => {},
-  logIn: (email: string, password: string) => {},
+  logIn: (email: string, password: string) => Promise.resolve(false),
   resetPassword: (email: string, password: string) => {},
   signOut: () => {},
 });
@@ -53,8 +53,8 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
 
   useEffect(() => {
     const handleGetUserSession = async () => {
-      // await deleteUserSession();
-      await createUserSession("johndoe@example.com");
+      await deleteUserSession();
+      // await createUserSession("johndoe@example.com");
       const userSession = await getUserSession();
 
       const existsUserSession =
@@ -88,7 +88,7 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
       setUser(userSQLiteToUserAdapter(user));
     }
   };
-  const logIn = async (email: string, password: string) => {
+  const logIn = async (email: string, password: string): Promise<boolean> => {
     const user = await signInSQLite(email, password, db);
     const isUserValid = user.email.length > 0 && user.id > 0;
     if (isUserValid) {
@@ -96,8 +96,12 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
       createUserSession(email);
       setIsLogged(true);
       setUser(userSQLiteToUserAdapter(user));
+
+      return true;
     } else {
       alert("Hubo un error al inicial sesión");
+
+      return false;
     }
   };
 

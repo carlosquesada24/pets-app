@@ -24,10 +24,10 @@ const SignInPage = () => {
 
   const router = useRouter();
 
-  const handleSignIn = () => {
-    logIn(formValues.email, formValues.password);
+  const handleSignIn = async () => {
+    const resultLogIn = await logIn(formValues.email, formValues.password);
 
-    router.push("/my-pets");
+    resultLogIn && router.push("/my-pets");
   };
 
   return (
