@@ -18,7 +18,7 @@ export const signUpSQLite = async (email: string, password: string, db: SQLiteDa
 
 export const signInSQLite = async (email: string, password: string, db: SQLiteDatabase): Promise<UserSQLite> => {
     const resultUser = await db.getFirstAsync<UserSQLite | null>(
-        `SELECT * FROM Users WHERE email = ?`, [email]
+        `SELECT * FROM Users WHERE email = ? AND password = ?`, [email, password]
     );
 
     const userExists = resultUser !== null
@@ -27,12 +27,12 @@ export const signInSQLite = async (email: string, password: string, db: SQLiteDa
         console.log({ error: "No existe un usuario con ese correo o con esa contraseña" })
     }
 
-    const userPassword = resultUser?.password ?? ""
-    const isSamePassword = userPassword === password
+    // const userPassword = resultUser?.password ?? ""
+    // const isSamePassword = userPassword === password
 
-    if (!isSamePassword) {
-        console.log({ error: "Las contraseñas no coinciden" })
-    }
+    // if (!isSamePassword) {
+    //     console.log({ error: "Las contraseñas no coinciden" })
+    // }
 
     return resultUser ?? USER_SQLITE_EMPTY_STATE;
 };
