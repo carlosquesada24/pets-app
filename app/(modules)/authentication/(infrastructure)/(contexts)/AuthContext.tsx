@@ -52,8 +52,6 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
 
   useEffect(() => {
     const handleGetUserSession = async () => {
-      await deleteUserSession();
-      // await createUserSession("johndoe@example.com");
       const userSession = await getUserSession();
 
       const existsUserSession =
