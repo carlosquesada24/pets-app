@@ -1,26 +1,51 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { View, Text } from "react-native";
+import { StyleProp, StyleSheet, TextStyle } from "react-native";
+import { View } from "react-native";
 import { BORDER_RADIUS, PADDING } from "./constants/styles";
 import { Link } from "expo-router";
+import ROUTES from "./constants/routes";
+import ScreenLayout from "./(components)/ScreenLayout/ScreenLayout";
+import { globalStyles } from "./(styles)/global";
 
 const Index = () => {
+  const linkStyles: StyleProp<TextStyle> = {
+    ...styles.link,
+    ...globalStyles.link,
+  };
+
   return (
-    <View>
+    <ScreenLayout>
       <View>
-        <Link href="/my-pets" style={styles.text}>
+        <Link href={ROUTES.PETS.MY_PETS} style={linkStyles}>
           Mis mascotas
         </Link>
-        <Link href="/profile" style={styles.text}>
+
+        <Link href={ROUTES.PETS.ADD_PET} style={linkStyles}>
+          Agregar mascota
+        </Link>
+
+        <Link href={ROUTES.AUTHENTICATION.PROFILE} style={styles.link}>
           Perfil
         </Link>
+
+        <Link href={ROUTES.AUTHENTICATION.SIGN_UP} style={styles.link}>
+          Crear cuenta
+        </Link>
+
+        <Link href={ROUTES.AUTHENTICATION.SIGN_IN} style={styles.link}>
+          Iniciar sesión
+        </Link>
       </View>
-      <Text style={styles.text}></Text>
-    </View>
+    </ScreenLayout>
   );
 };
 
 const styles = StyleSheet.create({
+  link: {
+    color: "#fff",
+    marginTop: 32,
+    marginBottom: 32,
+  },
   text: {
     color: "#fff",
   },
