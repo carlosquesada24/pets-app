@@ -1,6 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { User } from "../../(domain)/interfaces";
+import {
+  User,
+  USER_SESSION_EMPTY_STATE,
+  UserSession,
+} from "../../(domain)/interfaces";
 import { USER_DEFAULT_STATE, USER_MOCK } from "../../(domain)/data";
 import {
   resetPasswordSQLite,
@@ -9,6 +13,15 @@ import {
 } from "../(repositories)/auth";
 import { useSQLiteContext } from "expo-sqlite";
 import { userSQLiteToUserAdapter } from "../(adapters)";
+
+import {
+  createUserSession,
+  deleteUserSession,
+  getUserSession,
+} from "../(repositories)/userSession";
+import { useRouter } from "expo-router";
+import ROUTES from "../../../../constants/routes";
+import routes from "../../../../constants/routes";
 
 interface AuthContextData {
   user: User;
@@ -29,10 +42,36 @@ export const AuthContext = createContext<AuthContextData>({
 });
 
 export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
+  const [userSession, setUserSession] = useState<UserSession>();
   const [user, setUser] = useState<User>(USER_MOCK);
   const [isLogged, setIsLogged] = useState(false);
 
   const db = useSQLiteContext();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleGetUserSession = async () => {
+      const userSession = await getUserSession();
+
+      const existsUserSession =
+        userSession !== null && userSession.id !== USER_SESSION_EMPTY_STATE.id;
+
+      console.log({ existsUserSession });
+
+      const userSessionToSave = existsUserSession
+        ? userSession
+        : USER_SESSION_EMPTY_STATE;
+
+      setUserSession(userSessionToSave);
+
+      const isLoggedIn = existsUserSession ?? userSession?.isLoggedIn;
+
+      !isLoggedIn && router.push(ROUTES.AUTHENTICATION.SIGN_IN);
+    };
+
+    handleGetUserSession();
+  }, []);
 
   const signUp = async (email: string, password: string) => {
     alert("Creando cuenta");
@@ -41,19 +80,22 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
 
     if (user !== null) {
       alert("Cuenta creada");
+      createUserSession(email);
       setIsLogged(true);
       setUser(userSQLiteToUserAdapter(user));
+      router.push(routes.PETS.MY_PETS);
     }
   };
   const logIn = async (email: string, password: string) => {
     const user = await signInSQLite(email, password, db);
-
     const isUserValid = user.email.length > 0 && user.id > 0;
-
     if (isUserValid) {
       alert("Sesión iniciada");
+      createUserSession(email);
       setIsLogged(true);
       setUser(userSQLiteToUserAdapter(user));
+
+      router.push(routes.PETS.MY_PETS);
     } else {
       alert("Hubo un error al inicial sesión");
     }
@@ -69,7 +111,10 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
     }
   };
 
-  const signOut = async () => {};
+  const signOut = async () => {
+    deleteUserSession();
+    setIsLogged(false);
+  };
 
   const authContextValue = {
     user,

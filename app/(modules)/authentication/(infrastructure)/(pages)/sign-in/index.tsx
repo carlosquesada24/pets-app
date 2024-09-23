@@ -5,8 +5,10 @@ import CustomButton from "../../../../../../components/Button";
 
 import { signUpValidations } from "../../../(domain)/validations/sign-up";
 import { useAuth } from "../../(contexts)/AuthContext";
-import { useRouter } from "expo-router";
+import { Link } from "expo-router";
 import ScreenLayout from "../../../../../(components)/ScreenLayout/ScreenLayout";
+import routes from "../../../../../constants/routes";
+import { COLORS } from "../../../../../constants/styles";
 
 const SIGN_IN_FORM_DEFAULT_STATE = {
   email: "",
@@ -22,12 +24,8 @@ const SignInPage = () => {
 
   const { logIn } = useAuth();
 
-  const router = useRouter();
-
-  const handleSignIn = () => {
-    logIn(formValues.email, formValues.password);
-
-    router.push("/my-pets");
+  const handleSignIn = async () => {
+    await logIn(formValues.email, formValues.password);
   };
 
   return (
