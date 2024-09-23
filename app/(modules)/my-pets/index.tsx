@@ -6,11 +6,17 @@ import PetsGrid from "./components/PetsGrid/PetsGrid";
 import { usePets } from "./infrastructure/context/PetsContext";
 import ScreenLayout from "../../(components)/ScreenLayout/ScreenLayout";
 import { globalStyles } from "../../(styles)/global";
+import { useRouter } from "expo-router";
+import routes from "../../constants/routes";
 
 const Index = () => {
-  const handleAddPet = () => {};
-
   const { petsList } = usePets();
+
+  const router = useRouter();
+
+  const navigateToCreatePet = () => {
+    router.push(routes.PETS.ADD_PET);
+  };
 
   return (
     <ScreenLayout>
@@ -22,7 +28,11 @@ const Index = () => {
             Mis mascotas
           </Text>
 
-          <CustomButton text="Agregar" type="primary" onPress={handleAddPet} />
+          <CustomButton
+            text="Agregar"
+            type="primary"
+            onPress={navigateToCreatePet}
+          />
         </View>
 
         <PetsGrid petsList={petsList} />
