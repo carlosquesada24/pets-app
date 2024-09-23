@@ -5,8 +5,10 @@ import CustomButton from "../../../../../../components/Button";
 
 import { signUpValidations } from "../../../(domain)/validations/sign-up";
 import { useAuth } from "../../(contexts)/AuthContext";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import ScreenLayout from "../../../../../(components)/ScreenLayout/ScreenLayout";
+import ROUTES from "../../../../../constants/routes";
+import { COLORS } from "../../../../../constants/styles";
 
 const SIGN_UP_FORM_DEFAULT_STATE = {
   email: "",
@@ -80,6 +82,16 @@ const SignUpPage = () => {
           type="primary"
           onPress={() => handleSignUp()}
         />
+
+        <View style={{ marginTop: 12, width: "100%", alignItems: "center" }}>
+          <Text style={styles.text}>¿Ya tiene una cuenta?</Text>
+          <Link
+            style={{ color: COLORS.PRIMARY, marginTop: 6, fontWeight: "bold" }}
+            href={ROUTES.AUTHENTICATION.SIGN_IN}
+          >
+            Iniciar sesión
+          </Link>
+        </View>
       </>
     </ScreenLayout>
   );

@@ -78,6 +78,16 @@ const SignInPage = () => {
           type="primary"
           onPress={() => handleSignIn()}
         />
+
+        <View style={{ marginTop: 12, width: "100%", alignItems: "center" }}>
+          <Text style={styles.text}>¿Aún no tiene una cuenta?</Text>
+          <Link
+            style={{ color: COLORS.PRIMARY, marginTop: 6, fontWeight: "bold" }}
+            href={routes.AUTHENTICATION.SIGN_UP}
+          >
+            Crear una
+          </Link>
+        </View>
       </>
     </ScreenLayout>
   );
