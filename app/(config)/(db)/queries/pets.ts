@@ -121,7 +121,7 @@ export const CREATE_EXAMPLE_DATA = `
     INSERT INTO Allergies (name, isActive) VALUES ('Flea Allergy', 1);
 
     INSERT INTO Users (email, password, isActive, createdAt, updatedAt)
-VALUES ('johndoe@example.com', 'password123', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    VALUES ('johndoe@example.com', 'password123#', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 `
 
