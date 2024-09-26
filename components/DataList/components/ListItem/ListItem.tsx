@@ -30,7 +30,46 @@ const ListItem = ({
 
   return (
     <SafeAreaView style={styles.listItem}>
-      <Text style={styles.text}>{item.date}</Text>
+      {/* HEADER */}
+      <View
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 8,
+        }}
+      >
+        {/* FECHA */}
+        <Text style={{ ...styles.text, fontWeight: "bold" }}>{item.date}</Text>
+
+        {/* BOTONES */}
+        {!isEditing && (
+          <View style={{ flexDirection: "row" }}>
+            <Pressable
+              style={{
+                backgroundColor: "#666",
+                padding: 8,
+                marginRight: 6,
+                borderRadius: 8,
+              }}
+              onPress={() => onEditListItem(item.id)}
+            >
+              <Text style={styles.text}>Editar</Text>
+            </Pressable>
+
+            <Pressable
+              style={{ backgroundColor: "#666", padding: 8, borderRadius: 8 }}
+              onPress={() => {
+                onDeleteListItem(item.id);
+              }}
+            >
+              <Text style={styles.text}>Eliminar</Text>
+            </Pressable>
+          </View>
+        )}
+      </View>
       <View style={styles.listItemContent}>
         {isEditing ? (
           <View style={styles.listItemEditLine}>
@@ -57,25 +96,10 @@ const ListItem = ({
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
+            {/* TEXTO */}
             <Text style={styles.text}>
               {formatTextPreview(item?.name ?? item?.text ?? "", 25)}
             </Text>
-
-            <Pressable
-              style={{ backgroundColor: "#666", padding: 8 }}
-              onPress={() => onEditListItem(item.id)}
-            >
-              <Text style={styles.text}>Edit</Text>
-            </Pressable>
-
-            <Pressable
-              style={{ backgroundColor: "#666", padding: 8 }}
-              onPress={() => {
-                onDeleteListItem(item.id);
-              }}
-            >
-              <Text style={styles.text}>Delete</Text>
-            </Pressable>
           </View>
         )}
       </View>
@@ -104,13 +128,13 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    flexDirection: "row",
+    flexDirection: "column",
     paddingTop: 8, // ********************************
     paddingBottom: 8, // ********************************
-    width: "50%",
+    width: "100%",
   },
   listItemContent: {
-    marginLeft: 24,
+    // marginLeft: 24,
     width: "100%",
   },
   container: {
