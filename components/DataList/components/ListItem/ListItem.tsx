@@ -18,7 +18,7 @@ interface ListItemProps {
   onDeleteListItem: Function;
 }
 
-const Header = (props: {
+const ListItemHeader = (props: {
   itemId: string;
   itemDate: string;
   isEditing: boolean;
@@ -71,6 +71,62 @@ const Header = (props: {
   );
 };
 
+const ListItemContent = (props: {
+  textInput: string;
+  setTextInput: Function;
+  itemId: string;
+  itemName: string;
+  itemText: string;
+  isEditing: boolean;
+  onAcceptEdition: Function;
+  setIsEditing: Function;
+}) => {
+  const {
+    textInput,
+    setTextInput,
+    itemId,
+    itemName,
+    itemText,
+    isEditing,
+    onAcceptEdition,
+    setIsEditing,
+  } = props;
+
+  return (
+    <View style={styles.listItemContent}>
+      {isEditing ? (
+        <View style={styles.listItemEditLine}>
+          <TextInput
+            style={styles.input}
+            placeholder="Texto..."
+            placeholderTextColor="#a3a2a2"
+            multiline={true}
+            onChangeText={(text) => setTextInput(text)}
+            value={textInput}
+          />
+
+          <Pressable
+            style={{ backgroundColor: "#666", padding: 8 }}
+            onPress={() => {
+              onAcceptEdition(itemId, textInput);
+              setIsEditing(false);
+            }}
+          >
+            <Text style={styles.text}>{"=>"}</Text>
+          </Pressable>
+        </View>
+      ) : (
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          {/* TEXTO */}
+          <Text style={styles.text}>
+            {formatTextPreview(itemName ?? itemText ?? "", 25)}
+          </Text>
+        </View>
+      )}
+    </View>
+  );
+};
+
 const ListItem = ({
   item,
   onAcceptEdition,
@@ -84,46 +140,24 @@ const ListItem = ({
   return (
     <SafeAreaView style={styles.listItem}>
       {/* HEADER */}
-      <Header
+      <ListItemHeader
         itemDate={item.date}
         itemId={item.id}
         isEditing={isEditing}
         onEditListItem={onEditListItem}
         onDeleteListItem={onDeleteListItem}
       />
-      <View style={styles.listItemContent}>
-        {isEditing ? (
-          <View style={styles.listItemEditLine}>
-            <TextInput
-              style={styles.input}
-              placeholder="Texto..."
-              placeholderTextColor="#a3a2a2"
-              multiline={true}
-              onChangeText={(text) => setTextInput(text)}
-              value={textInput}
-            />
 
-            <Pressable
-              style={{ backgroundColor: "#666", padding: 8 }}
-              onPress={() => {
-                onAcceptEdition(item.id, textInput);
-                setIsEditing(false);
-              }}
-            >
-              <Text style={styles.text}>{"=>"}</Text>
-            </Pressable>
-          </View>
-        ) : (
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            {/* TEXTO */}
-            <Text style={styles.text}>
-              {formatTextPreview(item?.name ?? item?.text ?? "", 25)}
-            </Text>
-          </View>
-        )}
-      </View>
+      <ListItemContent
+        textInput={textInput}
+        setTextInput={setTextInput}
+        itemId={item.id}
+        itemName={item.name}
+        itemText={item.text}
+        isEditing={isEditing}
+        onAcceptEdition={onAcceptEdition}
+        setIsEditing={setIsEditing}
+      />
     </SafeAreaView>
   );
 };
