@@ -11,6 +11,7 @@ import {
 import { randomUUID } from "expo-crypto";
 import { useSQLiteContext } from "expo-sqlite";
 import {
+  deletePetIntoSQLite,
   getAllPetsFromSQLite,
   getPetByIdFromSQLite,
   savePetIntoSQLite,
@@ -116,6 +117,10 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
 
     setNewPet(PET_EMPTY_STATE);
     setPetsList([...petsList, updatedPet]);
+  };
+
+  const deletePetById = async (id: string) => {
+    await deletePetIntoSQLite(id, db);
   };
 
   const createNewDiagnose = () => {
