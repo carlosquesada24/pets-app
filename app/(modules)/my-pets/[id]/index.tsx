@@ -116,22 +116,22 @@ const PetDetailsView = () => {
           </Text>
           <View>
             <DataList
-              title="Diagnoses"
+              title="Diagnósticos"
               dataList={foundPet?.details?.medical?.diagnoses ?? []}
               handleAddItem={() => {}}
             />
             <DataList
-              title="Allergies"
+              title="Alergias"
               dataList={foundPet?.details?.medical?.allergies ?? []}
               handleAddItem={() => {}}
             />
             <DataList
-              title="Medicines"
+              title="Medicinas"
               dataList={foundPet?.details?.medical?.medicines ?? []}
               handleAddItem={() => {}}
             />
             <DataList
-              title="Vaccines"
+              title="Vacunas"
               dataList={foundPet?.details?.medical?.vaccines ?? []}
               handleAddItem={() => {}}
             />
