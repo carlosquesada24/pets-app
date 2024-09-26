@@ -194,3 +194,12 @@ export const updatePetIntoSQLite = async (updatedPet: Pet, id: string, db: SQLit
         ]
     );
 };
+
+export const deletePetIntoSQLite = async (id: string, db: SQLiteDatabase) => {
+    const resultDeletionPet = await db.runAsync(
+        `DELETE FROM Pets WHERE id = ?;`,
+        [id]
+    );
+
+    console.log({ resultDeletionPet })
+};

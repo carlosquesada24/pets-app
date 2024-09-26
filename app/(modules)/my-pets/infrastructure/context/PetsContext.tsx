@@ -11,6 +11,7 @@ import {
 import { randomUUID } from "expo-crypto";
 import { useSQLiteContext } from "expo-sqlite";
 import {
+  deletePetIntoSQLite,
   getAllPetsFromSQLite,
   getPetByIdFromSQLite,
   savePetIntoSQLite,
@@ -25,6 +26,7 @@ interface PetsContextData {
   getPetById: (id: number) => Promise<Pet>;
   addPet: (formValues: FormPet) => void;
   updatePet: (updatedPet: any) => void;
+  deletePetById: (id: string) => void;
 
   createNewDiagnose: () => void;
   editDiagnose: (id: string, text: string) => void;
@@ -48,6 +50,7 @@ export const PetsContext = createContext<PetsContextData>({
   },
   addPet: () => {},
   updatePet: (updatedPet: any) => {},
+  deletePetById: (id: string) => {},
 
   createNewDiagnose: () => {},
   editDiagnose: (id: string, text: string) => {},
@@ -79,6 +82,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
   const getAllPets = () => {
     getAllPetsFromSQLite(db)
       .then((result: any) => {
+        console.log({ title: "Ejecución de getAllPets" });
         setPetsList(result);
       })
       .catch((err: any) => {
@@ -116,6 +120,12 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
 
     setNewPet(PET_EMPTY_STATE);
     setPetsList([...petsList, updatedPet]);
+  };
+
+  const deletePetById = async (id: string) => {
+    await deletePetIntoSQLite(id, db);
+
+    await getAllPets();
   };
 
   const createNewDiagnose = () => {
@@ -315,6 +325,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
     getPetById,
     addPet,
     updatePet,
+    deletePetById,
 
     createNewDiagnose,
     editDiagnose,
