@@ -84,7 +84,7 @@ const PetDetailsView = () => {
               ...styles.sectionTitle,
             }}
           >
-            Information
+            Características
           </Text>
           <View style={styles.informationItemsContainer}>
             {informationDetailsEntries.map(([key, value]) => (
@@ -112,7 +112,7 @@ const PetDetailsView = () => {
               ...styles.sectionTitle,
             }}
           >
-            Medical
+            Información médica
           </Text>
           <View>
             <DataList
