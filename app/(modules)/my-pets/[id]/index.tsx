@@ -14,7 +14,7 @@ const PetDetailsView = () => {
 
   const { id } = useLocalSearchParams();
 
-  const { getPetById } = usePets();
+  const { getPetById, deletePetById } = usePets();
 
   useEffect(() => {
     const handleGetPetById = async () => {
@@ -45,7 +45,11 @@ const PetDetailsView = () => {
             </Text>
           </View>
 
-          <CustomButton type="danger" text={"Delete"} onPress={() => {}} />
+          <CustomButton
+            type="danger"
+            text={"Delete"}
+            onPress={() => deletePetById(Array.isArray(id) ? id[0] : id)}
+          />
         </View>
         <Image
           source={{ uri: foundPet?.photoURL }}
