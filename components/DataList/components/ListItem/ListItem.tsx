@@ -18,6 +18,59 @@ interface ListItemProps {
   onDeleteListItem: Function;
 }
 
+const Header = (props: {
+  itemId: string;
+  itemDate: string;
+  isEditing: boolean;
+  onEditListItem: Function;
+  onDeleteListItem: Function;
+}) => {
+  const { itemId, itemDate, isEditing, onEditListItem, onDeleteListItem } =
+    props;
+
+  return (
+    <View
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 8,
+      }}
+    >
+      {/* FECHA */}
+      <Text style={{ ...styles.text, fontWeight: "bold" }}>{itemDate}</Text>
+
+      {/* BOTONES */}
+      {!isEditing && (
+        <View style={{ flexDirection: "row" }}>
+          <Pressable
+            style={{
+              backgroundColor: "#666",
+              padding: 8,
+              marginRight: 6,
+              borderRadius: 8,
+            }}
+            onPress={() => onEditListItem(itemId)}
+          >
+            <Text style={styles.text}>Editar</Text>
+          </Pressable>
+
+          <Pressable
+            style={{ backgroundColor: "#666", padding: 8, borderRadius: 8 }}
+            onPress={() => {
+              onDeleteListItem(itemId);
+            }}
+          >
+            <Text style={styles.text}>Eliminar</Text>
+          </Pressable>
+        </View>
+      )}
+    </View>
+  );
+};
+
 const ListItem = ({
   item,
   onAcceptEdition,
@@ -31,45 +84,13 @@ const ListItem = ({
   return (
     <SafeAreaView style={styles.listItem}>
       {/* HEADER */}
-      <View
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: 8,
-        }}
-      >
-        {/* FECHA */}
-        <Text style={{ ...styles.text, fontWeight: "bold" }}>{item.date}</Text>
-
-        {/* BOTONES */}
-        {!isEditing && (
-          <View style={{ flexDirection: "row" }}>
-            <Pressable
-              style={{
-                backgroundColor: "#666",
-                padding: 8,
-                marginRight: 6,
-                borderRadius: 8,
-              }}
-              onPress={() => onEditListItem(item.id)}
-            >
-              <Text style={styles.text}>Editar</Text>
-            </Pressable>
-
-            <Pressable
-              style={{ backgroundColor: "#666", padding: 8, borderRadius: 8 }}
-              onPress={() => {
-                onDeleteListItem(item.id);
-              }}
-            >
-              <Text style={styles.text}>Eliminar</Text>
-            </Pressable>
-          </View>
-        )}
-      </View>
+      <Header
+        itemDate={item.date}
+        itemId={item.id}
+        isEditing={isEditing}
+        onEditListItem={onEditListItem}
+        onDeleteListItem={onDeleteListItem}
+      />
       <View style={styles.listItemContent}>
         {isEditing ? (
           <View style={styles.listItemEditLine}>
