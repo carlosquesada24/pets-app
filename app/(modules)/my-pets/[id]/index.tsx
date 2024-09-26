@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import { usePets } from "../infrastructure/context/PetsContext";
 import CustomButton from "../../../../components/Button";
 import DataList from "../../../../components/DataList/DataList";
 
 import { capitalizeFirstLetter } from "../../../utils/string";
 import ScreenLayout from "../../../(components)/ScreenLayout/ScreenLayout";
+import ROUTES from "../../../constants/routes";
 
 const PetDetailsView = () => {
   const [foundPet, setFoundPet] = useState<any>();
 
   const { id } = useLocalSearchParams();
+  const router = useRouter();
 
   const { getPetById, deletePetById } = usePets();
 
@@ -32,6 +34,23 @@ const PetDetailsView = () => {
     foundPet?.details?.information ?? {}
   );
 
+  const handleDeletePet = () => {
+    Alert.alert("Eliminar mascota", "¿Está seguro?", [
+      {
+        text: "Cancelar",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Aceptar",
+        onPress: async () => {
+          await deletePetById(Array.isArray(id) ? id[0] : id);
+          router.push(ROUTES.PETS.MY_PETS);
+        },
+      },
+    ]);
+  };
+
   return (
     <ScreenLayout>
       <>
@@ -48,7 +67,7 @@ const PetDetailsView = () => {
           <CustomButton
             type="danger"
             text={"Delete"}
-            onPress={() => deletePetById(Array.isArray(id) ? id[0] : id)}
+            onPress={() => handleDeletePet()}
           />
         </View>
         <Image
