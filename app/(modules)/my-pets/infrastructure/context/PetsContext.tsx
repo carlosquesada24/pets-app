@@ -82,6 +82,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
   const getAllPets = () => {
     getAllPetsFromSQLite(db)
       .then((result: any) => {
+        console.log({ title: "Ejecución de getAllPets" });
         setPetsList(result);
       })
       .catch((err: any) => {
@@ -123,6 +124,8 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
 
   const deletePetById = async (id: string) => {
     await deletePetIntoSQLite(id, db);
+
+    await getAllPets();
   };
 
   const createNewDiagnose = () => {
