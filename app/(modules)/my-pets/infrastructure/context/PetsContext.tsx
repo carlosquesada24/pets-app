@@ -26,6 +26,7 @@ interface PetsContextData {
   getPetById: (id: number) => Promise<Pet>;
   addPet: (formValues: FormPet) => void;
   updatePet: (updatedPet: any) => void;
+  deletePetById: (id: string) => void;
 
   createNewDiagnose: () => void;
   editDiagnose: (id: string, text: string) => void;
@@ -49,6 +50,7 @@ export const PetsContext = createContext<PetsContextData>({
   },
   addPet: () => {},
   updatePet: (updatedPet: any) => {},
+  deletePetById: (id: string) => {},
 
   createNewDiagnose: () => {},
   editDiagnose: (id: string, text: string) => {},
@@ -320,6 +322,7 @@ export const PetsProvider: React.FC<{ children: any }> = ({ children }) => {
     getPetById,
     addPet,
     updatePet,
+    deletePetById,
 
     createNewDiagnose,
     editDiagnose,
