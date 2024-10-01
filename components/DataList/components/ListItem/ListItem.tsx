@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { formatDate } from "../../../../app/utils/date";
+import CustomButton from "../../../Button";
 
 interface ListItemProps {
   item: any;
@@ -57,14 +58,17 @@ const ListItemHeader = (props: {
             <Text style={styles.text}>Editar</Text>
           </Pressable>
 
-          <Pressable
-            style={{ backgroundColor: "#666", padding: 8, borderRadius: 8 }}
+          <CustomButton
+            type="danger"
+            customStyles={{
+              padding: 8,
+              borderRadius: 8,
+            }}
             onPress={() => {
               onDeleteListItem(itemId);
             }}
-          >
-            <Text style={styles.text}>Eliminar</Text>
-          </Pressable>
+            text="Eliminar"
+          ></CustomButton>
         </View>
       )}
     </View>
