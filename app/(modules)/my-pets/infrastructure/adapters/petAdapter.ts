@@ -52,7 +52,7 @@ export const PetSQLiteToPetAdapter = (inputPet: PetSQLite, medicalInformation: a
         id: inputPet.id.toString(),
         name: inputPet?.name ?? "",
         isCreating: false,
-        creationDate: inputPet.createdAt, // I've to format it
+        creationDate: formatDate(new Date(inputPet.createdAt)), // I've to format it
         photoURL: inputPet?.photoURL ?? "",
         details: {
             information: {

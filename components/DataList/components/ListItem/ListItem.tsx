@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { formatDate } from "../../../../app/utils/date";
 
 interface ListItemProps {
   item: any;
@@ -143,7 +144,9 @@ const ListItem = ({
     <SafeAreaView style={styles.listItem}>
       {/* HEADER */}
       <ListItemHeader
-        itemDate={item.date}
+        itemDate={
+          item?.date ?? formatDate(new Date(item?.createdAt ?? "")) ?? ""
+        }
         itemId={item.id}
         isEditing={isEditing}
         onEditListItem={onEditListItem}
