@@ -7,7 +7,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { formatTextPreview } from "../../../../app/utils/string";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ListItemProps {
@@ -97,7 +96,7 @@ const ListItemContent = (props: {
       {isEditing ? (
         <View style={styles.listItemEditLine}>
           <TextInput
-            style={styles.input}
+            style={{ ...styles.input, width: "100%" }}
             placeholder="Texto..."
             placeholderTextColor="#a3a2a2"
             multiline={true}
@@ -106,21 +105,24 @@ const ListItemContent = (props: {
           />
 
           <Pressable
-            style={{ backgroundColor: "#666", padding: 8 }}
+            style={{
+              backgroundColor: "#666",
+              padding: 8,
+              marginTop: 8,
+              borderRadius: 8,
+            }}
             onPress={() => {
               onAcceptEdition(itemId, textInput);
               setIsEditing(false);
             }}
           >
-            <Text style={styles.text}>{"=>"}</Text>
+            <Text style={styles.text}>{"Aceptar"}</Text>
           </Pressable>
         </View>
       ) : (
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           {/* TEXTO */}
-          <Text style={styles.text}>
-            {formatTextPreview(itemName ?? itemText ?? "", 25)}
-          </Text>
+          <Text style={styles.text}>{itemName ?? itemText ?? ""}</Text>
         </View>
       )}
     </View>
@@ -201,7 +203,8 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    flexDirection: "row",
+    // flexDirection: "row",
+    flexDirection: "column",
     width: "100%",
   },
 });
