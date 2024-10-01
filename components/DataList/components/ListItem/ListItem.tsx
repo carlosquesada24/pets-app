@@ -109,7 +109,7 @@ const ListItemContent = (props: {
             value={textInput}
           />
 
-          <Pressable
+          {/* <Pressable
             style={{
               backgroundColor: "#666",
               padding: 8,
@@ -122,7 +122,21 @@ const ListItemContent = (props: {
             }}
           >
             <Text style={styles.text}>{"Aceptar"}</Text>
-          </Pressable>
+          </Pressable> */}
+
+          <CustomButton
+            type="primary"
+            customStyles={{
+              padding: 8,
+              marginTop: 8,
+              borderRadius: 8,
+            }}
+            onPress={() => {
+              onAcceptEdition(itemId, textInput);
+              setIsEditing(false);
+            }}
+            text="Aceptar"
+          ></CustomButton>
         </View>
       ) : (
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
